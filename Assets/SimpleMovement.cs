@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 public class SimpleMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;   // Yürüme Hızı
-    public float turnSpeed = 180f; // Dönme Hızı (Derece/Saniye)
     public float gravity = 9.8f;   // Yerçekimi
+    public float rotationSpeed = 10f; // Dönüş Hızı
 
     private CharacterController controller;
 
@@ -17,23 +17,17 @@ public class SimpleMovement : MonoBehaviour
 
     void Update()
     {
-        // 1. DÖNME (Rotation) - A ve D tuşları
-        // Horizontal tuşuna basınca karakter olduğu yerde döner
-        float turn = Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime;
-        transform.Rotate(0, turn, 0);
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        // 2. YÜRÜME (Movement) - W ve S tuşları
-        // Vertical tuşuna basınca karakter baktığı yöne (forward) gider
-        Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") * moveSpeed;
-
-        // 3. Yerçekimi Uygula
-        // Karakter havada kalmasın diye aşağı itiyoruz
-        if (!controller.isGrounded)
+        Vector3 moveDirection = new Vector3(horizontalInput, 0, verticalInput);
+        
+        if(moveDirection.magnitude > 0.2)
         {
-            moveDirection.y -= gravity;
+            Quaternion lookRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
         }
-
-        // 4. Hareketi Yap
-        controller.Move(moveDirection * Time.deltaTime);
+        
+        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
     }
 }
