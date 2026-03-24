@@ -59,6 +59,8 @@ public class TurnBaseManager : MonoBehaviour
 
     void SetupPlayerTurn()
     {
+        offensePanel.SetActive(true);
+        defensePanel.SetActive(false);
         turnTimer = maxTime;
         currentInput.Clear();
 
@@ -178,6 +180,7 @@ public class TurnBaseManager : MonoBehaviour
         }
 
         currnetState = GameState.EnemyTurn;
+        SetupEnemyTurn();
         Debug.Log("Enemy's Turn");
     }
 
@@ -200,7 +203,6 @@ public class TurnBaseManager : MonoBehaviour
 
     public void SetupEnemyTurn()
     {
-        // 1. Panelleri ayarla ve süreyi kısalt (Buraları harika yazmışsın!)
         offensePanel.SetActive(false);
         defensePanel.SetActive(true);
         turnTimer = defenseMaxTime;
