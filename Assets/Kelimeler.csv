@@ -1,0 +1,101 @@
+ word_id ;;;
+ word_001 ; Unemployed ; Ýþsiz ; The blacksmith has been unemployed since the war ended. 
+ word_002 ; Hesitate ; Tereddüt etmek ; Do not hesitate when you strike the enemy. 
+ word_003 ; Crucial ; Çok önemli ; Finding the map is crucial for our survival. 
+ word_004 ; Persuade ; Ýkna etmek ; You must persuade the king to send his army. 
+ word_005 ; Obstacle ; Engel ; The fallen tree created a huge obstacle on the road. 
+ word_006 ; Investigate ; Araþtýrmak ; The guard went to investigate the strange noise. 
+ word_007 ; Wander ; Dolaþmak ; Monsters wander through these dark woods at night. 
+ word_008 ; Betray ; Ýhanet etmek ; A true knight would never betray his realm. 
+ word_009 ; Temporary ; Geçici ; This healing potion provides only temporary relief. 
+ word_010 ; Fluent ; Akýcý ; The merchant was fluent in three different languages. 
+ word_011 ; Implement ; Uygulamak ; The guild decided to implement new rules for trading. 
+ word_012 ; Significant ; Önemli ; We found a significant amount of gold in the chest. 
+ word_013 ; Resolve ; Çözmek ; Only the old wizard can resolve this dark curse. 
+ word_014 ; Efficiency ; Verimlilik ; The blacksmith improved the efficiency of his forge. 
+ word_015 ; Encounter ; Karþýlaþmak ; We might encounter bandits on this mountain path. 
+ word_016 ; Stealth ; Gizlilik ; The thief used stealth to bypass the sleeping guards. 
+ word_017 ; Deceive ; Kandýrmak ; The witch tried to deceive us with an illusion. 
+ word_018 ; Abandon ; Terk etmek ; The villagers had to abandon their homes during the dragon attack. 
+ word_019 ; Abundant ; Bol ; The forest is full of abundant resources for crafting. 
+ word_020 ; Determine ; Belirlemek ; Your choices will determine the fate of this kingdom. 
+ word_021 ; Banish ; Sürgün etmek ; The traitor was banished from the city forever. 
+ word_022 ; Fierce ; Þiddetli ; A fierce storm is approaching from the northern mountains. 
+ word_023 ; Endure ; Dayanmak ; Our shields must endure the heavy attacks of the trolls. 
+ word_024 ; Vanish ; Gözden kaybolmak ; The ghost seemed to vanish into the thin air. 
+ word_025 ; Reveal ; Açýða çýkarmak ; The ancient scroll will reveal the hidden dungeon. 
+ word_026 ; Vulnerable ; Savunmasýz ; The creature is vulnerable to fire magic. 
+ word_027 ; Poverty ; Yoksulluk ; The long winter brought poverty to the small village. 
+ word_028 ; Wealthy ; Zengin ; Only wealthy nobles can afford this enchanted armor. 
+ word_029 ; Accuse ; Suçlamak ; Do not accuse him without solid evidence. 
+ word_030 ; Confess ; Ýtiraf etmek ; The spy was forced to confess his secret mission. 
+ word_031 ; Negotiate ; Müzakere etmek ; We must negotiate with the goblin leader for peace. 
+ word_032 ; Sacrifice ; Feda etmek ; He made a great sacrifice to save his friends. 
+ word_033 ; Sustain ; Sürdürmek ; We do not have enough food to sustain the army. 
+ word_034 ; Inevitable ; Kaçýnýlmaz ; Clashing with the enemy forces is now inevitable. 
+ word_035 ; Despair ; Umutsuzluk ; Do not let despair fill your heart during the battle. 
+ word_036 ; Intimidate ; Gözdaðý vermek ; The giant roared to intimidate the young warriors. 
+ word_037 ; Examine ; Ýncelemek ; The alchemist needs to examine this unknown herb. 
+ word_038 ; Fascinate ; Büyülemek ; The glowing crystals will fascinate any traveler. 
+ word_039 ; Hostile ; Düþmanca ; Be careful, the tribes in this area are hostile. 
+ word_040 ; Observe ; Gözlemlemek ; We must observe the enemy camp from a safe distance. 
+ word_041 ; Obscure ; Belirsiz ; The meaning of this ancient text is very obscure. 
+ word_042 ; Preserve ; Korumak ; We use salt to preserve the meat for long journeys. 
+ word_043 ; Reluctant ; Gönülsüz ; He was reluctant to enter the cursed cave. 
+ word_044 ; Scatter ; Daðýlmak ; The archers made the enemy troops scatter in panic. 
+ word_045 ; Treachery ; Hainlik ; His treachery cost us the entire southern border. 
+ word_046 ; Unpredictable ; Öngörülemez ; The weather in these mountains is highly unpredictable. 
+ word_047 ; Valid ; Geçerli ; This old coin is no longer valid in the capital. 
+ word_048 ; Withstand ; Karþý koymak ; The castle walls can withstand any siege. 
+ word_049 ; Yield ; Teslim olmak ; The defeated commander finally decided to yield. 
+ word_050 ; Zealous ; Gayretli ; The zealous paladin fought until his last breath. 
+word_051;Defend;Savunmak;We must defend the castle walls against the goblins.
+word_052;Gather;Toplamak;Gather some wood for the campfire.
+word_053;Survive;Hayatta kalmak;You need food and water to survive in the wild.
+word_054;Protect;Korumak;The knight swore to protect the young prince.
+word_055;Escape;Kaçmak;We have to escape from the dark prison before morning.
+word_056;Explore;Keþfetmek;Let's explore the hidden rooms of this dungeon.
+word_057;Discover;Keþfetmek/Bulmak;Did you discover any hidden treasure in the cave?
+word_058;Trade;Ticaret yapmak;I want to trade my old sword for a stronger shield.
+word_059;Shadow;Gölge;The master thief hid in the shadow of the wall.
+word_060;Heal;Ýyileþtirmek;This magic potion will heal your battle wounds.
+word_061;Damage;Hasar;The dragon's fire causes massive damage to wooden houses.
+word_062;Village;Köy;We rested at a quiet village near the river.
+word_063;Secret;Sýr;The old map reveals a secret path to the mountains.
+word_064;Weapon;Silah;Choose your weapon carefully before the tournament starts.
+word_065;Armor;Zýrh;Heavy armor makes you move slower but keeps you safe.
+word_066;Potion;Ýksir;Drink this red potion to restore your health.
+word_067;Quest;Görev;The king gave us a dangerous quest to find the lost ring.
+word_068;Guard;Muhafýz;The angry guard will not let you pass the city gate.
+word_069;Merchant;Tüccar;The traveling merchant sells rare items from the east.
+word_070;Travel;Seyahat etmek;We will travel across the great ocean tomorrow.
+word_071;Danger;Tehlike;The ranger can sense danger in this dark forest.
+word_072;Safe;Güvenli;Stay close to the fire, it is safe here from the wolves.
+word_073;Enemy;Düþman;The enemy army is waiting on the other side of the bridge.
+word_074;Attack;Saldýrmak;The wild bears usually attack when they are hungry.
+word_075;Reward;Ödül;You will get a big reward of gold for capturing the bandit.
+word_076;Guild;Lonca;Join the fighters' guild to learn new combat skills.
+word_077;Poison;Zehir;The giant spider's bite contains deadly poison.
+word_078;Cave;Maðara;A sleeping troll lives in that cold, wet cave.
+word_079;Bridge;Köprü;We must cross the old wooden bridge carefully.
+word_080;Trust;Güvenmek;Never trust a pirate with your gold coins.
+word_081;Follow;Takip etmek;Follow the giant footprints in the mud.
+word_082;Lead;Yol göstermek/Liderlik;The experienced guide will lead us through the snow.
+word_083;Prepare;Hazýrlanmak;Prepare yourself for a hard fight in the arena.
+word_084;Notice;Fark etmek;Did you notice the hidden trap on the floor?
+word_085;Warn;Uyarmak;I must warn the villagers about the upcoming storm.
+word_086;Accept;Kabul etmek;Will you accept this silver coin as payment?
+word_087;Refuse;Reddetmek;The proud warrior will refuse any help from strangers.
+word_088;Search;Aramak;Search the empty chests for hidden silver keys.
+word_089;Destroy;Yok etmek;The dark magic can destroy the whole town in seconds.
+word_090;Build;Ýnþa etmek;We need to build a shelter before the heavy rain begins.
+word_091;Combine;Birleþtirmek;Combine these two herbs to make a sleeping medicine.
+word_092;Drop;Düþürmek/Býrakmak;The defeated monster will drop useful items.
+word_093;Pick;Seçmek;Pick a card from the magic table.
+word_094;Lock;Kilitlemek;Don't forget to lock the door of the tavern at night.
+word_095;Unlock;Kilidini açmak;You need a master key to unlock this iron door.
+word_096;Forgive;Affetmek;The old priest will forgive your past mistakes.
+word_097;Promise;Söz vermek;I promise to return before the sun goes down.
+word_098;Remember;Hatýrlamak;Do you remember the fire spell the wizard taught you?
+word_099;Forget;Unutmak;Never forget the hard lessons of the battlefield.
+word_100;Shelter;Barýnak;We found a small cave to use as a shelter from the wind.
