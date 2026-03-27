@@ -2,31 +2,28 @@ using UnityEngine;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
 {
+    [Header("Data Connection")]
+    public NPCDialogueSO dialogueData;
+
+    [Header("UI Connection")]
     [SerializeField] private float SphereRadius = 4f;
-    [SerializeField] private GameObject interactionUI; 
-    [SerializeField] private Button talkButton;
+    [SerializeField] private GameObject interactionButton; 
+    [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogText;
-    [SerializeField] private Image dialogBackground;
-    [SerializeField] private float dialogDisplayDuration = 3f;
+    [SerializeField] private TextMeshProUGUI nameText;
 
     private SphereCollider sphereCollider;
     private bool isPlayerNear = false;
-    private float dialogTimer = 0f;
+
+    // Dialogue Flow System
+    private int currentLineIndex = 0;
     private bool isDialogActive = false;
-
-    // NPC Diyalog Seçenekleri
-    private string[] dialogues = new string[]
-    {
-        "Merhaba! Ben bir NPC'yim.",
-        "Oyunda kaybolan nesneleri bulmamda bana yardım edebilir misin?",
-        "Çok teşekkürler! Başarın için iyi şanslar!"
-    };
-
-    private int currentDialogIndex = 0;
+    private string[] currentDialogueLines;
 
     void Start()
     {
@@ -34,116 +31,83 @@ public class NPC : MonoBehaviour
         sphereCollider.radius = SphereRadius;
         sphereCollider.isTrigger = true;
         
-        interactionUI.SetActive(false);
-        
-        if (talkButton != null)
-        {
-            talkButton.onClick.AddListener(OnTalkButtonClick);
-        }
-
-        if (dialogText != null)
-        {
-            dialogText.gameObject.SetActive(false);
-        }
-
-        if (dialogBackground != null)
-        {
-            dialogBackground.gameObject.SetActive(false);
-        }
+        // UI cleanup at game startup
+        if(interactionButton != null) interactionButton.SetActive(false);
+        if(dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
-    void Update()
+    private void OnTriggerEnter(Collider other) 
     {
-        if (isDialogActive && dialogTimer > 0)
+        if(other.CompareTag("Player"))
         {
-            dialogTimer -= Time.deltaTime;
-            if (dialogTimer <= 0)
-            {
-                HideDialog();
-            }
-        }
-
-        // Mobil Dokunma Desteği - Herhangi bir yerden tıklayarak dialog devam ettir
-        #if UNITY_ANDROID || UNITY_IOS
-        if (Input.touchCount > 0 && isPlayerNear && isDialogActive)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
-            {
-                // Dialog otomatik devam edecek
-            }
-        }
-        #endif
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("Tilki NPC ile etkileşime girdi!");
             isPlayerNear = true;
-            interactionUI.SetActive(true);
-            currentDialogIndex = 0;
-        }
+            // Button is active
+            if(!isPlayerNear) interactionButton.SetActive(true);
+        }    
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if(other.CompareTag("Player"))
         {
-            Debug.Log("Tilki NPC'den ayrıldı!");
             isPlayerNear = false;
-            interactionUI.SetActive(false);
-            HideDialog();
+            if(!isPlayerNear) interactionButton.SetActive(false);
+            EndDialogue();
         }
     }
 
-    void OnTalkButtonClick()
+    public void OnTalkOrNextClicked()
     {
-        if (isPlayerNear)
+        if(!isPlayerNear) return;
+
+        if(!isPlayerNear)
         {
-            ShowDialog(dialogues[currentDialogIndex]);
-            currentDialogIndex++;
-            
-            if (currentDialogIndex >= dialogues.Length)
-            {
-                currentDialogIndex = 0;
-            }
+            StartDialogue(dialogueData.preGameDialogues);
+        }
+        else
+        {
+            DisplayNextLine();
         }
     }
 
-    void ShowDialog(string text)
+    private void StartDialogue(string[] linesToPlay)
     {
         isDialogActive = true;
-        dialogTimer = dialogDisplayDuration;
+        currentDialogueLines = linesToPlay;
+        currentLineIndex = 0;
 
-        if (dialogText != null)
-        {
-            dialogText.text = text;
-            dialogText.gameObject.SetActive(true);
-        }
+        interactionButton.SetActive(false);
+        dialoguePanel.SetActive(true);
 
-        if (dialogBackground != null)
-        {
-            dialogBackground.gameObject.SetActive(true);
-        }
+        if(nameText != null) nameText.text = dialogueData.npcName;
 
-        Debug.Log("Dialog: " + text);
+        DisplayNextLine();
     }
 
-    void HideDialog()
+    private void DisplayNextLine()
+    {
+        if(currentLineIndex >= currentDialogueLines.Length)
+        {
+            EndDialogue();
+            TriggerMiniGame();
+            return;
+        }
+
+        dialogText.text = currentDialogueLines[currentLineIndex];
+        currentLineIndex++;
+    }
+
+    private void EndDialogue()
     {
         isDialogActive = false;
-        dialogTimer = 0f;
+        dialoguePanel.SetActive(false);
+        // If it hasn't disappeared, bring back the “Talk” button
+        if(isPlayerNear) interactionButton.SetActive(true);
+    }
 
-        if (dialogText != null)
-        {
-            dialogText.gameObject.SetActive(false);
-        }
-
-        if (dialogBackground != null)
-        {
-            dialogBackground.gameObject.SetActive(false);
-        }
+    private void TriggerMiniGame()
+    {
+        Debug.Log($"şimdi {dialogueData.npcName} adlı NPC'nin görevi ( mini oyun ) tetiklendi");
     }
 }
+    
