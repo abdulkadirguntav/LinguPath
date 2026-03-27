@@ -1,8 +1,6 @@
 using UnityEngine;
-using System;
 using TMPro;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 [RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
@@ -12,7 +10,7 @@ public class NPC : MonoBehaviour
 
     [Header("UI Connection")]
     [SerializeField] private float SphereRadius = 4f;
-    [SerializeField] private GameObject interactionButton; 
+    [SerializeField] private GameObject interactionButton;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -41,8 +39,8 @@ public class NPC : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isPlayerNear = true;
-            // Button is active
-            if(!isPlayerNear) interactionButton.SetActive(true);
+            // Eğer diyalog halihazırda açık değilse butonu göster
+            if(!isDialogActive && interactionButton != null) interactionButton.SetActive(true);
         }    
     }
 
@@ -51,7 +49,7 @@ public class NPC : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isPlayerNear = false;
-            if(!isPlayerNear) interactionButton.SetActive(false);
+            if(interactionButton != null) interactionButton.SetActive(false);
             EndDialogue();
         }
     }
@@ -60,7 +58,12 @@ public class NPC : MonoBehaviour
     {
         if(!isPlayerNear) return;
 
-        if(!isPlayerNear)
+        if (dialogueData == null) { Debug.LogError("HATA: NPC içine Dialogue Data (SO) atılmamış!"); return; }
+        if (dialogueData.preGameDialogues == null || dialogueData.preGameDialogues.Length == 0) { Debug.LogError("HATA: SO dosyasının içi BOŞ! Yazı yazılmamış."); return; }
+        if (dialogText == null) { Debug.LogError("HATA: Dialog Text objesi sürüklenmemiş!"); return; }
+
+        // DÜZELTİLEN KISIM: Oyuncu yakın mı değil mi diye değil, diyalog başladı mı başlamadı mı diye bakıyoruz!
+        if(!isDialogActive)
         {
             StartDialogue(dialogueData.preGameDialogues);
         }
@@ -76,8 +79,8 @@ public class NPC : MonoBehaviour
         currentDialogueLines = linesToPlay;
         currentLineIndex = 0;
 
-        interactionButton.SetActive(false);
-        dialoguePanel.SetActive(true);
+        if(interactionButton != null) interactionButton.SetActive(false);
+        if(dialoguePanel != null) dialoguePanel.SetActive(true);
 
         if(nameText != null) nameText.text = dialogueData.npcName;
 
@@ -100,9 +103,10 @@ public class NPC : MonoBehaviour
     private void EndDialogue()
     {
         isDialogActive = false;
-        dialoguePanel.SetActive(false);
-        // If it hasn't disappeared, bring back the “Talk” button
-        if(isPlayerNear) interactionButton.SetActive(true);
+        if(dialoguePanel != null) dialoguePanel.SetActive(false);
+        
+        // Uzaklaşmadıysa butonu geri getir
+        if(isPlayerNear && interactionButton != null) interactionButton.SetActive(true);
     }
 
     private void TriggerMiniGame()
@@ -110,4 +114,3 @@ public class NPC : MonoBehaviour
         Debug.Log($"şimdi {dialogueData.npcName} adlı NPC'nin görevi ( mini oyun ) tetiklendi");
     }
 }
-    
