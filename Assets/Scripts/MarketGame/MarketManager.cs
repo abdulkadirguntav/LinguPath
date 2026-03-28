@@ -60,12 +60,5 @@ public class MarketManager : MonoBehaviour
             Debug.Log(" Mission Failed ");
             currentItems.Clear();
         }
-
-
-
-        
     }
-
-
-
 }

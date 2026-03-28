@@ -5,6 +5,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
 {
+    [Header("Mission Setup")]
+    public GameObject missionPanelToOpen;
+    public GameObject mainGameUI;
     [Header("Data Connection")]
     public NPCDialogueSO dialogueData;
 
@@ -22,7 +25,7 @@ public class NPC : MonoBehaviour
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
     private string[] currentDialogueLines;
-
+    
     void Start()
     {
         sphereCollider = GetComponent<SphereCollider>();
@@ -39,6 +42,30 @@ public class NPC : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isPlayerNear = true;
+            
+            // --- YENİ EKLENEN SİHİR: Dinamik Buton Bağlama ---
+            // Oyuncu hangi NPC'nin yanına geldiyse, butonları kodla o NPC'ye bağlıyoruz!
+            if (interactionButton != null)
+            {
+                Button btn = interactionButton.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.onClick.RemoveAllListeners(); // Önceki NPC'yi hafızadan sil
+                    btn.onClick.AddListener(OnTalkOrNextClicked); // Beni dinle!
+                }
+            }
+
+            if (dialoguePanel != null)
+            {
+                Button panelBtn = dialoguePanel.GetComponent<Button>();
+                if (panelBtn != null)
+                {
+                    panelBtn.onClick.RemoveAllListeners();
+                    panelBtn.onClick.AddListener(OnTalkOrNextClicked);
+                }
+            }
+            // --------------------------------------------------
+
             // Eğer diyalog halihazırda açık değilse butonu göster
             if(!isDialogActive && interactionButton != null) interactionButton.SetActive(true);
         }    
@@ -112,5 +139,9 @@ public class NPC : MonoBehaviour
     private void TriggerMiniGame()
     {
         Debug.Log($"şimdi {dialogueData.npcName} adlı NPC'nin görevi ( mini oyun ) tetiklendi");
+
+        if(mainGameUI != null) mainGameUI.SetActive(false);
+
+        if(missionPanelToOpen != null) missionPanelToOpen.SetActive(true);
     }
 }
