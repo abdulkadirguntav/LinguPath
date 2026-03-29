@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: asdasd
   preGameDialogues:
-  - weyweryweywerywerywer
+  - "day\u0131 oyun"
   winDialogues:
   - asdfasdfasdfasdgaerhyeyherywetywety
   loseDialogues:
-  - asdfasdfasdfasdfasdf
+  - hay beceriksiz
