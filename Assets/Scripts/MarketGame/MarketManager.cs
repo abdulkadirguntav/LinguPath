@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class MarketManager : MonoBehaviour
 {
@@ -8,6 +9,15 @@ public class MarketManager : MonoBehaviour
 
     [Header("Player's Items")]
     public List<string> currentItems = new List<string>();
+
+    [Header("UI Connections")]
+    public GameObject marketPanel;
+    public GameObject mainGameUI;
+
+    [Header("Cart UI")]
+    public GameObject cartPanel;
+    public Transform cartContentParent;
+    public GameObject cartItemPrefab;
 
     void Start()
     {
@@ -54,11 +64,59 @@ public class MarketManager : MonoBehaviour
         {
             Debug.Log(" Mission Complete ");
             currentItems.Clear();
+            ExitMiniGame();
+
+            if(NPC.ActiveNPC != null)
+            {
+                NPC.ActiveNPC.FinishMission(true);
+            }
         }
         else
         {
             Debug.Log(" Mission Failed ");
             currentItems.Clear();
         }
+    }
+
+    public void ExitMiniGame()
+    {
+        currentItems.Clear();
+
+        if(marketPanel != null) marketPanel.SetActive(false);
+        if(mainGameUI != null) mainGameUI.SetActive(true);
+
+        Debug.Log("Marketten çıkıldı, kasabaya dönüldü");
+    }
+
+    public void OpenCartUI()
+    {
+        if(cartPanel != null) cartPanel.SetActive(true);
+        RefreshCartUI();
+    }
+
+    public void RefreshCartUI()
+    {
+        foreach(Transform child in cartContentParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach(string item in currentItems)
+        {
+            GameObject newCartObj = Instantiate(cartItemPrefab, cartContentParent);
+            CartItemUI cartUI = newCartObj.GetComponent<CartItemUI>();
+            if(cartUI!= null)
+            {
+                cartUI.SetupCartItem(item, this);
+            }
+        }
+    }
+
+    public void RemoveItemFromCart(string itemName)
+    {
+        currentItems.Remove(itemName);
+        Debug.Log(itemName + "sepetten çıkarıldı. Kalan " + currentItems.Count);
+
+        RefreshCartUI();
     }
 }

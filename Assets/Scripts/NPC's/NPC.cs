@@ -5,9 +5,22 @@ using UnityEngine.UI;
 [RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
 {
+    // NPC'nin Hangi Aşamada Olduğunu Tutan Hafıza Sistemi
+    public enum NPCState { BeforeMission, MissionCompleted }
+    public NPCState currentState = NPCState.BeforeMission;
+
+    // O an konuştuğumuz NPC'yi her yerden bulabilmek için pratik bir köprü
+    public static NPC ActiveNPC; 
+
     [Header("Mission Setup")]
     public GameObject missionPanelToOpen;
     public GameObject mainGameUI;
+
+    [Header("Mission Confirmation PopUp")]
+    public GameObject missionPopupPanel;
+    public Button acceptMissionButton;
+    public Button declineMissionButton;
+    
     [Header("Data Connection")]
     public NPCDialogueSO dialogueData;
 
@@ -32,7 +45,6 @@ public class NPC : MonoBehaviour
         sphereCollider.radius = SphereRadius;
         sphereCollider.isTrigger = true;
         
-        // UI cleanup at game startup
         if(interactionButton != null) interactionButton.SetActive(false);
         if(dialoguePanel != null) dialoguePanel.SetActive(false);
     }
@@ -42,16 +54,15 @@ public class NPC : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isPlayerNear = true;
+            ActiveNPC = this; // Oyuncu yanıma geldiğinde "Aktif NPC Benim!" diye bağır
             
-            // --- YENİ EKLENEN SİHİR: Dinamik Buton Bağlama ---
-            // Oyuncu hangi NPC'nin yanına geldiyse, butonları kodla o NPC'ye bağlıyoruz!
             if (interactionButton != null)
             {
                 Button btn = interactionButton.GetComponent<Button>();
                 if (btn != null)
                 {
-                    btn.onClick.RemoveAllListeners(); // Önceki NPC'yi hafızadan sil
-                    btn.onClick.AddListener(OnTalkOrNextClicked); // Beni dinle!
+                    btn.onClick.RemoveAllListeners();
+                    btn.onClick.AddListener(OnTalkOrNextClicked);
                 }
             }
 
@@ -64,9 +75,7 @@ public class NPC : MonoBehaviour
                     panelBtn.onClick.AddListener(OnTalkOrNextClicked);
                 }
             }
-            // --------------------------------------------------
 
-            // Eğer diyalog halihazırda açık değilse butonu göster
             if(!isDialogActive && interactionButton != null) interactionButton.SetActive(true);
         }    
     }
@@ -77,6 +86,10 @@ public class NPC : MonoBehaviour
         {
             isPlayerNear = false;
             if(interactionButton != null) interactionButton.SetActive(false);
+            
+            // Eğer yanımdan uzaklaşırsa aktifliği bırak
+            if(ActiveNPC == this) ActiveNPC = null; 
+            
             EndDialogue();
         }
     }
@@ -85,14 +98,19 @@ public class NPC : MonoBehaviour
     {
         if(!isPlayerNear) return;
 
-        if (dialogueData == null) { Debug.LogError("HATA: NPC içine Dialogue Data (SO) atılmamış!"); return; }
-        if (dialogueData.preGameDialogues == null || dialogueData.preGameDialogues.Length == 0) { Debug.LogError("HATA: SO dosyasının içi BOŞ! Yazı yazılmamış."); return; }
-        if (dialogText == null) { Debug.LogError("HATA: Dialog Text objesi sürüklenmemiş!"); return; }
+        if (dialogueData == null) { Debug.LogError("HATA: SO Atılmamış!"); return; }
 
-        // DÜZELTİLEN KISIM: Oyuncu yakın mı değil mi diye değil, diyalog başladı mı başlamadı mı diye bakıyoruz!
         if(!isDialogActive)
         {
-            StartDialogue(dialogueData.preGameDialogues);
+            // HAFIZA KONTROLÜ: Görev bittiyse winDialogues, bitmediyse preGameDialogues oku!
+            if (currentState == NPCState.BeforeMission)
+            {
+                StartDialogue(dialogueData.preGameDialogues);
+            }
+            else if (currentState == NPCState.MissionCompleted)
+            {
+                StartDialogue(dialogueData.winDialogues);
+            }
         }
         else
         {
@@ -102,13 +120,15 @@ public class NPC : MonoBehaviour
 
     private void StartDialogue(string[] linesToPlay)
     {
+        // Eğer o diyaloğun içi boşsa hata vermesin, direkt kapatsın
+        if(linesToPlay == null || linesToPlay.Length == 0) return;
+
         isDialogActive = true;
         currentDialogueLines = linesToPlay;
         currentLineIndex = 0;
 
         if(interactionButton != null) interactionButton.SetActive(false);
         if(dialoguePanel != null) dialoguePanel.SetActive(true);
-
         if(nameText != null) nameText.text = dialogueData.npcName;
 
         DisplayNextLine();
@@ -119,7 +139,13 @@ public class NPC : MonoBehaviour
         if(currentLineIndex >= currentDialogueLines.Length)
         {
             EndDialogue();
-            TriggerMiniGame();
+            
+            // GÜVENLİK KİLİDİ: Görev panelini sadece "Görevi Almadan Önceki" diyalog bitince aç!
+            // Teşekkür diyaloğu bitince tekrar oyunu açmasını engelliyoruz.
+            if(currentState == NPCState.BeforeMission)
+            {
+                TriggerMiniGame();
+            }
             return;
         }
 
@@ -131,17 +157,59 @@ public class NPC : MonoBehaviour
     {
         isDialogActive = false;
         if(dialoguePanel != null) dialoguePanel.SetActive(false);
-        
-        // Uzaklaşmadıysa butonu geri getir
         if(isPlayerNear && interactionButton != null) interactionButton.SetActive(true);
     }
 
     private void TriggerMiniGame()
     {
-        Debug.Log($"şimdi {dialogueData.npcName} adlı NPC'nin görevi ( mini oyun ) tetiklendi");
+        Debug.Log($"Şimdi {dialogueData.npcName} adlı NPC'nin görevi için Pop-up açılıyor.");
 
-        if(mainGameUI != null) mainGameUI.SetActive(false);
+        // Pop-up arayüzü Inspector'dan bağlandıysa onu aç, bağlanmadıysa direkt oyuna gir
+        if (missionPopupPanel != null && acceptMissionButton != null && declineMissionButton != null)
+        {
+            missionPopupPanel.SetActive(true);
 
-        if(missionPanelToOpen != null) missionPanelToOpen.SetActive(true);
+            // Pop-up içindeki Evet/Hayır butonlarının eski hafızasını sil ve bu NPC'ye bağla
+            acceptMissionButton.onClick.RemoveAllListeners();
+            acceptMissionButton.onClick.AddListener(AcceptMission);
+
+            declineMissionButton.onClick.RemoveAllListeners();
+            declineMissionButton.onClick.AddListener(DeclineMission);
+        }
+        else
+        {
+            // Eğer arayüz bağlamayı unutursak oyun çökmesin, eski sistem direkt başlasın
+            AcceptMission();
+        }
+    }
+
+    // Oyuncu Pop-up'ta "Evet" derse burası çalışır
+    private void AcceptMission()
+    {
+        if (missionPopupPanel != null) missionPopupPanel.SetActive(false); // Pop-up'ı kapat
+        if (mainGameUI != null) mainGameUI.SetActive(false);               // Joystick'i gizle
+        if (missionPanelToOpen != null) missionPanelToOpen.SetActive(true);// Mini oyunu (Market vs.) aç!
+    }
+
+    // Oyuncu Pop-up'ta "Hayır" derse burası çalışır
+    private void DeclineMission()
+    {
+        if (missionPopupPanel != null) missionPopupPanel.SetActive(false); // Sadece Pop-up'ı kapat
+        Debug.Log("Oyuncu görevi reddetti. Kasabada yürümeye devam edebilir.");
+        // Başka hiçbir şeyi kapatmıyoruz, oyuncu serbest kalıyor. İsterse teyzeye tekrar tıklayabilir.
+    }
+
+    // Dışarıdan (Örneğin MarketManager'dan) çağrılacak Sihirli Fonksiyon
+    public void FinishMission(bool isWin)
+    {
+        if(isWin)
+        {
+            currentState = NPCState.MissionCompleted; // Hafızayı "Tamamlandı" olarak değiştir
+            StartDialogue(dialogueData.winDialogues); // Teşekkür diyaloğunu başlat
+        }
+        else
+        {
+            StartDialogue(dialogueData.loseDialogues); // (Şu an kullanmıyoruz ama ilerisi için hazır)
+        }
     }
 }

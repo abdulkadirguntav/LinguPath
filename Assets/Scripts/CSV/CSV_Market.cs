@@ -26,7 +26,7 @@ public class CSV_Market : MonoBehaviour
     {
         LoadMarketData();
         // Şimdilik test için oyun başlar başlamaz 3 görev, 12 raf ürünüyle başlatalım
-        StartMarketGame(3, 12); 
+        StartMarketGame(3, 36); 
     }
 
     private void LoadMarketData()
