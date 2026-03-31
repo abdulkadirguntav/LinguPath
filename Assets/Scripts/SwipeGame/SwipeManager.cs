@@ -68,7 +68,7 @@ public class SwipeManager : MonoBehaviour
                 newCard.correctSentence = columns[2].Trim();
                 newCard.wrongSentence = columns[3].Trim();
                 
-                // Resmi MarketIcons klasöründen çek
+                // Resmi MarketIcons klasörün   den çek
                 newCard.cardSprite = Resources.Load<Sprite>("Icons/" + newCard.imageName);
 
                 allCards.Add(newCard);
