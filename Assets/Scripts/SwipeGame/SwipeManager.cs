@@ -68,7 +68,7 @@ public class SwipeManager : MonoBehaviour
                 newCard.correctSentence = columns[2].Trim();
                 newCard.wrongSentence = columns[3].Trim();
                 
-                // Resmi MarketIcons klasörün   den çek
+                // Resmi MarketIcons klasöründen çek
                 newCard.cardSprite = Resources.Load<Sprite>("Icons/" + newCard.imageName);
 
                 allCards.Add(newCard);
@@ -168,5 +168,20 @@ public class SwipeManager : MonoBehaviour
         {
             NPC.ActiveNPC.FinishMission(isWin);
         }
+    }
+    public void ExitSwipeGame()
+    {
+        Debug.Log("Swipe oyunundan çıkıldı! Kasabaya dönülüyor...");
+        
+        // Yeniden girerse diye canı fullüyoruz
+        currentHealth = heartIcons.Count;
+        foreach (GameObject heart in heartIcons)
+        {
+            if (heart != null) heart.SetActive(true);
+        }
+
+        // Oyunu kapat, kasabayı aç
+        if (swipePanel != null) swipePanel.SetActive(false);
+        if (mainGameUI != null) mainGameUI.SetActive(true);
     }
 }
