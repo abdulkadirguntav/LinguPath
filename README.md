@@ -1,98 +1,102 @@
-# 🎮 LINGUPATH
-## 🧠 An RPG-Based, Data-Driven English Language Learning Game
+# 🏰 Project: LINGUPATH
 
-<p align="center">
-  <b>Learn English by playing — not memorizing.</b>
-</p>
+![Unity](https://img.shields.io/badge/Unity-6-black?style=for-the-badge&logo=unity)
+![C#](https://img.shields.io/badge/C%23-Programming-blue?style=for-the-badge&logo=c-sharp)
+![Platform](https://img.shields.io/badge/Platform-PC%20%7C%20Mobile-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-In_Development-orange?style=for-the-badge)
 
----
+> *"Stop memorizing words. Start living the language."*
 
-## 📖 ABOUT THE PROJECT
+**LINGUPATH** is a story-driven RPG where players learn English naturally through gameplay. Instead of repetitive exercises, the game immerses players in a living world where progress depends entirely on understanding the language.
 
-**LinguPath** is an educational RPG developed with Unity that seamlessly integrates English learning into core gameplay mechanics.
-
-Instead of traditional exercises, players:
-- 🏙️ Explore a living town  
-- 🧍 Interact with NPCs  
-- 🎯 Complete skill-based minigames  
-
-Progression depends entirely on:
-> **Reading comprehension, grammar, and vocabulary skills.**
 
 ---
 
-## 🎮 GAMEPLAY & EDUCATIONAL SYSTEMS
+## 🎮 Gameplay Features
 
-### 🏙️ 1. Town Exploration & Quests
-- **Gameplay:** Navigate a hub world and interact with state-driven NPCs  
+LinguPath blends RPG mechanics with real language learning systems:
+
+- **Living Town Exploration:** Interact with NPCs, accept quests, and uncover stories through dialogue-based progression.
+- **Skill-Based Learning:** Every mechanic is tied to real English skills — no artificial quizzes.
+- **Multiple Game Modes:** Each system targets a different aspect of language learning.
+- **Player Progression:** Advancement depends on comprehension, not grinding.
+
+---
+
+## 🧠 Learning Systems
+
+Each gameplay module is designed to improve a specific language skill:
+
+### 🏙️ Town Exploration & Quests
+*Interact with NPCs and navigate a dynamic hub world.*
+
 - **Focus:** Context-based dialogue understanding  
-
-> 📌 *Skill:* Reading comprehension & contextual interpretation  
-
----
-
-### 🛒 2. The Market (Shopping Module)
-- **Gameplay:** Drag & drop items into your cart by reading item lists  
-- **Focus:** Matching words with real-world objects  
-
-> 📌 *Skill:* Vocabulary acquisition & visual association  
+- **Skill:** Reading comprehension & interpretation  
 
 ---
 
-### ⚔️ 3. Turn-Based Combat (JRPG Module)
-- **Attack:** Unscramble words to form correct sentences  
-- **Defense:** Find the “odd word out”  
+### 🛒 Market System (Shopping Module)
+*Build your shopping cart by understanding item lists.*
 
-> 📌 *Skill:* Grammar, sentence structure & vocabulary categorization  
-
----
-
-### 👉 4. Swipe Cards (Flashcard Module)
-- **Gameplay:**  
-  - Swipe ➡️ if sentence matches image  
-  - Swipe ⬅️ if there's a logical/grammatical trap  
-
-> 📌 *Skill:* Fast comprehension & spotting subtle differences  
+- **Focus:** Word-object matching  
+- **Skill:** Vocabulary & visual association  
 
 ---
 
-## ⚙️ TECHNICAL ARCHITECTURE
+### ⚔️ Turn-Based Combat (JRPG Module)
+*Fight enemies using your language skills.*
 
-### 🧩 Data-Driven System
-- 100% dynamic content via `.csv`  
-- Add new levels without touching code  
+- **Attack:** Unscramble words into correct sentences  
+- **Defense:** Identify incorrect or unrelated words  
 
----
-
-### 🎨 Dynamic UI
-- Auto-scaling layouts  
-- Handles variable text lengths  
-- Prevents UI overflow issues  
+- **Skill:** Grammar, sentence structure & categorization  
 
 ---
 
-### 🧠 Modular Architecture
-Core systems are separated into independent managers:
-- `TurnBaseManager`
-- `MarketManager`
-- `SwipeManager`
+### 👉 Swipe Cards (Flashcard Module)
+*Make quick decisions based on meaning and logic.*
 
-> ✔️ Clean code  
-> ✔️ Scalable structure  
-> ✔️ Easy maintenance  
+- Swipe ➡️ if correct  
+- Swipe ⬅️ if incorrect  
+
+- **Skill:** Fast comprehension & error detection  
 
 ---
 
-## 🚀 HOW TO RUN
+## 🛠️ Under the Hood
+
+Built with scalability and performance in mind:
+
+- **Data-Driven Architecture:**  
+  All content is managed via `.csv` files — no code changes needed to add new levels.
+
+- **Modular System Design:**  
+  Independent managers for each system:
+  - `TurnBaseManager`  
+  - `MarketManager`  
+  - `SwipeManager`  
+
+- **Dynamic UI System:**  
+  Responsive layouts that adapt to different text sizes and prevent overflow.
+
+- **Clean & Scalable Codebase:**  
+  Designed for easy expansion and long-term maintainability.
+
+---
+
+## 🎨 Art & Design
+
+LinguPath features a stylized, colorful world designed to feel alive and engaging rather than educational and rigid.
+
+- Low-pressure learning environment  
+- Immersive RPG atmosphere  
+- Player-driven discovery  
+
+---
+
+## 🚀 Installation
+
+To run the project locally:
 
 ```bash
 git clone https://github.com/yourusername/LinguPath.git
-```
-## ▶️ Setup
-- Open Unity Hub
-- Click Add Project
-- Select the cloned folder
-  
-## 🎬 Run
-- Open the Main Scene
-- Press Play
