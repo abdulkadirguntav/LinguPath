@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class NPC : MonoBehaviour
 {
     // NPC'nin Hangi Aşamada Olduğunu Tutan Hafıza Sistemi
-    public enum NPCState { BeforeMission, MissionCompleted }
+    public enum NPCState { BeforeMission, MissionFailed, MissionCompleted }
     public NPCState currentState = NPCState.BeforeMission;
 
     // O an konuştuğumuz NPC'yi her yerden bulabilmek için pratik bir köprü
@@ -102,9 +102,10 @@ public class NPC : MonoBehaviour
 
         if(!isDialogActive)
         {
-            // HAFIZA KONTROLÜ: Görev bittiyse winDialogues, bitmediyse preGameDialogues oku!
-            if (currentState == NPCState.BeforeMission)
+            // HAFIZA KONTROLÜ: Hangi state'deyiz, ona göre diyalog seç!
+            if (currentState == NPCState.BeforeMission || currentState == NPCState.MissionFailed)
             {
+                // Kaybettikten sonra tekrar konuşulursa görev tekrar açılır
                 StartDialogue(dialogueData.preGameDialogues);
             }
             else if (currentState == NPCState.MissionCompleted)
@@ -140,9 +141,9 @@ public class NPC : MonoBehaviour
         {
             EndDialogue();
             
-            // GÜVENLİK KİLİDİ: Görev panelini sadece "Görevi Almadan Önceki" diyalog bitince aç!
-            // Teşekkür diyaloğu bitince tekrar oyunu açmasını engelliyoruz.
-            if(currentState == NPCState.BeforeMission)
+            // GÜVENLİK KİLİDİ: Görev panelini sadece "Görevi Almadan Önce" veya "Kaybedince" açabiliriz.
+            // Teşekkür diyaloğu bitince tekrar oyunu açmıyoruz.
+            if(currentState == NPCState.BeforeMission || currentState == NPCState.MissionFailed)
             {
                 TriggerMiniGame();
             }
@@ -209,7 +210,8 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            StartDialogue(dialogueData.loseDialogues); // (Şu an kullanmıyoruz ama ilerisi için hazır)
+            currentState = NPCState.MissionFailed; // Kaybettik, ama tekrar denenebilir
+            StartDialogue(dialogueData.loseDialogues); // Teselli/yeniden dene diyaloğunu başlat
         }
     }
 }
