@@ -4,6 +4,7 @@ using Unity.InferenceEngine; // Hatanı önlemek için güncellendi
 using System.Text;
 using Unity.Collections;
 using Newtonsoft.Json;
+using TMPro;
 
 public class RunWhisper : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class RunWhisper : MonoBehaviour
     public ModelAsset logMelSpectro;
     public TextAsset vocabAsset;
     public GeminiManager gemini;
+    public TextMeshProUGUI chatText;
 
     Awaitable m_Awaitable;
     NativeArray<int> lastToken;
@@ -125,6 +127,10 @@ public class RunWhisper : MonoBehaviour
                 // Kulağın duyduğu metni, beynin işlemesi için Gemini'ye yolluyoruz!
                 if(gemini != null)
                 {
+                    if(chatText != null)
+                    {
+                        chatText.text += $"\n\n<color=#00FF00><b>Sen:</b></color> {outputString}";
+                    }
                     gemini.AskGemini(outputString);
                 }
 
