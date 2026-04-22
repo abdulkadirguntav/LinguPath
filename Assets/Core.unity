@@ -14321,6 +14321,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964557777}
   m_CullTransparentMesh: 1
+--- !u!1 &982464962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 982464964}
+  - component: {fileID: 982464963}
+  m_Layer: 0
+  m_Name: AI_Whisper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &982464963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982464962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274b9aa46ace36e49904fc3efbd60841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioDecoder1: {fileID: 5022602860645237092, guid: 1ffb973dfd9e4d44c92373c26f27127e, type: 3}
+  audioDecoder2: {fileID: 5022602860645237092, guid: 7ebaf9f0d60f2d1468d13b8ce2b1dcab, type: 3}
+  audioEncoder: {fileID: 5022602860645237092, guid: 4b7b8f85276bcff4a92a8360b1aee685, type: 3}
+  logMelSpectro: {fileID: 5022602860645237092, guid: c36b3c9921d61144786cf1ca0568f273, type: 3}
+  vocabAsset: {fileID: 4900000, guid: 42e045286b55fb342be26a4dcf1de221, type: 3}
+  gemini: {fileID: 1026190817}
+--- !u!4 &982464964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982464962}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1025.6191, y: 1048.5476, z: -1.3603516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &990426729
 GameObject:
   m_ObjectHideFlags: 0
@@ -14844,6 +14894,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2831419441930948307, guid: 18101f4ba2e54134687cf6fa4bd70914, type: 3}
   m_PrefabInstance: {fileID: 1019945688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1026190816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026190818}
+  - component: {fileID: 1026190817}
+  m_Layer: 0
+  m_Name: VoiceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1026190817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026190816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 117f426a27944a340b51768bb95cf87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  apiKey: AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg
+  gecerliSenaryo: Kafe Garsonu
+--- !u!4 &1026190818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026190816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1096.518, y: 1286.629, z: 14.338033}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1039898351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18085,6 +18181,9 @@ MonoBehaviour:
   chatDisplay: {fileID: 155673236}
   sendButton: {fileID: 1080941536}
   toneDropdown: {fileID: 911928163}
+  apiKey: AIzaSyA3ekX1IhVNh-8sOCptcCgekS-rNbdeDiU
+  apiUrl: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=
+  chatHistory: []
 --- !u!4 &1275088014
 Transform:
   m_ObjectHideFlags: 0
@@ -19285,6 +19384,7 @@ GameObject:
   - component: {fileID: 1375217154}
   - component: {fileID: 1375217153}
   - component: {fileID: 1375217152}
+  - component: {fileID: 1375217155}
   m_Layer: 5
   m_Name: Talk
   m_TagString: Untagged
@@ -19394,6 +19494,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375217150}
   m_CullTransparentMesh: 1
+--- !u!114 &1375217155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375217150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 982464963}
+          m_TargetAssemblyTypeName: RunWhisper, Assembly-CSharp
+          m_MethodName: StartRecording
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 982464963}
+          m_TargetAssemblyTypeName: RunWhisper, Assembly-CSharp
+          m_MethodName: StopRecording
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1382589666
 GameObject:
   m_ObjectHideFlags: 0
@@ -30313,3 +30458,5 @@ SceneRoots:
   - {fileID: 1752040021}
   - {fileID: 1674895615}
   - {fileID: 806105438}
+  - {fileID: 982464964}
+  - {fileID: 1026190818}
