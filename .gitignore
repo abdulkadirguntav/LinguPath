@@ -75,3 +75,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 Assets/Unity Whisper/models/decoder_model.onnx
 Assets/Unity Whisper/models/decoder_with_past_model.onnx
+Assets/Unity AI/jets-text-to-speech.onnx

@@ -11,8 +11,8 @@ public class GeminiManager : MonoBehaviour
     public TextMeshProUGUI chatText;
     public TMP_InputField chatInput;
 
-    [Header("Geliştirici Ayarları")]
-    public bool testModu = true; // API bozukken bunu tikle, çalışırken tiki kaldır!
+    [Header("Ses Motoru Bağlantısı")]
+    public RunJets sesMotoru;
 
     [Header("API Ayarları")]
     // DİKKAT: Eski API anahtarını sildim, Google AI Studio'dan YENİ BİR TANE alıp buraya (ve Unity Inspector'a) yapıştır!
@@ -21,24 +21,23 @@ public class GeminiManager : MonoBehaviour
     [Header("Senaryo Ayarı")]
     public string gecerliSenaryo = "Kafe Garsonu";
 
-    // 🚀 ÇÖZÜM 1: 2026 Yılı İçin Geçerli Olan Aktif Model (Gemini 2.5 Flash)
+    // 🚀 ÇÖZÜM 1: Gemini 1.5 Flash (Stabil ve Güvenilir)
     private string endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
     public void AskGemini(string playerMessage)
     {
-        if (testModu)
-        {
-            Debug.Log("🛠️ TEST MODU AKTİF: API bypass ediliyor, sahte cevap üretiliyor...");
-            StartCoroutine(SimulateFakeResponse()); // Sahte cevaba git
-        }
-        else
-        {
-            StartCoroutine(SendRequest(playerMessage, gecerliSenaryo)); // Gerçek API'ye git
-        }
+        StartCoroutine(SendRequest(playerMessage, gecerliSenaryo));
     }
 
     private IEnumerator SendRequest(string playerMessage, string scenario)
     {
+        // API Key kontrol
+        if (string.IsNullOrEmpty(apiKey))
+        {
+            Debug.LogError("❌ API Key boş! Google AI Studio'dan yeni bir API Key alıp Inspector'a yapıştır!");
+            yield break;
+        }
+
         string url = endpoint + "?key=" + apiKey;
 
         string systemPrompt = $"Sen bir İngilizce dil mentorusun. Şu anki rolün: {scenario}. " +
@@ -75,21 +74,32 @@ public class GeminiManager : MonoBehaviour
 
         string jsonData = payload.ToString();
 
+        Debug.Log("🦊 Tilki Düşünüyor... (API'ye İstek Gitti)");
+        Debug.Log("📤 URL: " + url);
+
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-
-            Debug.Log("🦊 Tilki Düşünüyor... (API'ye İstek Gitti)");
+            request.timeout = 30; // 30 saniye timeout
 
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("API Hatası: " + request.error);
-                Debug.LogError(request.downloadHandler.text); 
+                Debug.LogError("❌ API Hatası: " + request.error);
+                Debug.LogError("📍 HTTP Code: " + request.responseCode);
+                Debug.LogError("📄 Response: " + request.downloadHandler.text);
+                
+                if (request.responseCode == 503)
+                {
+                    Debug.LogError("🚨 503 Service Unavailable - Olası nedenleri:");
+                    Debug.LogError("   1. API Key geçersiz veya revoke edilmiş");
+                    Debug.LogError("   2. Endpoint/Model adı hatalı");
+                    Debug.LogError("   3. Google API servisi geçici olarak kapalı");
+                }
             }
             else
             {
@@ -98,63 +108,47 @@ public class GeminiManager : MonoBehaviour
         }
     }
 
-    // Google sunucuları çöktüğünde projeyi geliştirmeye devam etmemizi sağlayan fonksiyon
-    private IEnumerator SimulateFakeResponse()
-    {
-        // İnternet gecikmesini taklit etmek için 1.5 saniye bekle
-        yield return new WaitForSeconds(1.5f); 
-
-        // Sanki Gemini'den gelmiş gibi kusursuz bir JSON paketi hazırlıyoruz
-        string fakeJson = "{\n" +
-            "  \"candidates\": [\n" +
-            "    {\n" +
-            "      \"content\": {\n" +
-            "        \"parts\": [\n" +
-            "          {\n" +
-            "            \"text\": \"{\\\"reply\\\": \\\"Hello! Yes, I can certainly help you with that. Would you prefer a hot or cold drink?\\\", \\\"grammar_feedback\\\": \\\"Kusursuz!\\\"}\"\n" +
-            "          }\n" +
-            "        ]\n" +
-            "      }\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
-
-        // Kendi yazdığımız ayıklayıcıya (Parser) bu sahte veriyi yolluyoruz
-        ParseGeminiResponse(fakeJson);
-    }
-
     private void ParseGeminiResponse(string jsonResponse)
     {
+        string reply = "";
+        string grammar = "";
+        
         try
         {
-            // Önce Gemini'nin karmaşık cevabından bizim asıl metnimizi çekiyoruz
             JObject data = JObject.Parse(jsonResponse);
             string textResult = data["candidates"][0]["content"]["parts"][0]["text"].ToString();
 
-            // Kendi zorladığımız o temiz JSON formatını okuyoruz
             JObject finalData = JObject.Parse(textResult);
 
-            string reply = finalData["reply"].ToString();
-            string grammar = finalData["grammar_feedback"].ToString();
+            reply = finalData["reply"]?.ToString() ?? "Cevap alınamadı";
+            grammar = finalData["grammar_feedback"]?.ToString() ?? "Gramer notu alınamadı";
 
             Debug.Log("💬 TİLKİ CEVABI: " + reply);
-            Debug.Log("📝 GRAMER NOTU: " + grammar);
-
-            // UI EKRANINA YAZDIRMA KISMI BURADA OLMALI
-            if (chatText != null)
+            // Metni sese çevirmesi için RunJets'e komut yolla
+            if (sesMotoru != null)
             {
-                chatText.text += $"\n<color=#FFA500><b>Tilki:</b></color> {reply}";
-                
-                // Eğer gramer hatası yoksa ekranda kalabalık yapmasın, varsa yazsın
-                if(grammar.ToLower() != "kusursuz!" && !grammar.Contains("kusursuz"))
-                {
-                     chatText.text += $"\n<color=#FFFF00><i>(Not: {grammar})</i></color>";
-                }
+                sesMotoru.SpeakFromAI(reply);
             }
+            
+            Debug.Log("📝 GRAMER NOTU: " + grammar);
         }
         catch (System.Exception e)
         {
             Debug.LogError("Veri Ayıklama Hatası: " + e.Message + " | Gelen Ham Veri: " + jsonResponse);
+            reply = "Hata oluştu, lütfen tekrar deneyin";
+            grammar = "";
+        }
+
+        // Ekrana Tilkinin cevabını ve gramer notunu yazdırıyoruz (Turuncu ve Sarı renklerde)
+        if (chatText != null && !string.IsNullOrEmpty(reply))
+        {
+            chatText.text += $"\n<color=#FFA500><b>Tilki:</b></color> {reply}";
+    
+            // Eğer gramer hatası yoksa ("Kusursuz!" döndüyse) ekranda kalabalık yapmasın, varsa yazsın
+            if(!string.IsNullOrEmpty(grammar) && !grammar.ToLower().Contains("kusursuz"))
+            {
+                chatText.text += $"\n<color=#FFFF00><i>(Not: {grammar})</i></color>";
+            }
         }
     }
 
