@@ -7,6 +7,9 @@ using TMPro;
 
 public class GeminiManager : MonoBehaviour
 {
+    [Header("Bağlantılar")]
+    public FoxEmotionController duyguMotoru;
+
     [Header("UI Ayarları")]
     public TextMeshProUGUI chatText;
     public TMP_InputField chatInput;
@@ -42,9 +45,8 @@ public class GeminiManager : MonoBehaviour
 
         string systemPrompt = $"Sen bir İngilizce dil mentorusun. Şu anki rolün: {scenario}. " +
             "Oyuncu sana İngilizce bir şey söyleyecek. Rolden çıkmadan ona İngilizce cevap ver. " +
-            "Ayrıca oyuncunun cümlesindeki gramer hatalarını kontrol et. " +
-            "Bana SADECE şu formatta bir JSON döndür, başka hiçbir açıklama, selamlama veya markdown yazma: " +
-            "{\"reply\": \"rolüne uygun İngilizce cevabın\", \"grammar_feedback\": \"varsa gramer hatası ve Türkçe açıklaması, yoksa 'Kusursuz!' yaz\"}";
+            "Bana SADECE şu formatta bir JSON döndür, hiçbir markdown veya açıklama yazma: " +
+            "{\"reply\": \"rolüne uygun İngilizce cevabın\", \"grammar_feedback\": \"varsa gramer hatası ve Türkçe açıklaması, yoksa 'Kusursuz!' yaz\", \"emotion\": \"verdiğin cevaba göre şu duygulardan birini seç: happy, sad veya neutral\"}";
 
         // 🚀 ÇÖZÜM 2: Google'ın resmi isimlendirme standartları (CamelCase) ile güncellendi
         JObject payload = new JObject
@@ -112,6 +114,7 @@ public class GeminiManager : MonoBehaviour
     {
         string reply = "";
         string grammar = "";
+        string emotion = "neutral"; // Yeni: Duygu değişkenimiz (varsayılanı nötr yaptık)
         
         try
         {
@@ -122,15 +125,25 @@ public class GeminiManager : MonoBehaviour
 
             reply = finalData["reply"]?.ToString() ?? "Cevap alınamadı";
             grammar = finalData["grammar_feedback"]?.ToString() ?? "Gramer notu alınamadı";
+            
+            // Yeni: Duyguyu da senin yazdığın gibi güvenli (null check ile) çekiyoruz
+            emotion = finalData["emotion"]?.ToString() ?? "neutral";
 
             Debug.Log("💬 TİLKİ CEVABI: " + reply);
+            Debug.Log("📝 GRAMER NOTU: " + grammar);
+            Debug.Log("🎭 TİLKİ DUYGUSU: " + emotion); // Konsoldan hangi duygunun geldiğini görebilirsin
+
             // Metni sese çevirmesi için RunJets'e komut yolla
             if (sesMotoru != null)
             {
                 sesMotoru.SpeakFromAI(reply);
             }
             
-            Debug.Log("📝 GRAMER NOTU: " + grammar);
+            // Yeni: Gelen duyguyu yüz kaslarını kontrol eden motora yolla!
+            if (duyguMotoru != null)
+            {
+                duyguMotoru.DuyguAyarla(emotion);
+            }
         }
         catch (System.Exception e)
         {
