@@ -17,6 +17,9 @@ public class GeminiManager : MonoBehaviour
     [Header("Ses Motoru Bağlantısı")]
     public RunJets sesMotoru;
 
+    [Header("İstatistikler Bağlantısı")]
+    public StatisticsManager statisticsManager;
+
     [Header("API Ayarları")]
     // DİKKAT: Eski API anahtarını sildim, Google AI Studio'dan YENİ BİR TANE alıp buraya (ve Unity Inspector'a) yapıştır!
     public string apiKey = "AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg"; 
@@ -161,8 +164,50 @@ public class GeminiManager : MonoBehaviour
             if(!string.IsNullOrEmpty(grammar) && !grammar.ToLower().Contains("kusursuz"))
             {
                 chatText.text += $"\n<color=#FFFF00><i>(Not: {grammar})</i></color>";
+                // Arka planda oyuncunun gramer hatasını logla (Ekranda görünmez)
+                DataLogger.VeriKaydet("Yapay_Zeka", "Gramer_Hatasi", grammar);
+                
+                // İstatistiklere yanlış cevabı ekle
+                if (statisticsManager != null)
+                {
+                    string topic = ExtractTopicFromError(grammar);
+                    statisticsManager.LogWrongAnswer(topic, grammar);
+                }
+            }
+            else
+            {
+                // Doğru cevap kayıt et
+                DataLogger.VeriKaydet("Yapay_Zeka", "Dogu_Cevap", "Gramer kusursuz");
+                
+                // İstatistiklere doğru cevabı ekle
+                if (statisticsManager != null)
+                {
+                    statisticsManager.LogCorrectAnswer("Konuşma Akıcılığı");
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// Gramer hatasından konuyu çıkar
+    /// </summary>
+    private string ExtractTopicFromError(string errorMessage)
+    {
+        string lowerError = errorMessage.ToLower();
+        
+        // Hata mesajında hangi konu geçiyorsa onu döndür
+        if (lowerError.Contains("konu") || lowerError.Contains("subject")) return "Konu Cümlesi";
+        if (lowerError.Contains("fiil") || lowerError.Contains("verb")) return "Fiil Zamanı";
+        if (lowerError.Contains("sıfat") || lowerError.Contains("adjective")) return "Sıfatlandırma";
+        if (lowerError.Contains("isim") || lowerError.Contains("noun")) return "İsim Cümleleri";
+        if (lowerError.Contains("zamir") || lowerError.Contains("pronoun")) return "Zamir Kullanımı";
+        if (lowerError.Contains("virgül") || lowerError.Contains("comma")) return "Noktalama İşaretleri";
+        if (lowerError.Contains("ünlem") || lowerError.Contains("exclamation")) return "İfade Cümleleri";
+        if (lowerError.Contains("soru") || lowerError.Contains("question")) return "Soru Yapısı";
+        if (lowerError.Contains("zaman") || lowerError.Contains("tense")) return "Fiil Zamanı";
+        if (lowerError.Contains("ek") || lowerError.Contains("suffix")) return "Ek Kullanımı";
+        
+        return "Diğer Hatalar";
     }
 
     // Butona basıldığında veya Enter'a basıldığında çalışacak fonksiyon

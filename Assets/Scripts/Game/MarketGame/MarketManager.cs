@@ -63,6 +63,8 @@ public class MarketManager : MonoBehaviour
         if(isCorrect)
         {
             Debug.Log(" Mission Complete ");
+            GameEventSystem.LogAnswer("Market Alışverişi", true);
+            GameEventSystem.LogGameEnd("Market Oyunu", true, npcList.Count * 25);
             currentItems.Clear();
             ExitMiniGame();
 
@@ -74,6 +76,8 @@ public class MarketManager : MonoBehaviour
         else
         {
             Debug.Log(" Mission Failed ");
+            GameEventSystem.LogAnswer("Market Alışverişi", false, "Yanlış ürün seçildi");
+            GameEventSystem.LogGameEnd("Market Oyunu", false, 0);
             currentItems.Clear();
 
             // NPC'ye kaybettiğimizi bildir (lose diyaloğu çalışır, tekrar denenebilir)

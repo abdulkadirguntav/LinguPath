@@ -282,12 +282,14 @@ public class TurnBaseManager : MonoBehaviour
             UpdateHealthUI(); // EKLENDİ
             CheckWinLoseCondition(); // EKLENDİ
             Debug.Log($"Correct! Enemy Took {finalDamage} Damage.");
+            GameEventSystem.LogAnswer("Savaş - Cümle Kurma", true);
             
             if(enemyHP <= 0) return; // Eğer düşman öldüyse düşman turuna (SetupEnemyTurn) geçmesin!
         }
         else
         {
             Debug.Log("Wrong sentence! You missed your attack.");
+            GameEventSystem.LogAnswer("Savaş - Cümle Kurma", false, "Yanlış cümle sırası");
         }
 
         currnetState = GameState.EnemyTurn;
@@ -373,6 +375,7 @@ public class TurnBaseManager : MonoBehaviour
         {
             // Başarılı savunma! Hasar almıyoruz.
             Debug.Log("Kusursuz Blok! Farklı olanı buldun, hasar almadın.");
+            GameEventSystem.LogAnswer("Savaş - Farklı Kelime Bul", true);
         }
         else
         {
@@ -380,6 +383,7 @@ public class TurnBaseManager : MonoBehaviour
             UpdateHealthUI(); // EKLENDİ
             CheckWinLoseCondition(); // EKLENDİ
             Debug.Log($"Yanlış taş! Düşman {enemyBaseDamage} hasar vurdu.");
+            GameEventSystem.LogAnswer("Savaş - Farklı Kelime Bul", false, "Yanlış kelime seçildi");
         
             if(playerHP <= 0) return; // Öldüysek tur bize geçmesin
         }
@@ -430,6 +434,10 @@ public class TurnBaseManager : MonoBehaviour
 
     private void EndBattle(bool isWin)
     {
+        // 🎮 Savaş sonucunu istatistiklere kaydet
+        int finalScore = (int)((100 - enemyHP) * 1.5f);
+        GameEventSystem.LogGameEnd("Savaş", isWin, finalScore);
+        
         // 1. Savaş ekranını kapat, kasabayı aç
         if (battlePanel != null) battlePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);

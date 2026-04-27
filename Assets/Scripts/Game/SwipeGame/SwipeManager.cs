@@ -175,10 +175,12 @@ public class SwipeManager : MonoBehaviour
         if(isSwipedRight == isCurrentSentenceTrue)
         {
             Debug.Log("Tebrikler, Doğru Bildin!");
+            GameEventSystem.LogAnswer("Kelime Eşleştirme", true);
         }
         else
         {
             Debug.Log("Yanlış!");
+            GameEventSystem.LogAnswer("Kelime Eşleştirme", false, "Yanlış kart seçimi");
             currentHealth--;
             
             // UI'daki kalbi söndür
@@ -204,6 +206,9 @@ public class SwipeManager : MonoBehaviour
     // Oyun Bitiş ve NPC'ye Dönüş Sistemi
     private void EndGame(bool isWin)
     {
+        int finalScore = currentCardIndex * 10;
+        GameEventSystem.LogGameEnd("Swipe Kartları", isWin, finalScore);
+        
         // Kaybedildiyse oyunu sıfırla (tekrar denenebilsin diye)
         if (!isWin)
         {
