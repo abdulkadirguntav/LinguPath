@@ -54,7 +54,8 @@ public class NPC : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isPlayerNear = true;
-            ActiveNPC = this; // Oyuncu yanıma geldiğinde "Aktif NPC Benim!" diye bağır
+            ActiveNPC = this;
+
             
             if (interactionButton != null)
             {

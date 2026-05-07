@@ -1,9 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json.Linq;
 using TMPro;
+
+[System.Serializable]
+public class FoxKarakteri
+{
+    public string karakterAdi;
+    [TextArea(3, 6)]
+    public string senaryo;
+}
 
 public class GeminiManager : MonoBehaviour
 {
@@ -21,14 +30,31 @@ public class GeminiManager : MonoBehaviour
     public StatisticsManager statisticsManager;
 
     [Header("API Ayarları")]
-    // DİKKAT: Eski API anahtarını sildim, Google AI Studio'dan YENİ BİR TANE alıp buraya (ve Unity Inspector'a) yapıştır!
-    public string apiKey = "AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg"; 
-    
-    [Header("Senaryo Ayarı")]
-    public string gecerliSenaryo = "Kafe Garsonu";
+    public string apiKey = "AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg";
 
-    // 🚀 ÇÖZÜM 1: Gemini 1.5 Flash (Stabil ve Güvenilir)
+    [Header("Tilki Karakterleri")]
+    public List<FoxKarakteri> karakterler = new();
+    public int aktifKarakterIndex = 0;
+
+    private string gecerliSenaryo = "";
+    private string aktifKarakterAdi = "Tilki";
+
     private string endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+
+    private void Start()
+    {
+        if (karakterler.Count > 0)
+            KarakterSec(aktifKarakterIndex);
+    }
+
+    public void KarakterSec(int index)
+    {
+        if (index < 0 || index >= karakterler.Count) return;
+        aktifKarakterIndex = index;
+        gecerliSenaryo = karakterler[index].senaryo;
+        aktifKarakterAdi = karakterler[index].karakterAdi;
+        if (chatText != null) chatText.text = "";
+    }
 
     public void AskGemini(string playerMessage)
     {
@@ -158,7 +184,7 @@ public class GeminiManager : MonoBehaviour
         // Ekrana Tilkinin cevabını ve gramer notunu yazdırıyoruz (Turuncu ve Sarı renklerde)
         if (chatText != null && !string.IsNullOrEmpty(reply))
         {
-            chatText.text += $"\n<color=#FFA500><b>Tilki:</b></color> {reply}";
+            chatText.text += $"\n<color=#FFA500><b>{aktifKarakterAdi}:</b></color> {reply}";
     
             // Eğer gramer hatası yoksa ("Kusursuz!" döndüyse) ekranda kalabalık yapmasın, varsa yazsın
             if(!string.IsNullOrEmpty(grammar) && !grammar.ToLower().Contains("kusursuz"))
