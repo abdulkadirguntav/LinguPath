@@ -16905,7 +16905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1137004506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25724,7 +25724,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1752040018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30998,8 +30998,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -50
-  far clip plane: 100
+  near clip plane: -150
+  far clip plane: 200
   field of view: 40
   orthographic: 1
   orthographic size: 40
@@ -31046,8 +31046,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 929825510}
-  smoothSpeed: 1
-  offset: {x: -10, y: 25, z: -10}
+  distance: 6
+  height: 3
+  positionSmoothTime: 0.12
+  rotationSmoothTime: 0.25
+  bobFrequency: 1
+  bobAmplitudeVertical: 0.05
+  bobAmplitudeLateral: 0.025
+  tiltMaxAngle: 2.5
+  tiltSmoothTime: 0.25
 --- !u!114 &2115732884
 MonoBehaviour:
   m_ObjectHideFlags: 0
