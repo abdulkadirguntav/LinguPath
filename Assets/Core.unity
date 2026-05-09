@@ -1800,7 +1800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &83577616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14359,9 +14359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0568aab0b39d4d7439747d240ee05efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 10
-  gravity: 9.8
   moveSpeed: 15
+  rotationSmoothTime: 0.08
+  gravity: 9.8
   joystick: {fileID: 746422320}
 --- !u!1 &930354322
 GameObject:
@@ -16772,11 +16772,11 @@ Transform:
   m_GameObject: {fileID: 1113505253}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 670.1731, y: 1586.8505, z: 30.60791}
+  m_LocalPosition: {x: -133.6477, y: -383.22412, z: -109.25635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1801690275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1125515858
 GameObject:
@@ -24331,7 +24331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1674895612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26527,6 +26527,7 @@ Transform:
   m_Children:
   - {fileID: 1074266637}
   - {fileID: 1211659563}
+  - {fileID: 1113505255}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1823503292
@@ -31046,10 +31047,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 929825510}
-  distance: 6
-  height: 3
+  distance: 8
+  height: 5
   positionSmoothTime: 0.12
   rotationSmoothTime: 0.25
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  cameraRadius: 0.3
   bobFrequency: 1
   bobAmplitudeVertical: 0.05
   bobAmplitudeLateral: 0.025
@@ -31215,7 +31220,6 @@ SceneRoots:
   - {fileID: 2115732882}
   - {fileID: 1975241168}
   - {fileID: 189523927}
-  - {fileID: 1113505255}
   - {fileID: 1801690275}
   - {fileID: 83577619}
   - {fileID: 1752040021}

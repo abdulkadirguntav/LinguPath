@@ -4,40 +4,61 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float rotationSpeed = 10f;
-    public float gravity = 9.8f;
     public float moveSpeed = 5f;
+    public float rotationSmoothTime = 0.08f;
+    public float gravity = 20f;
 
     [Header("Controller")]
     public DynamicJoystick joystick;
-    
+
     private CharacterController controller;
-    
+    private float verticalVelocity;
+    private float rotationVelocity;
+    private Camera mainCamera;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        mainCamera = Camera.main;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        // Joystick'ten gelen X ve Y yön verilerini al
         float horizontal = joystick.Horizontal;
-        float Vertical = joystick.Vertical; 
+        float vertical = joystick.Vertical;
 
-        // Hareket vektörünü oluştur
-        Vector3 moveDirection = new Vector3(horizontal, 0f, Vertical).normalized;
+        Vector3 moveDir = Vector3.zero;
 
-        // Karakterin Yüzünü Gittiği Yöne Çevir (Çok havalı görünür)
-        if (moveDirection.magnitude > 0.1f)
+        if (new Vector2(horizontal, vertical).magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = (Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime));
+            // Kamera yönüne göre hareket — joystick "yukarı" = kameranın baktığı yön
+            if (mainCamera != null)
+            {
+                Vector3 camForward = mainCamera.transform.forward;
+                Vector3 camRight = mainCamera.transform.right;
+                camForward.y = 0f;
+                camRight.y = 0f;
+                moveDir = (camForward.normalized * vertical + camRight.normalized * horizontal).normalized;
+            }
+            else
+            {
+                moveDir = new Vector3(horizontal, 0f, vertical).normalized;
+            }
+
+            float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationVelocity, rotationSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
 
-        moveDirection *= moveSpeed;
-        moveDirection.y -= gravity;
+        // Yerçekimi birikimli olarak uygula
+        if (controller.isGrounded)
+            verticalVelocity = -1f;
+        else
+            verticalVelocity -= gravity * Time.deltaTime;
 
+        Vector3 motion = moveDir * moveSpeed;
+        motion.y = verticalVelocity;
 
-        controller.Move(moveDirection * Time.deltaTime);
+        controller.Move(motion * Time.deltaTime);
     }
 }

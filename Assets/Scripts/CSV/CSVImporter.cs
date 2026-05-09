@@ -1,6 +1,7 @@
+#if UNITY_EDITOR
 using UnityEngine;
-using UnityEditor; // Editör araçları için ŞART
-using System.IO;   // Dosya okuma işlemleri için ŞART
+using UnityEditor;
+using System.IO;
 
 public class CSVImporter : EditorWindow
 {
@@ -68,3 +69,4 @@ public class CSVImporter : EditorWindow
         Debug.Log($"🎉 Otomasyon Tamamlandı! Toplam {sayac} adet kelime üretildi. Klasör: {saveFolder}");
     }
 }
+#endif
