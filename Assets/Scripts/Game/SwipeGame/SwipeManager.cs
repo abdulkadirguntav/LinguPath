@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// 1. Veri Yapımız (CSV'den dolacak)
 [System.Serializable]
 public class SwipeCardData
 {
@@ -11,22 +10,22 @@ public class SwipeCardData
     public string imageName;
     public string correctSentence;
     public string wrongSentence;
-    public Sprite cardSprite; // Resim hafızada tutulacak
+    public Sprite cardSprite;
 }
 
 public class SwipeManager : MonoBehaviour
 {
-    [Header("Veritabanı (Otomatik Dolacak)")]
-    public List<SwipeCardData> allCards = new List<SwipeCardData>(); 
-    
-    [Header("UI Referances")]
+    [Header("Database (Auto-filled)")]
+    public List<SwipeCardData> allCards = new List<SwipeCardData>();
+
+    [Header("UI References")]
     public TMP_Text targetSentencesText;
     public Image activeCardImage;
     public List<GameObject> heartIcons = new List<GameObject>();
 
     [Header("Core Loop Connections")]
-    public GameObject swipePanel; // Bu oyunun ana paneli
-    public GameObject mainGameUI; // Joystick paneli
+    public GameObject swipePanel;
+    public GameObject mainGameUI;
 
     [Header("Physics Memory")]
     Vector3 initialPosition;
@@ -35,67 +34,31 @@ public class SwipeManager : MonoBehaviour
     [Header("Check & Player Data")]
     bool isCurrentSentenceTrue;
     int currentHealth = 3;
-    int currentCardIndex = 0; // Destede kaçıncı karttayız
+    int currentCardIndex = 0;
 
     void Start()
     {
         ResetGame();
         LoadSwipeData();
-        ShuffleCards(); // Kartları her oyunda çorba et
+        ShuffleCards();
         LoadNextCard();
     }
 
     public void ResetGame()
     {
-        initialPosition = activeCardImage.transform.localPosition;  
+        initialPosition = activeCardImage.transform.localPosition;
         initialRotation = activeCardImage.transform.localRotation;
-        currentHealth = heartIcons.Count; // Canı UI'daki kalp sayısına eşitle
-        currentCardIndex = 0; // Kart indeksini sıfırla
-        
-        // Kalpleri aktif et
+        currentHealth = heartIcons.Count;
+        currentCardIndex = 0;
+
         foreach (GameObject heart in heartIcons)
-        {
             if (heart != null) heart.SetActive(true);
-        }
-    
-        initialPosition = activeCardImage.transform.localPosition;  
-        initialRotation = activeCardImage.transform.localRotation;
-        currentHealth = heartIcons.Count; // Canı UI'daki kalp sayısına eşitle
-        currentCardIndex = 0; // Kart indeksini sıfırla
-        
-        // Kalpleri aktif et
-        foreach (GameObject heart in heartIcons)
-        {
-            if (heart != null) heart.SetActive(true);
-        }
-    
-        initialPosition = activeCardImage.transform.localPosition;  
-        initialRotation = activeCardImage.transform.localRotation;
-        currentHealth = heartIcons.Count; // Canı UI'daki kalp sayısına eşitle
-        currentCardIndex = 0; // Kart indeksini sıfırla
-        
-        // Kalpleri aktif et
-        foreach (GameObject heart in heartIcons)
-        {
-            if (heart != null) heart.SetActive(true);
-        }
-    
-        initialPosition = activeCardImage.transform.localPosition;  
-        initialRotation = activeCardImage.transform.localRotation;
-        currentHealth = heartIcons.Count; // Canı UI'daki kalp sayısına eşitle
-        currentCardIndex = 0; // Kart indeksini sıfırla
-        
-        // Kalpleri aktif et
-        foreach (GameObject heart in heartIcons)
-        {
-            if (heart != null) heart.SetActive(true);
-        }
     }
 
     private void LoadSwipeData()
     {
         TextAsset csvData = Resources.Load<TextAsset>("SwipeCards");
-        if (csvData == null) { Debug.LogError("SwipeCards.csv bulunamadı!"); return; }
+        if (csvData == null) { Debug.LogError("SwipeCards.csv not found!"); return; }
 
         string[] dataLines = csvData.text.Split(new char[] { '\n' });
         for (int i = 1; i < dataLines.Length; i++)
@@ -111,14 +74,11 @@ public class SwipeManager : MonoBehaviour
                 newCard.imageName = columns[1].Trim();
                 newCard.correctSentence = columns[2].Trim();
                 newCard.wrongSentence = columns[3].Trim();
-                
-                // Resmi MarketIcons klasöründen çek
                 newCard.cardSprite = Resources.Load<Sprite>("Icons/" + newCard.imageName);
-
                 allCards.Add(newCard);
             }
         }
-        Debug.Log("Swipe Veritabanı Yüklendi! Toplam Kart: " + allCards.Count);
+        Debug.Log("Swipe database loaded! Total cards: " + allCards.Count);
     }
 
     private void ShuffleCards()
@@ -134,113 +94,94 @@ public class SwipeManager : MonoBehaviour
 
     void LoadNextCard()
     {
-        // 1. Kartlar bittiyse oyunu kazanarak bitir
-        if(currentCardIndex >= allCards.Count)
+        if (currentCardIndex >= allCards.Count)
         {
-            Debug.Log("Bütün kartlar bitti, Kazandın!");
-            EndGame(true); 
+            Debug.Log("All cards done, you win!");
+            EndGame(true);
             return;
         }
 
-        // 2. Sıradaki kartı al
         SwipeCardData currentCard = allCards[currentCardIndex];
-        
-        if(currentCard.cardSprite != null)
+
+        if (currentCard.cardSprite != null)
             activeCardImage.sprite = currentCard.cardSprite;
         else
-            Debug.LogWarning(currentCard.imageName + " resmi bulunamadı!");
+            Debug.LogWarning(currentCard.imageName + " image not found!");
 
-        // 3. Yazıyı %50 ihtimalle doğru, %50 ihtimalle yanlış seç
         int randomChoice = Random.Range(0, 2);
-        if(randomChoice == 0)
+        if (randomChoice == 0)
         {
             targetSentencesText.text = currentCard.correctSentence;
-            isCurrentSentenceTrue = true; // Oyuncu bunu SAĞA atmalı
+            isCurrentSentenceTrue = true;
         }
         else
         {
             targetSentencesText.text = currentCard.wrongSentence;
-            isCurrentSentenceTrue = false; // Oyuncu bunu SOLA atmalı
+            isCurrentSentenceTrue = false;
         }
 
-        // 4. Kartı fiziksel olarak merkeze sıfırla
         activeCardImage.transform.localPosition = initialPosition;
         activeCardImage.transform.localRotation = initialRotation;
     }
 
-    // SwipeCard.cs scripti (parmak çekildiğinde) bu fonksiyonu tetikler
     public void CardSwiped(bool isSwipedRight)
     {
-        // Doğru mu bildi? (Doğru cümleyi sağa attıysa veya yanlış cümleyi sola attıysa kazanır)
-        if(isSwipedRight == isCurrentSentenceTrue)
+        if (isSwipedRight == isCurrentSentenceTrue)
         {
-            Debug.Log("Tebrikler, Doğru Bildin!");
-            GameEventSystem.LogAnswer("Kelime Eşleştirme", true);
+            Debug.Log("Correct!");
+            GameEventSystem.LogAnswer("Vocabulary Matching", true);
         }
         else
         {
-            Debug.Log("Yanlış!");
-            GameEventSystem.LogAnswer("Kelime Eşleştirme", false, "Yanlış kart seçimi");
+            Debug.Log("Wrong!");
+            GameEventSystem.LogAnswer("Vocabulary Matching", false, "Wrong card swipe");
             currentHealth--;
-            
-            // UI'daki kalbi söndür
-            if(currentHealth >= 0 && currentHealth < heartIcons.Count)
-            {
+
+            if (currentHealth >= 0 && currentHealth < heartIcons.Count)
                 heartIcons[currentHealth].SetActive(false);
-            }
-            
-            // Can bittiyse oyunu kaybederek bitir
-            if(currentHealth <= 0 )
+
+            if (currentHealth <= 0)
             {
-                Debug.Log("Game Over! Canın bitti.");
-                EndGame(false); 
+                Debug.Log("Game Over! No lives remaining.");
+                EndGame(false);
                 return;
             }
         }
 
-        // Sonraki karta geç
         currentCardIndex++;
         LoadNextCard();
     }
 
-    // Oyun Bitiş ve NPC'ye Dönüş Sistemi
     private void EndGame(bool isWin)
     {
         int finalScore = currentCardIndex * 10;
-        GameEventSystem.LogGameEnd("Swipe Kartları", isWin, finalScore);
-        
-        // Kaybedildiyse oyunu sıfırla (tekrar denenebilsin diye)
+        GameEventSystem.LogGameEnd("Swipe Cards", isWin, finalScore);
+
         if (!isWin)
         {
             currentCardIndex = 0;
             currentHealth = heartIcons.Count;
             foreach (GameObject heart in heartIcons)
                 if (heart != null) heart.SetActive(true);
-            ShuffleCards(); // Kartları yeniden karıştır
-            LoadNextCard(); // İlk kartı hazırla
+            ShuffleCards();
+            LoadNextCard();
         }
 
         if (swipePanel != null) swipePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);
 
-        // Teyzeye/NPC'ye haber ver, diyaloğu patlatsın!
         if (NPC.ActiveNPC != null)
-        {
             NPC.ActiveNPC.FinishMission(isWin);
-        }
     }
+
     public void ExitSwipeGame()
     {
-        Debug.Log("Swipe oyunundan çıkıldı! Kasabaya dönülüyor...");
-        
-        // Yeniden girerse diye canı fullüyoruz
+        Debug.Log("Exited swipe game, returning to town.");
+
         currentHealth = heartIcons.Count;
         foreach (GameObject heart in heartIcons)
-        {
             if (heart != null) heart.SetActive(true);
-        }
 
-        // Oyunu kapat, kasabayı aç
         if (swipePanel != null) swipePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);
     }

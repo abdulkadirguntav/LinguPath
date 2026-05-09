@@ -3,13 +3,9 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-/// <summary>
-/// İstatistikler için basit ve hızlı UI oluşturan sınıf
-/// Canvas'ınızda bir boş GameObject'e bunu ekleyin ve çalıştırın
-/// </summary>
 public class SimpleStatisticsPanel : MonoBehaviour
 {
-    [Header("Ayarlar")]
+    [Header("Settings")]
     public bool createUIOnStart = true;
     public Button toggleButton;
 
@@ -20,16 +16,11 @@ public class SimpleStatisticsPanel : MonoBehaviour
     void Start()
     {
         statisticsManager = StatisticsManager.instance;
-
-        if (createUIOnStart)
-        {
-            CreateSimpleUI();
-        }
+        if (createUIOnStart) CreateSimpleUI();
     }
 
     public void CreateSimpleUI()
     {
-        // Ana paneli oluştur
         mainPanel = new GameObject("StatisticsPanel");
         mainPanel.transform.SetParent(transform);
         mainPanel.transform.localScale = Vector3.one;
@@ -43,7 +34,6 @@ public class SimpleStatisticsPanel : MonoBehaviour
         Image panelImage = mainPanel.AddComponent<Image>();
         panelImage.color = new Color(0.1f, 0.1f, 0.1f, 0.95f);
 
-        // Scroll View oluştur
         GameObject scrollObj = new GameObject("ScrollView");
         scrollObj.transform.SetParent(mainPanel.transform);
         RectTransform scrollRect = scrollObj.AddComponent<RectTransform>();
@@ -56,7 +46,6 @@ public class SimpleStatisticsPanel : MonoBehaviour
         scroll.vertical = true;
         scroll.horizontal = false;
 
-        // Content oluştur
         GameObject contentObj = new GameObject("Content");
         contentObj.transform.SetParent(scrollObj.transform);
         RectTransform contentRect = contentObj.AddComponent<RectTransform>();
@@ -76,29 +65,18 @@ public class SimpleStatisticsPanel : MonoBehaviour
 
         scroll.content = contentRect;
 
-        // Genel İstatistikler Başlığı
-        AddTitle(contentObj.transform, "📊 İSTATİSTİKLER");
-
-        // Genel Stats
-        AddStatLine(contentObj.transform, "🎯 Başarı Oranı: --", "OverallSuccess");
-        AddStatLine(contentObj.transform, "📝 Toplam Denemeler: --", "TotalAttempts");
-        AddStatLine(contentObj.transform, "✅ Doğru Cevaplar: --", "CorrectAnswers");
-        AddStatLine(contentObj.transform, "❌ Yanlış Cevaplar: --", "WrongAnswers");
-
-        // Boşluk
+        AddTitle(contentObj.transform, "📊 STATISTICS");
+        AddStatLine(contentObj.transform, "🎯 Success Rate: --", "OverallSuccess");
+        AddStatLine(contentObj.transform, "📝 Total Attempts: --", "TotalAttempts");
+        AddStatLine(contentObj.transform, "✅ Correct Answers: --", "CorrectAnswers");
+        AddStatLine(contentObj.transform, "❌ Wrong Answers: --", "WrongAnswers");
         AddSpacer(contentObj.transform);
-
-        // En İyi Konular
-        AddTitle(contentObj.transform, "🌟 EN İYİ KONULAR");
+        AddTitle(contentObj.transform, "🌟 BEST TOPICS");
         AddTopicsList(contentObj.transform, true);
-
         AddSpacer(contentObj.transform);
-
-        // En Zayıf Konular
-        AddTitle(contentObj.transform, "⚠️ GELİŞTİRİLMESİ GEREKEN KONULAR");
+        AddTitle(contentObj.transform, "⚠️ TOPICS TO IMPROVE");
         AddTopicsList(contentObj.transform, false);
 
-        // Kapatma Butonu
         GameObject closeButtonObj = new GameObject("CloseButton");
         closeButtonObj.transform.SetParent(mainPanel.transform);
         RectTransform closeRect = closeButtonObj.AddComponent<RectTransform>();
@@ -120,29 +98,23 @@ public class SimpleStatisticsPanel : MonoBehaviour
         closeText.fontSize = 40;
         closeText.alignment = TextAlignmentOptions.Center;
 
-        // İlk olarak paneli gizle
         mainPanel.SetActive(false);
 
-        // Aç/Kapat butonu ekle
         if (toggleButton != null)
-        {
             toggleButton.onClick.AddListener(TogglePanel);
-        }
 
-        Debug.Log("✅ İstatistik Paneli oluşturuldu!");
+        Debug.Log("Statistics panel created!");
     }
 
     private void AddTitle(Transform parent, string text)
     {
         GameObject titleObj = new GameObject("Title");
         titleObj.transform.SetParent(parent);
-
         TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
         titleText.text = text;
         titleText.fontSize = 36;
         titleText.alignment = TextAlignmentOptions.MidlineLeft;
         titleText.color = new Color(1, 1, 0.5f);
-
         LayoutElement le = titleObj.AddComponent<LayoutElement>();
         le.preferredHeight = 60;
     }
@@ -151,23 +123,19 @@ public class SimpleStatisticsPanel : MonoBehaviour
     {
         GameObject statObj = new GameObject("Stat_" + tagName);
         statObj.transform.SetParent(parent);
-
         TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
         statText.text = text;
         statText.fontSize = 28;
         statText.alignment = TextAlignmentOptions.MidlineLeft;
-
         LayoutElement le = statObj.AddComponent<LayoutElement>();
         le.preferredHeight = 50;
-
-        statObj.name = tagName; // Tag olarak kullan
+        statObj.name = tagName;
     }
 
     private void AddSpacer(Transform parent)
     {
         GameObject spacerObj = new GameObject("Spacer");
         spacerObj.transform.SetParent(parent);
-
         LayoutElement le = spacerObj.AddComponent<LayoutElement>();
         le.preferredHeight = 20;
     }
@@ -182,72 +150,55 @@ public class SimpleStatisticsPanel : MonoBehaviour
         {
             TextMeshProUGUI noDataText = new GameObject("NoData").AddComponent<TextMeshProUGUI>();
             noDataText.transform.SetParent(parent);
-            noDataText.text = "Henüz veri yok";
+            noDataText.text = "No data yet";
             noDataText.fontSize = 20;
             return;
         }
 
         foreach (TopicStats topic in topics)
         {
-            // Konu container'ı
             GameObject topicObj = new GameObject("Topic_" + topic.topicName);
             topicObj.transform.SetParent(parent);
-
             Image topicImage = topicObj.AddComponent<Image>();
             topicImage.color = new Color(0.2f, 0.2f, 0.3f);
-
             LayoutElement le = topicObj.AddComponent<LayoutElement>();
             le.preferredHeight = 80;
-
             HorizontalLayoutGroup hlg = topicObj.AddComponent<HorizontalLayoutGroup>();
             hlg.spacing = 10;
             hlg.padding = new RectOffset(10, 10, 5, 5);
 
-            // Konu Adı ve İstatistikler
             GameObject infoObj = new GameObject("Info");
             infoObj.transform.SetParent(topicObj.transform);
-
             TextMeshProUGUI infoText = infoObj.AddComponent<TextMeshProUGUI>();
             infoText.text = $"<b>{topic.topicName}</b>\n" +
-                           $"Başarı: {topic.successRate:F1}% | ✅ {topic.correctAnswers} ❌ {topic.wrongAnswers}\n" +
+                           $"Success: {topic.successRate:F1}% | ✅ {topic.correctAnswers} ❌ {topic.wrongAnswers}\n" +
                            $"{topic.GetPerformanceLevel()}";
             infoText.fontSize = 20;
-
             LayoutElement infoLe = infoObj.AddComponent<LayoutElement>();
             infoLe.preferredWidth = 400;
             infoLe.flexibleWidth = 1;
 
-            // Progress Bar
             GameObject barObj = new GameObject("ProgressBar");
             barObj.transform.SetParent(topicObj.transform);
-
             Image barBg = barObj.AddComponent<Image>();
             barBg.color = new Color(0.1f, 0.1f, 0.1f);
-
             LayoutElement barLe = barObj.AddComponent<LayoutElement>();
             barLe.preferredWidth = 150;
             barLe.preferredHeight = 30;
 
-            // Bar Fill
             GameObject fillObj = new GameObject("Fill");
             fillObj.transform.SetParent(barObj.transform);
-
             RectTransform fillRect = fillObj.AddComponent<RectTransform>();
             fillRect.anchorMin = new Vector2(0, 0);
             fillRect.anchorMax = new Vector2(0, 1);
             fillRect.offsetMin = Vector2.zero;
             fillRect.offsetMax = Vector2.zero;
             fillRect.sizeDelta = new Vector2(topic.successRate * 1.5f, 0);
-
             Image fillImage = fillObj.AddComponent<Image>();
-            if (topic.successRate >= 90)
-                fillImage.color = Color.green;
-            else if (topic.successRate >= 75)
-                fillImage.color = new Color(0, 1, 1);
-            else if (topic.successRate >= 50)
-                fillImage.color = Color.yellow;
-            else
-                fillImage.color = Color.red;
+            if (topic.successRate >= 90) fillImage.color = Color.green;
+            else if (topic.successRate >= 75) fillImage.color = new Color(0, 1, 1);
+            else if (topic.successRate >= 50) fillImage.color = Color.yellow;
+            else fillImage.color = Color.red;
         }
     }
 
@@ -257,9 +208,7 @@ public class SimpleStatisticsPanel : MonoBehaviour
         {
             mainPanel.SetActive(!mainPanel.activeSelf);
             isPanelOpen = mainPanel.activeSelf;
-            
-            if (isPanelOpen)
-                RefreshUI();
+            if (isPanelOpen) RefreshUI();
         }
     }
 
@@ -267,22 +216,19 @@ public class SimpleStatisticsPanel : MonoBehaviour
     {
         if (mainPanel == null || statisticsManager == null) return;
 
-        // Genel istatistikleri güncelle
         Transform content = mainPanel.transform.Find("ScrollView/Content");
         if (content == null) return;
 
-        UpdateStatText(content, "OverallSuccess", 
-            $"🎯 Başarı Oranı: <color=#FFD700>{statisticsManager.GetOverallSuccessRate():F1}%</color>");
-        
+        UpdateStatText(content, "OverallSuccess",
+            $"🎯 Success Rate: <color=#FFD700>{statisticsManager.GetOverallSuccessRate():F1}%</color>");
         UpdateStatText(content, "TotalAttempts",
-            $"📝 Toplam Denemeler: <color=#00FF00>{statisticsManager.GetTotalAttempts()}</color>");
+            $"📝 Total Attempts: <color=#00FF00>{statisticsManager.GetTotalAttempts()}</color>");
 
         StatisticsData stats = statisticsManager.GetStatisticsData();
         UpdateStatText(content, "CorrectAnswers",
-            $"✅ Doğru Cevaplar: <color=#00FF00>{stats.totalCorrectAnswers}</color>");
-        
+            $"✅ Correct Answers: <color=#00FF00>{stats.totalCorrectAnswers}</color>");
         UpdateStatText(content, "WrongAnswers",
-            $"❌ Yanlış Cevaplar: <color=#FF0000>{stats.totalWrongAnswers}</color>");
+            $"❌ Wrong Answers: <color=#FF0000>{stats.totalWrongAnswers}</color>");
     }
 
     private void UpdateStatText(Transform parent, string tagName, string newText)
@@ -292,10 +238,7 @@ public class SimpleStatisticsPanel : MonoBehaviour
             if (child.name == tagName)
             {
                 TextMeshProUGUI text = child.GetComponent<TextMeshProUGUI>();
-                if (text != null)
-                {
-                    text.text = newText;
-                }
+                if (text != null) text.text = newText;
                 break;
             }
         }

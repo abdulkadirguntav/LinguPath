@@ -3,27 +3,19 @@ using System.IO;
 
 public static class DataLogger
 {
-    // Dosyanın bilgisayarda gizlice kaydedileceği evrensel yol
-    private static string dosyaYolu = Application.persistentDataPath + "/OyuncuVerileri.csv";
+    private static string filePath = Application.persistentDataPath + "/PlayerData.csv";
 
-    // İstediğimiz yerden DataLogger.VeriKaydet() diyerek çağıracağımız fonksiyon
-    public static void VeriKaydet(string kategori, string olay, string detay)
+    public static void LogData(string category, string eventType, string detail)
     {
-        // Eğer oyun ilk defa açılıyorsa ve dosya yoksa, önce en üste başlıkları yaz (Tarih yok)
-        if (!File.Exists(dosyaYolu))
+        if (!File.Exists(filePath))
         {
-            string baslik = "Kategori,Olay,Detay\n";
-            File.WriteAllText(dosyaYolu, baslik);
+            string header = "Category,Event,Detail\n";
+            File.WriteAllText(filePath, header);
         }
 
-        // CSV formatında aralara virgül koyarak satırı oluştur
-        // (Detay kısmında oyuncu cümlesinde virgül geçerse kod bozulmasın diye onu tırnak içine alıyoruz)
-        string yeniSatir = $"{kategori},{olay},\"{detay}\"\n";
-        
-        // Satırı dosyanın en altına gizlice ekle
-        File.AppendAllText(dosyaYolu, yeniSatir);
+        string newRow = $"{category},{eventType},\"{detail}\"\n";
+        File.AppendAllText(filePath, newRow);
 
-        // Sadece senin Unity konsolunda görmen için ufak bir log
-        Debug.Log("📊 ARKA PLAN VERİSİ KAYDEDİLDİ: " + yeniSatir);
+        Debug.Log("Background data logged: " + newRow);
     }
 }

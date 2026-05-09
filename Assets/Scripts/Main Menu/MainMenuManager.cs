@@ -1,16 +1,23 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Sahneler arası geçiş için bu kütüphane şart
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    // PLAY butonu tetikleyecek
+    [Header("Paneller")]
+    public GameObject mainMenuPanel;
+    public GameObject characterCreatorPanel;
+
     public void PlayGame()
     {
-        // Mevcut sahneden bir sonraki sahneye (oyun sahnesine) geçer
+        // Kayıtlı karakter yoksa önce oluşturma ekranını aç
+        if (CharacterSaveManager.instance == null || !CharacterSaveManager.instance.HasSavedCharacter())
+        {
+            if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+            if (characterCreatorPanel != null) characterCreatorPanel.SetActive(true);
+            return;
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        
-        // Veya direkt ismen de çağırabilirsin:
-        // SceneManager.LoadScene("OyunLevel_1");
     }
 
     // SETTINGS butonu tetikleyecek

@@ -24,35 +24,28 @@ public class MarketManager : MonoBehaviour
         currentItems.Clear();
     }
 
-    // sepete ekleme fonksiyonu şu şekilde çalışacak = parametre olarak string alacak ve public olacak. parametre olarak gelen ürün mevcut sepete eklenmeli.
-
     public void AddItemToCart(string itemName)
     {
         currentItems.Add(itemName);
-        Debug.Log(itemName + "Added to Cart" + currentItems.Count);
+        Debug.Log(itemName + " added to cart. Count: " + currentItems.Count);
     }
 
     public void Checked()
     {
-        // Sepetteki Ürün Sayısı Eşleşiyor mu ? 
-        if(currentItems.Count != npcList.Count)
+        if (currentItems.Count != npcList.Count)
         {
-            Debug.Log("Wrong Order! Order Count mismatch. Cart emptying.");
+            Debug.Log("Wrong order! Item count mismatch. Clearing cart.");
             currentItems.Clear();
             return;
         }
 
-        // Sepetteki Ürünler Eşleşiyor mu ?
-
-        List<string> tempCart = new List<string>(npcList); // NPC'nin istediği ürünleri geçici bir listeye kopyala
+        List<string> tempCart = new List<string>(npcList);
         bool isCorrect = true;
 
         foreach (string item in currentItems)
         {
-            if(tempCart.Contains(item))
-            {
+            if (tempCart.Contains(item))
                 tempCart.Remove(item);
-            }
             else
             {
                 isCorrect = false;
@@ -60,28 +53,25 @@ public class MarketManager : MonoBehaviour
             }
         }
 
-        if(isCorrect)
+        if (isCorrect)
         {
-            Debug.Log(" Mission Complete ");
-            GameEventSystem.LogAnswer("Market Alışverişi", true);
-            GameEventSystem.LogGameEnd("Market Oyunu", true, npcList.Count * 25);
+            Debug.Log("Mission Complete!");
+            GameEventSystem.LogAnswer("Market Shopping", true);
+            GameEventSystem.LogGameEnd("Market Game", true, npcList.Count * 25);
             currentItems.Clear();
             ExitMiniGame();
 
-            if(NPC.ActiveNPC != null)
-            {
+            if (NPC.ActiveNPC != null)
                 NPC.ActiveNPC.FinishMission(true);
-            }
         }
         else
         {
-            Debug.Log(" Mission Failed ");
-            GameEventSystem.LogAnswer("Market Alışverişi", false, "Yanlış ürün seçildi");
-            GameEventSystem.LogGameEnd("Market Oyunu", false, 0);
+            Debug.Log("Mission Failed!");
+            GameEventSystem.LogAnswer("Market Shopping", false, "Wrong item selected");
+            GameEventSystem.LogGameEnd("Market Game", false, 0);
             currentItems.Clear();
 
-            // NPC'ye kaybettiğimizi bildir (lose diyaloğu çalışır, tekrar denenebilir)
-            if(NPC.ActiveNPC != null)
+            if (NPC.ActiveNPC != null)
             {
                 ExitMiniGame();
                 NPC.ActiveNPC.FinishMission(false);
@@ -92,42 +82,35 @@ public class MarketManager : MonoBehaviour
     public void ExitMiniGame()
     {
         currentItems.Clear();
-
-        if(marketPanel != null) marketPanel.SetActive(false);
-        if(mainGameUI != null) mainGameUI.SetActive(true);
-
-        Debug.Log("Marketten çıkıldı, kasabaya dönüldü");
+        if (marketPanel != null) marketPanel.SetActive(false);
+        if (mainGameUI != null) mainGameUI.SetActive(true);
+        Debug.Log("Exited market, returned to town.");
     }
 
     public void OpenCartUI()
     {
-        if(cartPanel != null) cartPanel.SetActive(true);
+        if (cartPanel != null) cartPanel.SetActive(true);
         RefreshCartUI();
     }
 
     public void RefreshCartUI()
     {
-        foreach(Transform child in cartContentParent)
-        {
+        foreach (Transform child in cartContentParent)
             Destroy(child.gameObject);
-        }
 
-        foreach(string item in currentItems)
+        foreach (string item in currentItems)
         {
             GameObject newCartObj = Instantiate(cartItemPrefab, cartContentParent);
             CartItemUI cartUI = newCartObj.GetComponent<CartItemUI>();
-            if(cartUI!= null)
-            {
+            if (cartUI != null)
                 cartUI.SetupCartItem(item, this);
-            }
         }
     }
 
     public void RemoveItemFromCart(string itemName)
     {
         currentItems.Remove(itemName);
-        Debug.Log(itemName + "sepetten çıkarıldı. Kalan " + currentItems.Count);
-
+        Debug.Log(itemName + " removed from cart. Remaining: " + currentItems.Count);
         RefreshCartUI();
     }
 }

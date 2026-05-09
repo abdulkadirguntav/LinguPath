@@ -7,106 +7,96 @@ using Newtonsoft.Json.Linq;
 using TMPro;
 
 [System.Serializable]
-public class FoxKarakteri
+public class FoxCharacter
 {
-    public string karakterAdi;
+    public string characterName;
     [TextArea(3, 6)]
-    public string senaryo;
+    public string scenario;
 }
 
 public class GeminiManager : MonoBehaviour
 {
-    [Header("Bağlantılar")]
-    public FoxEmotionController duyguMotoru;
+    [Header("References")]
+    public FoxEmotionController emotionEngine;
 
-    [Header("UI Ayarları")]
+    [Header("UI Settings")]
     public TextMeshProUGUI chatText;
     public TMP_InputField chatInput;
 
-    [Header("Ses Motoru Bağlantısı")]
-    public RunJets sesMotoru;
+    [Header("Audio Engine")]
+    public RunJets audioEngine;
 
-    [Header("İstatistikler Bağlantısı")]
+    [Header("Statistics")]
     public StatisticsManager statisticsManager;
 
-    [Header("API Ayarları")]
+    [Header("API Settings")]
     public string apiKey = "AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg";
 
-    [Header("Tilki Karakterleri")]
-    public List<FoxKarakteri> karakterler = new();
-    public int aktifKarakterIndex = 0;
+    [Header("Fox Characters")]
+    public List<FoxCharacter> characters = new();
+    public int activeCharacterIndex = 0;
 
-    private string gecerliSenaryo = "";
-    private string aktifKarakterAdi = "Tilki";
+    private string currentScenario = "";
+    private string activeCharacterName = "Fox";
 
     private string endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
     private void Start()
     {
-        if (karakterler.Count > 0)
-            KarakterSec(aktifKarakterIndex);
+        if (characters.Count > 0)
+            SelectCharacter(activeCharacterIndex);
     }
 
-    public void KarakterSec(int index)
+    public void SelectCharacter(int index)
     {
-        if (index < 0 || index >= karakterler.Count) return;
-        aktifKarakterIndex = index;
-        gecerliSenaryo = karakterler[index].senaryo;
-        aktifKarakterAdi = karakterler[index].karakterAdi;
+        if (index < 0 || index >= characters.Count) return;
+        activeCharacterIndex = index;
+        currentScenario = characters[index].scenario;
+        activeCharacterName = characters[index].characterName;
         if (chatText != null) chatText.text = "";
     }
 
     public void AskGemini(string playerMessage)
     {
-        StartCoroutine(SendRequest(playerMessage, gecerliSenaryo));
+        StartCoroutine(SendRequest(playerMessage, currentScenario));
     }
 
     private IEnumerator SendRequest(string playerMessage, string scenario)
     {
-        // API Key kontrol
         if (string.IsNullOrEmpty(apiKey))
         {
-            Debug.LogError("❌ API Key boş! Google AI Studio'dan yeni bir API Key alıp Inspector'a yapıştır!");
+            Debug.LogError("API Key is empty! Get a new key from Google AI Studio and paste it in the Inspector.");
             yield break;
         }
 
         string url = endpoint + "?key=" + apiKey;
 
-        string systemPrompt = $"Sen bir İngilizce dil mentorusun. Şu anki rolün: {scenario}. " +
-            "Oyuncu sana İngilizce bir şey söyleyecek. Rolden çıkmadan ona İngilizce cevap ver. " +
-            "Bana SADECE şu formatta bir JSON döndür, hiçbir markdown veya açıklama yazma: " +
-            "{\"reply\": \"rolüne uygun İngilizce cevabın\", \"grammar_feedback\": \"varsa gramer hatası ve Türkçe açıklaması, yoksa 'Kusursuz!' yaz\", \"emotion\": \"verdiğin cevaba göre şu duygulardan birini seç: happy, sad veya neutral\"}";
+        string systemPrompt = $"You are an English language mentor. Your current role: {scenario}. " +
+            "The player will say something in English. Reply in English without breaking character. " +
+            "Return ONLY this JSON format, no markdown or explanation: " +
+            "{\"reply\": \"your in-character English reply\", \"grammar_feedback\": \"grammar error with explanation if any, otherwise write 'Perfect!'\", \"emotion\": \"choose one: happy, sad or neutral\"}";
 
-        // 🚀 ÇÖZÜM 2: Google'ın resmi isimlendirme standartları (CamelCase) ile güncellendi
         JObject payload = new JObject
         {
             ["systemInstruction"] = new JObject
             {
-                ["parts"] = new JArray
-                {
-                    new JObject { ["text"] = systemPrompt }
-                }
+                ["parts"] = new JArray { new JObject { ["text"] = systemPrompt } }
             },
             ["contents"] = new JArray
             {
                 new JObject
                 {
-                    ["parts"] = new JArray
-                    {
-                        new JObject { ["text"] = playerMessage }
-                    }
+                    ["parts"] = new JArray { new JObject { ["text"] = playerMessage } }
                 }
             },
             ["generationConfig"] = new JObject
             {
-                ["responseMimeType"] = "application/json" 
+                ["responseMimeType"] = "application/json"
             }
         };
 
         string jsonData = payload.ToString();
-
-        Debug.Log("🦊 Tilki Düşünüyor... (API'ye İstek Gitti)");
-        Debug.Log("📤 URL: " + url);
+        Debug.Log("Fox is thinking... (Request sent to API)");
 
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
@@ -114,23 +104,15 @@ public class GeminiManager : MonoBehaviour
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
-            request.timeout = 30; // 30 saniye timeout
+            request.timeout = 30;
 
             yield return request.SendWebRequest();
 
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("❌ API Hatası: " + request.error);
-                Debug.LogError("📍 HTTP Code: " + request.responseCode);
-                Debug.LogError("📄 Response: " + request.downloadHandler.text);
-                
-                if (request.responseCode == 503)
-                {
-                    Debug.LogError("🚨 503 Service Unavailable - Olası nedenleri:");
-                    Debug.LogError("   1. API Key geçersiz veya revoke edilmiş");
-                    Debug.LogError("   2. Endpoint/Model adı hatalı");
-                    Debug.LogError("   3. Google API servisi geçici olarak kapalı");
-                }
+                Debug.LogError("API Error: " + request.error);
+                Debug.LogError("HTTP Code: " + request.responseCode);
+                Debug.LogError("Response: " + request.downloadHandler.text);
             }
             else
             {
@@ -143,57 +125,44 @@ public class GeminiManager : MonoBehaviour
     {
         string reply = "";
         string grammar = "";
-        string emotion = "neutral"; // Yeni: Duygu değişkenimiz (varsayılanı nötr yaptık)
-        
+        string emotion = "neutral";
+
         try
         {
             JObject data = JObject.Parse(jsonResponse);
             string textResult = data["candidates"][0]["content"]["parts"][0]["text"].ToString();
-
             JObject finalData = JObject.Parse(textResult);
 
-            reply = finalData["reply"]?.ToString() ?? "Cevap alınamadı";
-            grammar = finalData["grammar_feedback"]?.ToString() ?? "Gramer notu alınamadı";
-            
-            // Yeni: Duyguyu da senin yazdığın gibi güvenli (null check ile) çekiyoruz
+            reply = finalData["reply"]?.ToString() ?? "No response received";
+            grammar = finalData["grammar_feedback"]?.ToString() ?? "No grammar note received";
             emotion = finalData["emotion"]?.ToString() ?? "neutral";
 
-            Debug.Log("💬 TİLKİ CEVABI: " + reply);
-            Debug.Log("📝 GRAMER NOTU: " + grammar);
-            Debug.Log("🎭 TİLKİ DUYGUSU: " + emotion); // Konsoldan hangi duygunun geldiğini görebilirsin
+            Debug.Log("FOX REPLY: " + reply);
+            Debug.Log("GRAMMAR NOTE: " + grammar);
+            Debug.Log("FOX EMOTION: " + emotion);
 
-            // Metni sese çevirmesi için RunJets'e komut yolla
-            if (sesMotoru != null)
-            {
-                sesMotoru.SpeakFromAI(reply);
-            }
-            
-            // Yeni: Gelen duyguyu yüz kaslarını kontrol eden motora yolla!
-            if (duyguMotoru != null)
-            {
-                duyguMotoru.DuyguAyarla(emotion);
-            }
+            if (audioEngine != null)
+                audioEngine.SpeakFromAI(reply);
+
+            if (emotionEngine != null)
+                emotionEngine.SetEmotion(emotion);
         }
         catch (System.Exception e)
         {
-            Debug.LogError("Veri Ayıklama Hatası: " + e.Message + " | Gelen Ham Veri: " + jsonResponse);
-            reply = "Hata oluştu, lütfen tekrar deneyin";
+            Debug.LogError("Parse error: " + e.Message + " | Raw data: " + jsonResponse);
+            reply = "An error occurred, please try again.";
             grammar = "";
         }
 
-        // Ekrana Tilkinin cevabını ve gramer notunu yazdırıyoruz (Turuncu ve Sarı renklerde)
         if (chatText != null && !string.IsNullOrEmpty(reply))
         {
-            chatText.text += $"\n<color=#FFA500><b>{aktifKarakterAdi}:</b></color> {reply}";
-    
-            // Eğer gramer hatası yoksa ("Kusursuz!" döndüyse) ekranda kalabalık yapmasın, varsa yazsın
-            if(!string.IsNullOrEmpty(grammar) && !grammar.ToLower().Contains("kusursuz"))
+            chatText.text += $"\n<color=#FFA500><b>{activeCharacterName}:</b></color> {reply}";
+
+            if (!string.IsNullOrEmpty(grammar) && !grammar.ToLower().Contains("perfect"))
             {
-                chatText.text += $"\n<color=#FFFF00><i>(Not: {grammar})</i></color>";
-                // Arka planda oyuncunun gramer hatasını logla (Ekranda görünmez)
-                DataLogger.VeriKaydet("Yapay_Zeka", "Gramer_Hatasi", grammar);
-                
-                // İstatistiklere yanlış cevabı ekle
+                chatText.text += $"\n<color=#FFFF00><i>(Note: {grammar})</i></color>";
+                DataLogger.LogData("AI", "Grammar_Error", grammar);
+
                 if (statisticsManager != null)
                 {
                     string topic = ExtractTopicFromError(grammar);
@@ -202,59 +171,41 @@ public class GeminiManager : MonoBehaviour
             }
             else
             {
-                // Doğru cevap kayıt et
-                DataLogger.VeriKaydet("Yapay_Zeka", "Dogu_Cevap", "Gramer kusursuz");
-                
-                // İstatistiklere doğru cevabı ekle
+                DataLogger.LogData("AI", "Correct_Answer", "Grammar perfect");
+
                 if (statisticsManager != null)
-                {
-                    statisticsManager.LogCorrectAnswer("Konuşma Akıcılığı");
-                }
+                    statisticsManager.LogCorrectAnswer("Speaking Fluency");
             }
         }
     }
 
-    /// <summary>
-    /// Gramer hatasından konuyu çıkar
-    /// </summary>
     private string ExtractTopicFromError(string errorMessage)
     {
         string lowerError = errorMessage.ToLower();
-        
-        // Hata mesajında hangi konu geçiyorsa onu döndür
-        if (lowerError.Contains("konu") || lowerError.Contains("subject")) return "Konu Cümlesi";
-        if (lowerError.Contains("fiil") || lowerError.Contains("verb")) return "Fiil Zamanı";
-        if (lowerError.Contains("sıfat") || lowerError.Contains("adjective")) return "Sıfatlandırma";
-        if (lowerError.Contains("isim") || lowerError.Contains("noun")) return "İsim Cümleleri";
-        if (lowerError.Contains("zamir") || lowerError.Contains("pronoun")) return "Zamir Kullanımı";
-        if (lowerError.Contains("virgül") || lowerError.Contains("comma")) return "Noktalama İşaretleri";
-        if (lowerError.Contains("ünlem") || lowerError.Contains("exclamation")) return "İfade Cümleleri";
-        if (lowerError.Contains("soru") || lowerError.Contains("question")) return "Soru Yapısı";
-        if (lowerError.Contains("zaman") || lowerError.Contains("tense")) return "Fiil Zamanı";
-        if (lowerError.Contains("ek") || lowerError.Contains("suffix")) return "Ek Kullanımı";
-        
-        return "Diğer Hatalar";
+
+        if (lowerError.Contains("subject")) return "Subject Sentence";
+        if (lowerError.Contains("verb") || lowerError.Contains("tense")) return "Verb Tense";
+        if (lowerError.Contains("adjective")) return "Adjectives";
+        if (lowerError.Contains("noun")) return "Noun Sentences";
+        if (lowerError.Contains("pronoun")) return "Pronouns";
+        if (lowerError.Contains("comma") || lowerError.Contains("punctuation")) return "Punctuation";
+        if (lowerError.Contains("exclamation")) return "Exclamatory Sentences";
+        if (lowerError.Contains("question")) return "Question Structure";
+        if (lowerError.Contains("suffix")) return "Suffix Usage";
+
+        return "Other Errors";
     }
 
-    // Butona basıldığında veya Enter'a basıldığında çalışacak fonksiyon
     public void SendTextMessage()
     {
-        // Eğer input boşsa veya sadece boşluk basılmışsa hiçbir şey yapma
-        if (chatInput == null || string.IsNullOrWhiteSpace(chatInput.text))
-            return;
+        if (chatInput == null || string.IsNullOrWhiteSpace(chatInput.text)) return;
 
         string playerMessage = chatInput.text;
 
-        // 1. Oyuncunun yazdığını hemen ekrana (Chat'e) yazdır
         if (chatText != null)
-        {
-            chatText.text += $"\n\n<color=#00FF00><b>Sen:</b></color> {playerMessage}";
-        }
+            chatText.text += $"\n\n<color=#00FF00><b>You:</b></color> {playerMessage}";
 
-        // 2. Mesajı Gemini beynine yolla! (İşte o sihirli bağlantı)
         AskGemini(playerMessage);
-
-        // 3. Mesaj gittikten sonra oyuncu yeni bir şey yazabilsin diye kutunun içini temizle
         chatInput.text = "";
     }
 }

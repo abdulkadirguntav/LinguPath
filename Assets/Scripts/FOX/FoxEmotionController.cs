@@ -1,95 +1,79 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Inspector'da listelenebilmesi için bu etiketleri kullanıyoruz
 [System.Serializable]
 public class EmotionShape
 {
-    [Tooltip("Tilkinin BlendShape listesindeki sıra numarası")]
-    public int shapeIndex; 
-    
-    [Tooltip("Bu kasın ne kadar hareket edeceği (0-100)")]
-    public float targetWeight = 100f; 
+    [Tooltip("BlendShape index on the fox mesh")]
+    public int shapeIndex;
+
+    [Tooltip("How much this muscle moves (0-100)")]
+    public float targetWeight = 100f;
 }
 
 [System.Serializable]
 public class EmotionProfile
 {
-    [Tooltip("Gemini'den gelecek isim (happy, sad, surprised, angry, neutral)")]
-    public string emotionName; 
-    
-    [Tooltip("Bu duygu için çalışacak yüz kasları")]
+    [Tooltip("Name from Gemini (happy, sad, surprised, angry, neutral)")]
+    public string emotionName;
+
+    [Tooltip("Face muscles active for this emotion")]
     public List<EmotionShape> shapes = new List<EmotionShape>();
 }
 
 public class FoxEmotionController : MonoBehaviour
 {
-    [Header("Bağlantılar")]
-    public SkinnedMeshRenderer tilkiYuzu;
-    
-    [Tooltip("Duygular arası geçişin yumuşaklık hızı")]
-    public float gecisHizi = 8f; 
+    [Header("References")]
+    public SkinnedMeshRenderer foxFace;
 
-    [Header("Duygu Kütüphanesi")]
-    public List<EmotionProfile> duygular = new List<EmotionProfile>();
+    [Tooltip("Smoothing speed for emotion transitions")]
+    public float transitionSpeed = 8f;
 
-    // Arka planda hangi kasın hangi değere gideceğini tutan sözlük
-    private Dictionary<int, float> hedefDegerler = new Dictionary<int, float>();
+    [Header("Emotion Library")]
+    public List<EmotionProfile> emotions = new List<EmotionProfile>();
+
+    private Dictionary<int, float> targetValues = new Dictionary<int, float>();
 
     void Start()
     {
-        // Oyun başladığında modeldeki tüm Shape Key'leri sözlüğe 0 (kapalı) olarak ekle
-        if (tilkiYuzu != null && tilkiYuzu.sharedMesh != null)
+        if (foxFace != null && foxFace.sharedMesh != null)
         {
-            for (int i = 0; i < tilkiYuzu.sharedMesh.blendShapeCount; i++)
-            {
-                hedefDegerler[i] = 0f;
-            }
+            for (int i = 0; i < foxFace.sharedMesh.blendShapeCount; i++)
+                targetValues[i] = 0f;
         }
     }
 
     void Update()
     {
-        if (tilkiYuzu == null) return;
+        if (foxFace == null) return;
 
-        // Her karede, yüz kaslarını yavaşça ve yumuşakça hedef değerlerine (Lerp) kaydır
-        foreach (var kvp in hedefDegerler)
+        foreach (var kvp in targetValues)
         {
-            float currentWeight = tilkiYuzu.GetBlendShapeWeight(kvp.Key);
-            
+            float currentWeight = foxFace.GetBlendShapeWeight(kvp.Key);
             if (Mathf.Abs(currentWeight - kvp.Value) > 0.1f)
             {
-                float newWeight = Mathf.Lerp(currentWeight, kvp.Value, Time.deltaTime * gecisHizi);
-                tilkiYuzu.SetBlendShapeWeight(kvp.Key, newWeight);
+                float newWeight = Mathf.Lerp(currentWeight, kvp.Value, Time.deltaTime * transitionSpeed);
+                foxFace.SetBlendShapeWeight(kvp.Key, newWeight);
             }
         }
     }
 
-    // GeminiManager bu fonksiyonu çağırıp duyguyu ateşleyecek
-    public void DuyguAyarla(string gelenDuygu)
+    public void SetEmotion(string incomingEmotion)
     {
-        if (string.IsNullOrEmpty(gelenDuygu)) return;
-        
-        // Gelen metni küçük harfe çevirip boşlukları temizle (Örn: " Happy " -> "happy")
-        gelenDuygu = gelenDuygu.ToLower().Trim();
+        if (string.IsNullOrEmpty(incomingEmotion)) return;
 
-        // Yeni duygu geldiğinde, önce yüzü sıfırla (Eski duyguyu temizle)
-        List<int> keys = new List<int>(hedefDegerler.Keys);
+        incomingEmotion = incomingEmotion.ToLower().Trim();
+
+        List<int> keys = new List<int>(targetValues.Keys);
         foreach (int key in keys)
-        {
-            hedefDegerler[key] = 0f;
-        }
+            targetValues[key] = 0f;
 
-        // Kütüphaneden gelen duyguya uygun profili bul
-        EmotionProfile aktifDuygu = duygular.Find(d => d.emotionName == gelenDuygu);
+        EmotionProfile activeEmotion = emotions.Find(d => d.emotionName == incomingEmotion);
 
-        // Eğer duygu bulunduysa ("neutral" dışında), o kasların hedeflerini yükselt
-        if (aktifDuygu != null)
+        if (activeEmotion != null)
         {
-            foreach (var shape in aktifDuygu.shapes)
-            {
-                hedefDegerler[shape.shapeIndex] = shape.targetWeight;
-            }
+            foreach (var shape in activeEmotion.shapes)
+                targetValues[shape.shapeIndex] = shape.targetWeight;
         }
     }
 }

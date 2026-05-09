@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scene/MainMenu.unity
     guid: 162a1aa2d9e03a94a905a338a813c3b4
   - enabled: 1
-    path: Assets/Core.unity
+    path: Assets/Scene/Core.unity
     guid: 421cce1e12af1144993fd8b266d58e9d
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 7bc856b37741a1541b712e35a22a893c, type: 2}

@@ -8,8 +8,8 @@ public class TopicStats
     public string topicName;
     public int correctAnswers;
     public int wrongAnswers;
-    public float successRate; // Yüzde
-    public List<string> mistakeTopics = new List<string>(); // Sık yapılan hatalar
+    public float successRate;
+    public List<string> mistakeTopics = new List<string>();
     public DateTime lastPracticed;
 
     public TopicStats(string name)
@@ -29,18 +29,17 @@ public class TopicStats
 
     public string GetPerformanceLevel()
     {
-        if (successRate >= 90) return "🌟 Mükemmel";
-        if (successRate >= 75) return "✅ İyi";
-        if (successRate >= 50) return "⚠️ Orta";
-        return "❌ Geliştirilmeli";
+        if (successRate >= 90) return "🌟 Excellent";
+        if (successRate >= 75) return "✅ Good";
+        if (successRate >= 50) return "⚠️ Average";
+        return "❌ Needs Improvement";
     }
 }
 
 public class StatisticsData
 {
     public Dictionary<string, TopicStats> topicStatsDict = new Dictionary<string, TopicStats>();
-    
-    // Genel istatistikler
+
     public int totalCorrectAnswers;
     public int totalWrongAnswers;
     public int totalAttempts;
@@ -63,9 +62,7 @@ public class StatisticsData
     public void AddToTopic(string topicName, bool isCorrect, string mistakeType = "")
     {
         if (!topicStatsDict.ContainsKey(topicName))
-        {
             topicStatsDict[topicName] = new TopicStats(topicName);
-        }
 
         TopicStats stats = topicStatsDict[topicName];
 
@@ -78,11 +75,8 @@ public class StatisticsData
         {
             stats.wrongAnswers++;
             totalWrongAnswers++;
-            
             if (!string.IsNullOrEmpty(mistakeType))
-            {
                 stats.mistakeTopics.Add(mistakeType);
-            }
         }
 
         totalAttempts++;
@@ -102,17 +96,11 @@ public class StatisticsData
 
     public List<TopicStats> GetWeakestTopics(int count = 5)
     {
-        return topicStatsDict.Values
-            .OrderBy(x => x.successRate)
-            .Take(count)
-            .ToList();
+        return topicStatsDict.Values.OrderBy(x => x.successRate).Take(count).ToList();
     }
 
     public List<TopicStats> GetBestTopics(int count = 5)
     {
-        return topicStatsDict.Values
-            .OrderByDescending(x => x.successRate)
-            .Take(count)
-            .ToList();
+        return topicStatsDict.Values.OrderByDescending(x => x.successRate).Take(count).ToList();
     }
 }

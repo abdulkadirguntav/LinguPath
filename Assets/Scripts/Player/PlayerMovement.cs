@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (new Vector2(horizontal, vertical).magnitude > 0.1f)
         {
-            // Kamera yönüne göre hareket — joystick "yukarı" = kameranın baktığı yön
             if (mainCamera != null)
             {
                 Vector3 camForward = mainCamera.transform.forward;
@@ -50,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
 
-        // Yerçekimi birikimli olarak uygula
         if (controller.isGrounded)
             verticalVelocity = -1f;
         else
