@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Controller")]
     public DynamicJoystick joystick;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
     private CharacterController controller;
     private float verticalVelocity;
     private float rotationVelocity;
@@ -58,5 +62,8 @@ public class PlayerMovement : MonoBehaviour
         motion.y = verticalVelocity;
 
         controller.Move(motion * Time.deltaTime);
+
+        if (animator != null)
+            animator.SetFloat(SpeedHash, moveDir.magnitude);
     }
 }

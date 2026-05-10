@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: d77818df6a8ec074081e437ff805b3bb
 ModelImporter:
-  serializedVersion: 20200
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
@@ -17,16 +17,13 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Inbetween bone
-      rotation in copied configuration does not match rotation in animation file:\n\t'Chest'
-      : rotation error = 1.595129 deg\n\t'Neck' : rotation error = 6.479131 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\n\t'Chest' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'Neck' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n"
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Neck' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -76,10 +73,12 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -91,6 +90,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -101,6 +101,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -258,7 +259,32 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Head_03
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: -6.439791e-11}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Head_04
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Head_05
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Head_06
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Head_07
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Head_08
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -268,7 +294,37 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_01_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_01_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_01_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Legs_02
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_02_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_02_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_02_v4
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -278,27 +334,57 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_03_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_03_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_03_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Legs_04
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_01
+    - name: Male_Legs_04_v2
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_02
+    - name: Male_Legs_04_v3
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_03
+    - name: Male_Legs_04_v4
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_10
+    - name: Male_Legs_05
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_05_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_05_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_05_v04
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -308,7 +394,37 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_06_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_06_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_06_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Legs_07
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_07_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_07_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_07_v4
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -318,22 +434,37 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_08_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_08_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_08_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Legs_09
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_06
+    - name: Male_Legs_09_v2
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_07
+    - name: Male_Legs_09_v3
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_08
+    - name: Male_Legs_09_v4
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -343,12 +474,217 @@ ModelImporter:
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_10_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_10_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Legs_10_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_01
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_01_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_01_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_01_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_02
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_02_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_02_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_02_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_03
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_03_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_03_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_03_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_04
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_04_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_04_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_04_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     - name: Male_Torso_05
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    - name: Male_Legs_05
+    - name: Male_Torso_05_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_05_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_05_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_06
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_06_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_06_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_06_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_07
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_07_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_07_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_07_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_08
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_08_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_08_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_08_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_09
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_09_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_09_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_09_v4
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_10
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_10_v2
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_10_v3
+      parentName: Male_Pack_01(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Male_Torso_10_v4
       parentName: Male_Pack_01(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
@@ -366,32 +702,32 @@ ModelImporter:
     - name: L_UpperLeg
       parentName: Hips
       position: {x: 0.07077072, y: -0.00439723, z: 0.123497635}
-      rotation: {x: -0.0045256317, y: 0.9988251, z: 0.044206813, w: 0.019332102}
+      rotation: {x: -0.0045203352, y: 0.9988213, z: 0.0441888, w: 0.019567735}
       scale: {x: 1, y: 1, z: 1}
     - name: L_LowerLeg
       parentName: L_UpperLeg
-      position: {x: -0.30713478, y: 0.0000005102157, z: -0.0000032043456}
-      rotation: {x: 0.0022464648, y: -0.0020226468, z: 0.08332973, w: 0.9965175}
+      position: {x: -0.30713478, y: 0.0000004982948, z: -0.0000032138823}
+      rotation: {x: 0.002220747, y: -0.0017076418, z: 0.0830498, w: 0.99654144}
       scale: {x: 1, y: 1, z: 1}
     - name: L_Foot
       parentName: L_LowerLeg
-      position: {x: -0.28613156, y: 0, z: 0}
-      rotation: {x: -0.049148355, y: -0.010109751, z: -0.7076261, w: 0.7048032}
+      position: {x: -0.28613153, y: 0, z: 0}
+      rotation: {x: -0.048952643, y: -0.010043806, z: -0.707431, w: 0.70501363}
       scale: {x: 1, y: 1, z: 1}
     - name: R_UpperLeg
       parentName: Hips
       position: {x: 0.070770495, y: -0.0043967147, z: -0.123500094}
-      rotation: {x: -0.0045114574, y: 0.99882907, z: -0.044224545, w: -0.019087749}
+      rotation: {x: -0.004511457, y: 0.99882907, z: -0.044224452, w: -0.019087741}
       scale: {x: 1, y: 1, z: 1}
     - name: R_LowerLeg
       parentName: R_UpperLeg
-      position: {x: -0.3071351, y: 0.0000005197525, z: 0.0000031661987}
-      rotation: {x: -0.002275926, y: 0.0022351115, z: 0.083099164, w: 0.9965362}
+      position: {x: -0.3071351, y: 0.0000005221367, z: 0.000003156662}
+      rotation: {x: -0.002275965, y: 0.0022350221, z: 0.08309919, w: 0.9965362}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Foot
       parentName: R_LowerLeg
-      position: {x: -0.286129, y: -0.0000000023841857, z: -0.000000009536743}
-      rotation: {x: 0.049623996, y: 0.010638297, z: -0.70747244, w: 0.70491636}
+      position: {x: -0.28612897, y: 0.000000007152557, z: 0.000000009536743}
+      rotation: {x: 0.049745973, y: 0.010760402, z: -0.70746964, w: 0.7049087}
       scale: {x: 1, y: 1, z: 1}
     - name: Spine
       parentName: Hips
@@ -403,6 +739,21 @@ ModelImporter:
       position: {x: -0.22467567, y: 0, z: 0}
       rotation: {x: 0.000014076444, y: -0.00027744775, z: -0.028964996, w: 0.9995804}
       scale: {x: 1, y: 1, z: 1}
+    - name: L_UpperArm
+      parentName: Chest
+      position: {x: -0.02849266, y: -0.021542873, z: 0.21421923}
+      rotation: {x: -0.007845493, y: 0.7191393, z: -0.0013148936, w: 0.6948204}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_LowerArm
+      parentName: L_UpperArm
+      position: {x: -0.21546547, y: -0.00000029563904, z: -0.0000006866455}
+      rotation: {x: 0.0009388863, y: 0.005302459, z: -0.004396384, w: 0.99997586}
+      scale: {x: 1, y: 1, z: 1}
+    - name: L_Palm
+      parentName: L_LowerArm
+      position: {x: -0.1971506, y: 0.00000008106232, z: 0.00000022888183}
+      rotation: {x: -0.71038246, y: -0.0099862125, z: 0.0021795433, w: 0.7037416}
+      scale: {x: 1, y: 1, z: 1}
     - name: Neck
       parentName: Chest
       position: {x: -0.122665174, y: -0.004082191, z: -0.00000040126963}
@@ -413,80 +764,20 @@ ModelImporter:
       position: {x: -0.094557114, y: 0, z: 0}
       rotation: {x: 0.000006290914, y: -0.000008218174, z: 0.20717159, w: 0.9783046}
       scale: {x: 1, y: 1, z: 1}
-    - name: L_UpperArm
-      parentName: Chest
-      position: {x: -0.02849266, y: -0.021542873, z: 0.21421923}
-      rotation: {x: -0.0078457035, y: 0.7191393, z: -0.0013146581, w: 0.6948204}
-      scale: {x: 1, y: 1, z: 1}
-    - name: L_LowerArm
-      parentName: L_UpperArm
-      position: {x: -0.21546547, y: -0.0000003004074, z: -0.0000006866455}
-      rotation: {x: 0.00093888334, y: 0.0053024217, z: -0.0043963823, w: 0.99997586}
-      scale: {x: 1, y: 1, z: 1}
-    - name: L_Palm
-      parentName: L_LowerArm
-      position: {x: -0.1971506, y: 0.00000009059906, z: 0.00000022888183}
-      rotation: {x: -0.71038246, y: -0.00998623, z: 0.00217954, w: 0.7037416}
-      scale: {x: 1, y: 1, z: 1}
     - name: R_UpperArm
       parentName: Chest
       position: {x: -0.028562088, y: -0.021569904, z: -0.21422192}
-      rotation: {x: 0.007882534, y: -0.7192497, z: -0.0013655188, w: 0.69470567}
+      rotation: {x: 0.007882033, y: -0.7192498, z: -0.0013660686, w: 0.69470555}
       scale: {x: 1, y: 1, z: 1}
     - name: R_LowerArm
       parentName: R_UpperArm
-      position: {x: -0.2154655, y: -0.00000027179718, z: 0.00000045776366}
-      rotation: {x: -0.00093922974, y: -0.0051417407, z: -0.0043350556, w: 0.99997693}
+      position: {x: -0.2154655, y: -0.00000027656554, z: 0.00000030517577}
+      rotation: {x: -0.00093922176, y: -0.0051418226, z: -0.004335057, w: 0.99997693}
       scale: {x: 1, y: 1, z: 1}
     - name: R_Palm
       parentName: R_LowerArm
-      position: {x: -0.19715057, y: 0.000000085830685, z: -0.00000015258789}
-      rotation: {x: 0.71038246, y: 0.009985212, z: 0.0021806227, w: 0.7037416}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_03
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: -6.439791e-11}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_05
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_01_copy01
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_02_copy001
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_01_copy004
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_04_copy_01
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Head_04_copy_01 1
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: -6.439791e-11}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_04
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-      scale: {x: 1, y: 1, z: 1}
-    - name: Male_Torso_09
-      parentName: Male_Pack_01(Clone)
-      position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      position: {x: -0.19715057, y: 0.000000076293944, z: -0.00000022888183}
+      rotation: {x: 0.71038246, y: 0.009985159, z: 0.002180688, w: 0.70374167}
       scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
@@ -497,16 +788,17 @@ ModelImporter:
     feetSpacing: 0
     globalScale: 1
     rootMotionBoneName: 
-    hasTranslationDoF: 1
+    hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 917dd77a0ff7bd146a220fe07e12d3a6,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 917dd77a0ff7bd146a220fe07e12d3a6, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

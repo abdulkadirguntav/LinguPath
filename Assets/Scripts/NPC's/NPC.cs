@@ -23,6 +23,10 @@ public class NPC : MonoBehaviour
     [Header("Data Connection")]
     public NPCDialogueSO dialogueData;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    private static readonly int WaveHash = Animator.StringToHash("Wave");
+
     [Header("UI Connection")]
     [SerializeField] private float SphereRadius = 4f;
     [SerializeField] private GameObject interactionButton;
@@ -75,6 +79,8 @@ public class NPC : MonoBehaviour
             }
 
             if (!isDialogActive && interactionButton != null) interactionButton.SetActive(true);
+
+            if (animator != null) animator.SetTrigger(WaveHash);
         }
     }
 
