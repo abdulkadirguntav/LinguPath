@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -18,16 +19,48 @@ public class LibraryManager : MonoBehaviour
     [Header("Reveal Mechanics")]
     [SerializeField] private GameObject revealButtonObj;
 
+    private const int DailyWordLimit = 5;
     private List<WordDataSO> activeSessionDeck = new List<WordDataSO>();
 
     void Start()
     {
-        StartSession(5);
+        StartSession(DailyWordLimit);
+    }
+
+    private int GetWordsStudiedToday()
+    {
+        string today = DateTime.Now.ToString("yyyy-MM-dd");
+        if (PlayerPrefs.GetString("LibraryLastDate", "") != today)
+        {
+            PlayerPrefs.SetString("LibraryLastDate", today);
+            PlayerPrefs.SetInt("LibraryWordsToday", 0);
+            PlayerPrefs.Save();
+            return 0;
+        }
+        return PlayerPrefs.GetInt("LibraryWordsToday", 0);
+    }
+
+    private void IncrementWordsStudiedToday()
+    {
+        PlayerPrefs.SetInt("LibraryWordsToday", GetWordsStudiedToday() + 1);
+        PlayerPrefs.Save();
     }
 
     public void StartSession(int wordCount)
     {
         activeSessionDeck.Clear();
+
+        int wordsStudiedToday = GetWordsStudiedToday();
+        int remaining = Mathf.Max(0, wordCount - wordsStudiedToday);
+
+        if (remaining == 0)
+        {
+            englishText.text = "Bugünlük bu kadar!";
+            exampleText.text = "Harika! Bugün " + wordCount + " kelimeyi tamamladın. Yarın tekrar görüşürüz!";
+            turkishText.text = "";
+            StartCoroutine(Wait());
+            return;
+        }
 
         List<WordDataSO> availableWords = new List<WordDataSO>();
         foreach (WordDataSO w in wordList)
@@ -39,19 +72,19 @@ public class LibraryManager : MonoBehaviour
         for (int i = 0; i < availableWords.Count; i++)
         {
             WordDataSO temp = availableWords[i];
-            int randomIndex = Random.Range(i, availableWords.Count);
+            int randomIndex = UnityEngine.Random.Range(i, availableWords.Count);
             availableWords[i] = availableWords[randomIndex];
             availableWords[randomIndex] = temp;
         }
 
-        int limit = Mathf.Min(wordCount, availableWords.Count);
+        int limit = Mathf.Min(remaining, availableWords.Count);
         for (int i = 0; i < limit; i++)
             activeSessionDeck.Add(availableWords[i]);
 
         if (activeSessionDeck.Count == 0)
         {
-            englishText.text = "CONGRATULATIONS!";
-            exampleText.text = "You have mastered all words in the library.";
+            englishText.text = "TEBRIKLER!";
+            exampleText.text = "Kütüphanedeki tüm kelimeleri öğrendin!";
             turkishText.text = "";
             StartCoroutine(Wait());
             return;
@@ -64,8 +97,8 @@ public class LibraryManager : MonoBehaviour
     {
         if (activeSessionDeck.Count == 0)
         {
-            englishText.text = "SESSION COMPLETE";
-            exampleText.text = "You completed today's goal. Go ahead and take a break!";
+            englishText.text = "Günlük hedef tamamlandı!";
+            exampleText.text = "Bugün " + DailyWordLimit + " kelimeyi bitirdin. Biraz mola ver, yarın devam ederiz!";
             turkishText.text = "";
             StartCoroutine(Wait());
             return;
@@ -94,6 +127,8 @@ public class LibraryManager : MonoBehaviour
         if (currentProgress.masteryLevel < 3)
             currentProgress.masteryLevel++;
         DataManager.instance.SaveData();
+
+        IncrementWordsStudiedToday();
 
         activeSessionDeck.RemoveAt(0);
         LoadNextWord();

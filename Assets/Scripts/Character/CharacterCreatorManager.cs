@@ -8,7 +8,7 @@ public class CharacterCreatorManager : MonoBehaviour
     public class CharacterSlot
     {
         public string slotName;
-        public Transform partParent;
+        public GameObject[] variations;   // Drag each variation directly here
         public TextMeshProUGUI countLabel;
         public bool isOptional;
         [HideInInspector] public int currentIndex;
@@ -51,11 +51,10 @@ public class CharacterCreatorManager : MonoBehaviour
     {
         if (!IsValid(slotIndex)) return;
         var slot = slots[slotIndex];
-        int count = slot.partParent.childCount;
         int min = slot.isOptional ? -1 : 0;
 
         slot.currentIndex++;
-        if (slot.currentIndex >= count) slot.currentIndex = min;
+        if (slot.currentIndex >= slot.variations.Length) slot.currentIndex = min;
 
         ApplyAndUpdate(slot);
     }
@@ -64,11 +63,10 @@ public class CharacterCreatorManager : MonoBehaviour
     {
         if (!IsValid(slotIndex)) return;
         var slot = slots[slotIndex];
-        int count = slot.partParent.childCount;
         int min = slot.isOptional ? -1 : 0;
 
         slot.currentIndex--;
-        if (slot.currentIndex < min) slot.currentIndex = count - 1;
+        if (slot.currentIndex < min) slot.currentIndex = slot.variations.Length - 1;
 
         ApplyAndUpdate(slot);
     }
@@ -107,17 +105,18 @@ public class CharacterCreatorManager : MonoBehaviour
 
     private void ApplyAndUpdate(CharacterSlot slot)
     {
-        if (slot.partParent == null) return;
-
-        for (int i = 0; i < slot.partParent.childCount; i++)
-            slot.partParent.GetChild(i).gameObject.SetActive(i == slot.currentIndex);
+        for (int i = 0; i < slot.variations.Length; i++)
+        {
+            if (slot.variations[i] != null)
+                slot.variations[i].SetActive(i == slot.currentIndex);
+        }
 
         if (slot.countLabel != null)
         {
             if (slot.currentIndex == -1)
                 slot.countLabel.text = "NONE";
             else
-                slot.countLabel.text = $"{slot.currentIndex + 1}/{slot.partParent.childCount}";
+                slot.countLabel.text = $"{slot.currentIndex + 1}/{slot.variations.Length}";
         }
     }
 
@@ -128,7 +127,7 @@ public class CharacterCreatorManager : MonoBehaviour
     }
 
     private bool IsValid(int index) =>
-        index >= 0 && index < slots.Length && slots[index].partParent != null;
+        index >= 0 && index < slots.Length && slots[index].variations != null && slots[index].variations.Length > 0;
 
     private int GetIndex(int slotIndex) =>
         slotIndex < slots.Length ? slots[slotIndex].currentIndex : (slotIndex >= 4 ? -1 : 0);
