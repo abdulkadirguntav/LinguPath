@@ -64,9 +64,13 @@ public class FoxEmotionController : MonoBehaviour
 
         incomingEmotion = incomingEmotion.ToLower().Trim();
 
+        // Reset all except reserved indices (e.g. blink)
         List<int> keys = new List<int>(targetValues.Keys);
         foreach (int key in keys)
-            targetValues[key] = 0f;
+        {
+            if (!reservedIndices.Contains(key))
+                targetValues[key] = 0f;
+        }
 
         EmotionProfile activeEmotion = emotions.Find(d => d.emotionName == incomingEmotion);
 
@@ -76,4 +80,20 @@ public class FoxEmotionController : MonoBehaviour
                 targetValues[shape.shapeIndex] = shape.targetWeight;
         }
     }
+
+    // Used by FoxBlink to bypass emotion resets and drive the blink blend shape directly.
+    public void SetBlendShapeTarget(int index, float value)
+    {
+        if (targetValues.ContainsKey(index))
+        {
+            targetValues[index] = value;
+            if (value > 0f && !reservedIndices.Contains(index))
+                reservedIndices.Add(index);
+            else if (value <= 0f)
+                reservedIndices.Remove(index);
+        }
+    }
+
+    [HideInInspector]
+    public List<int> reservedIndices = new List<int>();
 }
