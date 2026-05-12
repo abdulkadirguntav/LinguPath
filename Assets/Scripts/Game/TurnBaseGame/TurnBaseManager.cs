@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 [System.Serializable]
 public class BattleSentence
@@ -26,13 +25,11 @@ public class TurnBaseManager : MonoBehaviour
     enum GameState { PlayerTurn, EnemyTurn, GameOver }
 
     [Header("Game Stats")]
-    [SerializeField] private GameState currnetState;
+    [SerializeField] private GameState currentState;
 
-    [Header("Health UI")]
-    public Slider playerHealthSlider;
-    public Slider enemyHealthSlider;
-    public TMP_Text playerHealthText;
-    public TMP_Text enemyHealthText;
+    [Header("Score UI")]
+    public TMP_Text playerGoalText;
+    public TMP_Text enemyGoalText;
 
     [Header("Core Loop Connections")]
     public GameObject battlePanel;
@@ -48,15 +45,15 @@ public class TurnBaseManager : MonoBehaviour
     public BattleSentence currentSentence;
     private List<string> currentInput = new List<string>();
 
-    [Header("Health And Damage Fields")]
-    [SerializeField] private float playerHP;
-    [SerializeField] private float enemyHP;
-    [SerializeField] private float baseDamage = 10f;
-    [SerializeField] private float enemyBaseDamage = 15f;
+    [Header("Goal Settings")]
+    [SerializeField] private int playerGoals;
+    [SerializeField] private int enemyGoals;
+    [SerializeField] private int maxGoals = 5;
 
     [Header("Time Fields")]
     [SerializeField] private float turnTimer;
     [SerializeField] private float maxTime = 15f;
+    [SerializeField] private float defenseMaxTime = 5f;
 
     [Header("UI References")]
     public List<TMP_Text> sentencesSlots = new List<TMP_Text>();
@@ -69,16 +66,16 @@ public class TurnBaseManager : MonoBehaviour
     public GameObject defensePanel;
 
     [Header("Defence References")]
-    public float defenseMaxTime = 5f;
     public List<Button> stoneButtons = new List<Button>();
 
     void Start()
     {
         LoadSentencesData();
         LoadDefenseData();
-        playerHP = enemyHP = 100f;
-        UpdateHealthUI();
-        currnetState = GameState.PlayerTurn;
+        playerGoals = 0;
+        enemyGoals = 0;
+        UpdateGoalUI();
+        currentState = GameState.PlayerTurn;
         SetupPlayerTurn();
     }
 
@@ -87,7 +84,7 @@ public class TurnBaseManager : MonoBehaviour
         TextAsset csvData = Resources.Load<TextAsset>("Sentences");
         if (csvData == null) { Debug.LogError("Sentences.csv not found!"); return; }
 
-        string[] dataLines = csvData.text.Split(new char[] { '\n' });
+        string[] dataLines = csvData.text.Split('\n');
         for (int i = 1; i < dataLines.Length; i++)
         {
             string line = dataLines[i].Trim();
@@ -98,18 +95,69 @@ public class TurnBaseManager : MonoBehaviour
             {
                 BattleSentence newSentence = new BattleSentence();
                 newSentence.id = int.Parse(columns[0]);
-
-                string[] words = columns[1].Trim().Split(' ');
-                newSentence.correctWords = new List<string>(words);
-
-                string[] traps = columns[2].Trim().Split(',');
-                newSentence.trapWords = new List<string>(traps);
-
+                newSentence.correctWords = new List<string>(columns[1].Trim().Split(' '));
+                newSentence.trapWords = new List<string>(columns[2].Trim().Split(','));
                 newSentence.turkishHint = columns[3].Trim();
                 allSentences.Add(newSentence);
             }
         }
-        Debug.Log("Battle database loaded! Total sentences: " + allSentences.Count);
+        Debug.Log("Sentence database loaded: " + allSentences.Count);
+    }
+
+    private void LoadDefenseData()
+    {
+        TextAsset csvData = Resources.Load<TextAsset>("Defense");
+        if (csvData == null) { Debug.LogError("Defense.csv not found!"); return; }
+
+        string[] dataLines = csvData.text.Split('\n');
+        for (int i = 1; i < dataLines.Length; i++)
+        {
+            string line = dataLines[i].Trim();
+            if (string.IsNullOrEmpty(line)) continue;
+
+            string[] columns = line.Split(';');
+            if (columns.Length >= 3)
+            {
+                DefenseData newDef = new DefenseData();
+                newDef.id = int.Parse(columns[0]);
+                newDef.oddWord = columns[1].Trim();
+                newDef.normalWords = new List<string>(columns[2].Trim().Split(','));
+                allDefenses.Add(newDef);
+            }
+        }
+        Debug.Log("Defense database loaded: " + allDefenses.Count);
+    }
+
+    void Update()
+    {
+        if (currentState == GameState.PlayerTurn)
+        {
+            turnTimer -= Time.deltaTime;
+            timerSlider.value = turnTimer / maxTime;
+
+            if (turnTimer <= 0)
+            {
+                Debug.Log("Süre doldu! Şut kaçtı (OUT).");
+                GameEventSystem.LogAnswer("Battle - Sentence Building", false, "Time expired");
+                TransitionToEnemyTurn();
+            }
+        }
+        else if (currentState == GameState.EnemyTurn)
+        {
+            turnTimer -= Time.deltaTime;
+            timerSlider.value = turnTimer / defenseMaxTime;
+
+            if (turnTimer <= 0)
+            {
+                enemyGoals++;
+                UpdateGoalUI();
+                Debug.Log("Savunma süresi doldu! Gol yenildi.");
+                GameEventSystem.LogAnswer("Battle - Find Odd Word", false, "Time expired");
+
+                if (CheckWinLoseCondition()) return;
+                TransitionToPlayerTurn();
+            }
+        }
     }
 
     void SetupPlayerTurn()
@@ -119,33 +167,19 @@ public class TurnBaseManager : MonoBehaviour
         turnTimer = maxTime;
         currentInput.Clear();
 
-        int randIndex = UnityEngine.Random.Range(0, allSentences.Count);
+        int randIndex = Random.Range(0, allSentences.Count);
         currentSentence = allSentences[randIndex];
         if (turkishHintText != null) turkishHintText.text = currentSentence.turkishHint;
 
-        List<string> mixedWords = new List<string>();
-        mixedWords.AddRange(currentSentence.correctWords);
+        List<string> mixedWords = new List<string>(currentSentence.correctWords);
         mixedWords.AddRange(currentSentence.trapWords);
-
-        for (int j = 0; j < mixedWords.Count; j++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, mixedWords.Count);
-            string temp = mixedWords[j];
-            mixedWords[j] = mixedWords[randomIndex];
-            mixedWords[randomIndex] = temp;
-        }
+        Shuffle(mixedWords);
 
         for (int i = 0; i < sentencesSlots.Count; i++)
         {
-            if (i < currentSentence.correctWords.Count)
-            {
-                sentencesSlots[i].gameObject.SetActive(true);
-                sentencesSlots[i].text = "_";
-            }
-            else
-            {
-                sentencesSlots[i].gameObject.SetActive(false);
-            }
+            bool active = i < currentSentence.correctWords.Count;
+            sentencesSlots[i].gameObject.SetActive(active);
+            if (active) sentencesSlots[i].text = "_";
         }
 
         for (int i = 0; i < wordButtons.Count; i++)
@@ -158,9 +192,9 @@ public class TurnBaseManager : MonoBehaviour
                 wordButtons[i].interactable = true;
                 wordButtons[i].GetComponentInChildren<TMP_Text>().text = mixedWords[i];
 
-                string currentWord = mixedWords[i];
-                Button currentBtn = wordButtons[i];
-                currentBtn.onClick.AddListener(() => OnWordButtonClicked(currentBtn, currentWord));
+                string word = mixedWords[i];
+                Button btn = wordButtons[i];
+                btn.onClick.AddListener(() => OnWordButtonClicked(btn, word));
             }
             else
             {
@@ -169,64 +203,38 @@ public class TurnBaseManager : MonoBehaviour
         }
     }
 
-    private void LoadDefenseData()
+    public void SetupEnemyTurn()
     {
-        TextAsset csvData = Resources.Load<TextAsset>("Defense");
-        if (csvData == null) { Debug.LogError("Defense.csv not found!"); return; }
+        offensePanel.SetActive(false);
+        defensePanel.SetActive(true);
+        turnTimer = defenseMaxTime;
 
-        string[] dataLines = csvData.text.Split(new char[] { '\n' });
-        for (int i = 1; i < dataLines.Length; i++)
+        int randIndex = Random.Range(0, allDefenses.Count);
+        DefenseData currentDef = allDefenses[randIndex];
+
+        List<string> defenseWords = new List<string> { currentDef.oddWord };
+        for (int i = 0; i < stoneButtons.Count - 1 && i < currentDef.normalWords.Count; i++)
+            defenseWords.Add(currentDef.normalWords[i]);
+
+        Shuffle(defenseWords);
+
+        for (int i = 0; i < stoneButtons.Count; i++)
         {
-            string line = dataLines[i].Trim();
-            if (string.IsNullOrEmpty(line)) continue;
+            stoneButtons[i].onClick.RemoveAllListeners();
 
-            string[] columns = line.Split(';');
-            if (columns.Length >= 3)
+            if (i < defenseWords.Count)
             {
-                DefenseData newDef = new DefenseData();
-                newDef.id = int.Parse(columns[0]);
-                newDef.oddWord = columns[1].Trim();
+                stoneButtons[i].gameObject.SetActive(true);
+                stoneButtons[i].interactable = true;
+                stoneButtons[i].GetComponentInChildren<TMP_Text>().text = defenseWords[i];
 
-                string[] normals = columns[2].Trim().Split(',');
-                newDef.normalWords = new List<string>(normals);
-
-                allDefenses.Add(newDef);
+                string word = defenseWords[i];
+                string odd = currentDef.oddWord;
+                stoneButtons[i].onClick.AddListener(() => OnStoneClicked(word, odd));
             }
-        }
-        Debug.Log("Defense database loaded! Total puzzles: " + allDefenses.Count);
-    }
-
-    void Update()
-    {
-        if (currnetState == GameState.PlayerTurn)
-        {
-            turnTimer -= Time.deltaTime;
-            timerSlider.value = turnTimer / maxTime;
-
-            if (turnTimer <= 0)
+            else
             {
-                playerHP -= enemyBaseDamage;
-                currnetState = GameState.EnemyTurn;
-                Debug.Log("Time's up! Failed to build sentence, enemy's turn.");
-                SetupEnemyTurn();
-            }
-        }
-        else if (currnetState == GameState.EnemyTurn)
-        {
-            turnTimer -= Time.deltaTime;
-            timerSlider.value = turnTimer / defenseMaxTime;
-
-            if (turnTimer <= 0)
-            {
-                playerHP -= enemyBaseDamage;
-                UpdateHealthUI();
-                CheckWinLoseCondition();
-                Debug.Log("Defense time expired! Took damage.");
-
-                currnetState = GameState.PlayerTurn;
-                offensePanel.SetActive(true);
-                defensePanel.SetActive(false);
-                SetupPlayerTurn();
+                stoneButtons[i].gameObject.SetActive(false);
             }
         }
     }
@@ -244,7 +252,6 @@ public class TurnBaseManager : MonoBehaviour
     void CheckSentences()
     {
         bool isCorrect = true;
-
         for (int i = 0; i < currentInput.Count; i++)
         {
             if (currentInput[i] != currentSentence.correctWords[i])
@@ -256,23 +263,43 @@ public class TurnBaseManager : MonoBehaviour
 
         if (isCorrect)
         {
-            float finalDamage = baseDamage * (1 + (turnTimer / maxTime));
-            enemyHP -= finalDamage;
-            UpdateHealthUI();
-            CheckWinLoseCondition();
-            Debug.Log($"Correct! Enemy took {finalDamage} damage.");
+            playerGoals++;
+            UpdateGoalUI();
+            Debug.Log("GOL! Doğru cümle kuruldu.");
             GameEventSystem.LogAnswer("Battle - Sentence Building", true);
 
-            if (enemyHP <= 0) return;
+            if (CheckWinLoseCondition()) return;
         }
         else
         {
-            Debug.Log("Wrong sentence! Missed attack.");
+            Debug.Log("OUT! Yanlış cümle, şut kaçtı.");
             GameEventSystem.LogAnswer("Battle - Sentence Building", false, "Wrong word order");
         }
 
-        currnetState = GameState.EnemyTurn;
-        SetupEnemyTurn();
+        TransitionToEnemyTurn();
+    }
+
+    public void OnStoneClicked(string clickedWord, string oddWord)
+    {
+        foreach (Button btn in stoneButtons)
+            btn.interactable = false;
+
+        if (clickedWord == oddWord)
+        {
+            Debug.Log("KURTARMA! Doğru taş seçildi.");
+            GameEventSystem.LogAnswer("Battle - Find Odd Word", true);
+        }
+        else
+        {
+            enemyGoals++;
+            UpdateGoalUI();
+            Debug.Log("GOL YEDİN! Yanlış taş seçildi.");
+            GameEventSystem.LogAnswer("Battle - Find Odd Word", false, "Wrong word selected");
+
+            if (CheckWinLoseCondition()) return;
+        }
+
+        TransitionToPlayerTurn();
     }
 
     public void OnClearButtonClicked()
@@ -280,128 +307,60 @@ public class TurnBaseManager : MonoBehaviour
         currentInput.Clear();
 
         foreach (TMP_Text slot in sentencesSlots)
-            slot.text = "-";
+            if (slot.gameObject.activeSelf) slot.text = "_";
 
         foreach (Button btn in wordButtons)
-            btn.interactable = true;
+            if (btn.gameObject.activeSelf) btn.interactable = true;
     }
 
-    public void SetupEnemyTurn()
+    private void TransitionToPlayerTurn()
     {
-        offensePanel.SetActive(false);
-        defensePanel.SetActive(true);
-        turnTimer = defenseMaxTime;
-
-        int randIndex = UnityEngine.Random.Range(0, allDefenses.Count);
-        DefenseData currentDef = allDefenses[randIndex];
-
-        List<string> defenseWords = new List<string>();
-        string oddWord = currentDef.oddWord;
-        defenseWords.Add(oddWord);
-
-        for (int i = 0; i < stoneButtons.Count - 1; i++)
-        {
-            if (i < currentDef.normalWords.Count)
-                defenseWords.Add(currentDef.normalWords[i]);
-        }
-
-        for (int j = 0; j < defenseWords.Count; j++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, defenseWords.Count);
-            string temp = defenseWords[j];
-            defenseWords[j] = defenseWords[randomIndex];
-            defenseWords[randomIndex] = temp;
-        }
-
-        for (int i = 0; i < stoneButtons.Count; i++)
-        {
-            stoneButtons[i].onClick.RemoveAllListeners();
-
-            if (i < defenseWords.Count)
-            {
-                stoneButtons[i].gameObject.SetActive(true);
-                stoneButtons[i].interactable = true;
-                stoneButtons[i].GetComponentInChildren<TMP_Text>().text = defenseWords[i];
-
-                string clickedWord = defenseWords[i];
-                stoneButtons[i].onClick.AddListener(() => OnStoneClicked(clickedWord, oddWord));
-            }
-            else
-            {
-                stoneButtons[i].gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void OnStoneClicked(string clickedWord, string oddWord)
-    {
-        if (clickedWord == oddWord)
-        {
-            Debug.Log("Perfect block! Found the odd one, no damage taken.");
-            GameEventSystem.LogAnswer("Battle - Find Odd Word", true);
-        }
-        else
-        {
-            playerHP -= enemyBaseDamage;
-            UpdateHealthUI();
-            CheckWinLoseCondition();
-            Debug.Log($"Wrong stone! Enemy dealt {enemyBaseDamage} damage.");
-            GameEventSystem.LogAnswer("Battle - Find Odd Word", false, "Wrong word selected");
-
-            if (playerHP <= 0) return;
-        }
-
-        foreach (Button btn in stoneButtons)
-            btn.interactable = false;
-
-        currnetState = GameState.PlayerTurn;
-        offensePanel.SetActive(true);
-        defensePanel.SetActive(false);
+        currentState = GameState.PlayerTurn;
         SetupPlayerTurn();
     }
 
-    private void UpdateHealthUI()
+    private void TransitionToEnemyTurn()
     {
-        if (playerHealthSlider != null) playerHealthSlider.value = playerHP / 100;
-        if (enemyHealthSlider != null) enemyHealthSlider.value = enemyHP / 100;
-        if (playerHealthText != null) playerHealthText.text = playerHP.ToString("F0");
-        if (enemyHealthText != null) enemyHealthText.text = enemyHP.ToString("F0");
+        currentState = GameState.EnemyTurn;
+        SetupEnemyTurn();
     }
 
-    private void CheckWinLoseCondition()
+    private void UpdateGoalUI()
     {
-        if (enemyHP <= 0)
+        if (playerGoalText != null) playerGoalText.text = playerGoals.ToString();
+        if (enemyGoalText != null) enemyGoalText.text = enemyGoals.ToString();
+    }
+
+    // Returns true if the game ended
+    private bool CheckWinLoseCondition()
+    {
+        if (playerGoals >= maxGoals)
         {
-            enemyHP = 0;
-            UpdateHealthUI();
-            Debug.Log("Victory! Enemy defeated.");
             EndBattle(true);
+            return true;
         }
-        else if (playerHP <= 0)
+        if (enemyGoals >= maxGoals)
         {
-            playerHP = 0;
-            UpdateHealthUI();
-            Debug.Log("Defeated! Player died.");
             EndBattle(false);
+            return true;
         }
+        return false;
     }
 
     private void EndBattle(bool isWin)
     {
-        int finalScore = (int)((100 - enemyHP) * 1.5f);
+        currentState = GameState.GameOver;
+        Debug.Log(isWin ? "MAÇ KAZANILDI!" : "MAÇ KAYBEDİLDİ!");
+
+        int finalScore = playerGoals * 20;
         GameEventSystem.LogGameEnd("Battle", isWin, finalScore);
 
         if (battlePanel != null) battlePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);
 
-        if (!isWin)
-        {
-            playerHP = 100f;
-            enemyHP = 100f;
-            UpdateHealthUI();
-            currnetState = GameState.PlayerTurn;
-            SetupPlayerTurn();
-        }
+        playerGoals = 0;
+        enemyGoals = 0;
+        UpdateGoalUI();
 
         if (NPC.ActiveNPC != null)
             NPC.ActiveNPC.FinishMission(isWin);
@@ -409,13 +368,21 @@ public class TurnBaseManager : MonoBehaviour
 
     public void FleeBattle()
     {
-        Debug.Log("Fled from battle! Returning to town.");
-
-        playerHP = 100f;
-        enemyHP = 100f;
-        UpdateHealthUI();
+        Debug.Log("Maçtan çıkıldı.");
+        playerGoals = 0;
+        enemyGoals = 0;
+        UpdateGoalUI();
 
         if (battlePanel != null) battlePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);
+    }
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int r = Random.Range(0, list.Count);
+            (list[i], list[r]) = (list[r], list[i]);
+        }
     }
 }

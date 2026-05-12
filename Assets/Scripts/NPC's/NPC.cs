@@ -2,7 +2,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(SphereCollider))]
 public class NPC : MonoBehaviour
 {
     public enum NPCState { BeforeMission, MissionFailed, MissionCompleted }
@@ -29,13 +28,16 @@ public class NPC : MonoBehaviour
 
     [Header("UI Connection")]
     [SerializeField] private float SphereRadius = 4f;
-    [SerializeField] private GameObject interactionButton;
     [SerializeField] private GameObject dialoguePanel;
+    [SerializeField] private Button nextLineButton;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI nameText;
 
-    private SphereCollider sphereCollider;
+    [Header("Player Reference (opsiyonel — boş bırakılırsa otomatik bulunur)")]
+    [SerializeField] private Transform playerOverride;
+
     private bool isPlayerNear = false;
+    private Transform playerTransform;
 
     private int currentLineIndex = 0;
     private bool isDialogActive = false;
@@ -43,74 +45,61 @@ public class NPC : MonoBehaviour
 
     void Start()
     {
-        sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.radius = SphereRadius;
-        sphereCollider.isTrigger = true;
-
-        if (interactionButton != null) interactionButton.SetActive(false);
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
+
+        playerTransform = playerOverride != null ? playerOverride : FindPlayer();
+        if (playerTransform == null)
+            Debug.LogWarning($"[NPC] '{gameObject.name}': Player bulunamadı! Inspector'dan 'Player Override' alanına player'ı sürükleyin.");
     }
 
-    private void OnTriggerEnter(Collider other)
+    private Transform FindPlayer()
     {
-        if (other.CompareTag("Player"))
+        GameObject obj = GameObject.FindWithTag("Player");
+        if (obj == null)
         {
-            isPlayerNear = true;
-            ActiveNPC = this;
-
-            if (interactionButton != null)
-            {
-                Button btn = interactionButton.GetComponent<Button>();
-                if (btn != null)
-                {
-                    btn.onClick.RemoveAllListeners();
-                    btn.onClick.AddListener(OnTalkOrNextClicked);
-                }
-            }
-
-            if (dialoguePanel != null)
-            {
-                Button panelBtn = dialoguePanel.GetComponent<Button>();
-                if (panelBtn != null)
-                {
-                    panelBtn.onClick.RemoveAllListeners();
-                    panelBtn.onClick.AddListener(OnTalkOrNextClicked);
-                }
-            }
-
-            if (!isDialogActive && interactionButton != null) interactionButton.SetActive(true);
-
-            if (animator != null) animator.SetTrigger(WaveHash);
+            PlayerMovement pm = FindAnyObjectByType<PlayerMovement>();
+            if (pm != null) obj = pm.gameObject;
         }
+        return obj != null ? obj.transform : null;
     }
 
-    private void OnTriggerExit(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player"))
+        if (playerTransform == null)
         {
-            isPlayerNear = false;
-            if (interactionButton != null) interactionButton.SetActive(false);
-            if (ActiveNPC == this) ActiveNPC = null;
-            EndDialogue();
+            playerTransform = FindPlayer();
+            return;
         }
+
+        float dist = Vector3.Distance(transform.position, playerTransform.position);
+        bool near = dist <= SphereRadius;
+
+        if (near && !isPlayerNear)
+            OnPlayerEntered();
+        else if (!near && isPlayerNear)
+            OnPlayerExited();
     }
 
-    public void OnTalkOrNextClicked()
+    private void OnPlayerEntered()
     {
-        if (!isPlayerNear) return;
-        if (dialogueData == null) { Debug.LogError("ERROR: NPC dialogue data not assigned!"); return; }
+        isPlayerNear = true;
+        ActiveNPC = this;
 
-        if (!isDialogActive)
-        {
-            if (currentState == NPCState.BeforeMission || currentState == NPCState.MissionFailed)
-                StartDialogue(dialogueData.preGameDialogues);
-            else if (currentState == NPCState.MissionCompleted)
-                StartDialogue(dialogueData.winDialogues);
-        }
-        else
-        {
-            DisplayNextLine();
-        }
+        if (animator != null) animator.SetTrigger(WaveHash);
+
+        if (dialogueData == null) return;
+
+        if (currentState == NPCState.BeforeMission || currentState == NPCState.MissionFailed)
+            StartDialogue(dialogueData.preGameDialogues);
+        else if (currentState == NPCState.MissionCompleted)
+            StartDialogue(dialogueData.winDialogues);
+    }
+
+    private void OnPlayerExited()
+    {
+        isPlayerNear = false;
+        if (ActiveNPC == this) ActiveNPC = null;
+        EndDialogue();
     }
 
     private void StartDialogue(string[] linesToPlay)
@@ -121,15 +110,22 @@ public class NPC : MonoBehaviour
         currentDialogueLines = linesToPlay;
         currentLineIndex = 0;
 
-        if (interactionButton != null) interactionButton.SetActive(false);
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
         if (nameText != null) nameText.text = dialogueData.npcName;
+
+        if (nextLineButton != null)
+        {
+            nextLineButton.onClick.RemoveAllListeners();
+            nextLineButton.onClick.AddListener(DisplayNextLine);
+        }
 
         DisplayNextLine();
     }
 
-    private void DisplayNextLine()
+    public void DisplayNextLine()
     {
+        if (!isDialogActive) return;
+
         if (currentLineIndex >= currentDialogueLines.Length)
         {
             EndDialogue();
@@ -146,7 +142,6 @@ public class NPC : MonoBehaviour
     {
         isDialogActive = false;
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
-        if (isPlayerNear && interactionButton != null) interactionButton.SetActive(true);
     }
 
     private void TriggerMiniGame()

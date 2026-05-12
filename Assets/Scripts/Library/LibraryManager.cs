@@ -62,9 +62,16 @@ public class LibraryManager : MonoBehaviour
             return;
         }
 
+        if (DataManager.instance == null)
+        {
+            Debug.LogError("DataManager.instance is null — LibraryManager cannot load words.");
+            return;
+        }
+
         List<WordDataSO> availableWords = new List<WordDataSO>();
         foreach (WordDataSO w in wordList)
         {
+            if (w == null) { Debug.LogWarning("wordList içinde null WordDataSO var, atlanıyor."); continue; }
             if (DataManager.instance.GetWordProgress(w.wordID).masteryLevel < 3)
                 availableWords.Add(w);
         }
