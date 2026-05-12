@@ -720,7 +720,7 @@ MonoBehaviour:
   nextLineButton: {fileID: 776322548}
   dialogText: {fileID: 1610182313}
   nameText: {fileID: 370243633}
-  playerOverride: {fileID: 1589585648}
+  playerOverride: {fileID: 0}
 --- !u!135 &8109122
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3533,7 +3533,7 @@ Transform:
   - {fileID: 1578399782}
   - {fileID: 1351771375}
   - {fileID: 503775617}
-  - {fileID: 1589585648}
+  - {fileID: 753539737}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &204477228
@@ -8468,7 +8468,7 @@ MonoBehaviour:
   nextLineButton: {fileID: 776322548}
   dialogText: {fileID: 1610182313}
   nameText: {fileID: 370243633}
-  playerOverride: {fileID: 1589585648}
+  playerOverride: {fileID: 0}
 --- !u!135 &503775615
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11974,6 +11974,249 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 749461395}
   m_CullTransparentMesh: 1
+--- !u!1 &753539736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 753539737}
+  - component: {fileID: 753539740}
+  - component: {fileID: 753539739}
+  - component: {fileID: 753539738}
+  m_Layer: 0
+  m_Name: Player
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &753539737
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753539736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.92, y: -4.4, z: -30.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1323878241}
+  m_Father: {fileID: 189523927}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &753539738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753539736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee21eaa9158e8f4ca0aaa0bee740217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slots:
+  - slotName: Head
+    variations:
+    - {fileID: 1323878264}
+    - {fileID: 1323878263}
+    - {fileID: 1323878262}
+    - {fileID: 1323878261}
+  - slotName: Hair
+    variations:
+    - {fileID: 1323878260}
+    - {fileID: 1323878259}
+    - {fileID: 1323878258}
+    - {fileID: 2054667148}
+    - {fileID: 1357511001}
+    - {fileID: 700712763}
+    - {fileID: 1269940621}
+    - {fileID: 5594164}
+    - {fileID: 24057701}
+    - {fileID: 2119407768}
+    - {fileID: 847194641}
+    - {fileID: 1564180508}
+    - {fileID: 953738100}
+    - {fileID: 1312834578}
+    - {fileID: 2034778126}
+    - {fileID: 2034778125}
+    - {fileID: 2034778124}
+    - {fileID: 2034778123}
+    - {fileID: 2034778122}
+    - {fileID: 2034778121}
+    - {fileID: 2034778120}
+    - {fileID: 2034778119}
+    - {fileID: 2034778118}
+    - {fileID: 2034778117}
+    - {fileID: 2034778116}
+    - {fileID: 2034778115}
+    - {fileID: 2034778114}
+    - {fileID: 2034778113}
+    - {fileID: 2034778112}
+    - {fileID: 2034778111}
+    - {fileID: 2034778110}
+    - {fileID: 2034778109}
+    - {fileID: 2034778108}
+    - {fileID: 2034778107}
+    - {fileID: 2034778106}
+    - {fileID: 2034778105}
+    - {fileID: 2034778104}
+    - {fileID: 2034778103}
+    - {fileID: 2034778102}
+    - {fileID: 2034778101}
+  - slotName: Top
+    variations:
+    - {fileID: 1323878257}
+    - {fileID: 1323878256}
+    - {fileID: 1323878255}
+    - {fileID: 1323878254}
+    - {fileID: 2034778100}
+    - {fileID: 2034778099}
+    - {fileID: 2034778098}
+    - {fileID: 2034778097}
+    - {fileID: 2034778096}
+    - {fileID: 2034778095}
+    - {fileID: 2034778094}
+    - {fileID: 2034778093}
+    - {fileID: 2034778092}
+    - {fileID: 2034778091}
+    - {fileID: 2034778090}
+    - {fileID: 2034778089}
+    - {fileID: 2034778088}
+    - {fileID: 2034778087}
+    - {fileID: 2034778086}
+    - {fileID: 2034778085}
+    - {fileID: 2034778084}
+    - {fileID: 2034778083}
+    - {fileID: 2034778082}
+    - {fileID: 2034778081}
+    - {fileID: 2034778080}
+    - {fileID: 2034778079}
+    - {fileID: 2034778078}
+    - {fileID: 2034778077}
+    - {fileID: 2034778076}
+    - {fileID: 2034778075}
+    - {fileID: 2034778074}
+    - {fileID: 2034778073}
+    - {fileID: 2034778072}
+    - {fileID: 2034778071}
+    - {fileID: 2034778070}
+    - {fileID: 2034778069}
+    - {fileID: 2034778068}
+    - {fileID: 2034778067}
+    - {fileID: 2034778066}
+    - {fileID: 2034778065}
+  - slotName: Bottom
+    variations:
+    - {fileID: 1323878253}
+    - {fileID: 1323878252}
+    - {fileID: 1323878251}
+    - {fileID: 1323878250}
+    - {fileID: 2133872201}
+    - {fileID: 2133872200}
+    - {fileID: 2133872199}
+    - {fileID: 2133872198}
+    - {fileID: 2133872197}
+    - {fileID: 2133872196}
+    - {fileID: 2133872195}
+    - {fileID: 2133872194}
+    - {fileID: 2133872193}
+    - {fileID: 2133872192}
+    - {fileID: 2133872191}
+    - {fileID: 2133872190}
+    - {fileID: 2133872189}
+    - {fileID: 2133872188}
+    - {fileID: 2133872187}
+    - {fileID: 2133872186}
+    - {fileID: 2133872185}
+    - {fileID: 2133872184}
+    - {fileID: 2133872183}
+    - {fileID: 2133872182}
+    - {fileID: 2133872181}
+    - {fileID: 2133872180}
+    - {fileID: 2133872179}
+    - {fileID: 2133872178}
+    - {fileID: 2133872177}
+    - {fileID: 2133872176}
+    - {fileID: 2133872175}
+    - {fileID: 2133872174}
+    - {fileID: 2133872173}
+    - {fileID: 2133872172}
+    - {fileID: 2133872171}
+    - {fileID: 2133872170}
+    - {fileID: 2133872169}
+    - {fileID: 2133872168}
+    - {fileID: 2133872167}
+    - {fileID: 2133872166}
+  - slotName: Beard
+    variations:
+    - {fileID: 1323878249}
+    - {fileID: 1323878248}
+    - {fileID: 1323878247}
+    - {fileID: 1323878246}
+    - {fileID: 774856042}
+    - {fileID: 774856041}
+    - {fileID: 774856040}
+    - {fileID: 774856039}
+    - {fileID: 774856038}
+    - {fileID: 774856037}
+    - {fileID: 774856036}
+    - {fileID: 774856035}
+  - slotName: Glasses
+    variations:
+    - {fileID: 1323878245}
+    - {fileID: 1323878244}
+    - {fileID: 1323878243}
+    - {fileID: 1323878242}
+--- !u!114 &753539739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753539736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0568aab0b39d4d7439747d240ee05efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rotationSmoothTime: 0.15
+  speedSmoothTime: 0.12
+  gravity: 20
+  joystick: {fileID: 746422320}
+  animator: {fileID: 1323878240}
+--- !u!143 &753539740
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753539736}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 8
+  m_Radius: 1
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 4, z: 0}
 --- !u!1 &754276096
 GameObject:
   m_ObjectHideFlags: 0
@@ -18625,23 +18868,23 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1589585648}
+    m_TransformParent: {fileID: 753539737}
     m_Modifications:
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18649,7 +18892,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.57
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2825111122086929283, guid: 87ae1b54022aac3488106f91e1ec8d30, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19081,7 +19324,7 @@ MonoBehaviour:
   nextLineButton: {fileID: 776322548}
   dialogText: {fileID: 1610182313}
   nameText: {fileID: 370243633}
-  playerOverride: {fileID: 1589585648}
+  playerOverride: {fileID: 0}
 --- !u!135 &1351771373
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -22770,7 +23013,7 @@ MonoBehaviour:
   nextLineButton: {fileID: 776322548}
   dialogText: {fileID: 1610182313}
   nameText: {fileID: 370243633}
-  playerOverride: {fileID: 1589585648}
+  playerOverride: {fileID: 0}
 --- !u!135 &1578399780
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23042,249 +23285,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2052500132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1589585645
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1589585648}
-  - component: {fileID: 1589585647}
-  - component: {fileID: 1589585646}
-  - component: {fileID: 1589585649}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1589585646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589585645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0568aab0b39d4d7439747d240ee05efa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 7
-  rotationSmoothTime: 0.5
-  speedSmoothTime: 1
-  gravity: 20
-  joystick: {fileID: 746422320}
-  animator: {fileID: 1323878240}
---- !u!143 &1589585647
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589585645}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 4
-  m_Radius: 0.7
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2, z: 0}
---- !u!4 &1589585648
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589585645}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.6063714, y: -4.444008, z: -30.71906}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1323878241}
-  m_Father: {fileID: 189523927}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1589585649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589585645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ee21eaa9158e8f4ca0aaa0bee740217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slots:
-  - slotName: Head
-    variations:
-    - {fileID: 1323878264}
-    - {fileID: 1323878263}
-    - {fileID: 1323878262}
-    - {fileID: 1323878261}
-  - slotName: Hair
-    variations:
-    - {fileID: 1323878260}
-    - {fileID: 1323878259}
-    - {fileID: 1323878258}
-    - {fileID: 2054667148}
-    - {fileID: 1357511001}
-    - {fileID: 700712763}
-    - {fileID: 1269940621}
-    - {fileID: 5594164}
-    - {fileID: 24057701}
-    - {fileID: 2119407768}
-    - {fileID: 847194641}
-    - {fileID: 1564180508}
-    - {fileID: 953738100}
-    - {fileID: 1312834578}
-    - {fileID: 2034778126}
-    - {fileID: 2034778125}
-    - {fileID: 2034778124}
-    - {fileID: 2034778123}
-    - {fileID: 2034778122}
-    - {fileID: 2034778121}
-    - {fileID: 2034778120}
-    - {fileID: 2034778119}
-    - {fileID: 2034778118}
-    - {fileID: 2034778117}
-    - {fileID: 2034778116}
-    - {fileID: 2034778115}
-    - {fileID: 2034778114}
-    - {fileID: 2034778113}
-    - {fileID: 2034778112}
-    - {fileID: 2034778111}
-    - {fileID: 2034778110}
-    - {fileID: 2034778109}
-    - {fileID: 2034778108}
-    - {fileID: 2034778107}
-    - {fileID: 2034778106}
-    - {fileID: 2034778105}
-    - {fileID: 2034778104}
-    - {fileID: 2034778103}
-    - {fileID: 2034778102}
-    - {fileID: 2034778101}
-  - slotName: Top
-    variations:
-    - {fileID: 1323878257}
-    - {fileID: 1323878256}
-    - {fileID: 1323878255}
-    - {fileID: 1323878254}
-    - {fileID: 2034778100}
-    - {fileID: 2034778099}
-    - {fileID: 2034778098}
-    - {fileID: 2034778097}
-    - {fileID: 2034778096}
-    - {fileID: 2034778095}
-    - {fileID: 2034778094}
-    - {fileID: 2034778093}
-    - {fileID: 2034778092}
-    - {fileID: 2034778091}
-    - {fileID: 2034778090}
-    - {fileID: 2034778089}
-    - {fileID: 2034778088}
-    - {fileID: 2034778087}
-    - {fileID: 2034778086}
-    - {fileID: 2034778085}
-    - {fileID: 2034778084}
-    - {fileID: 2034778083}
-    - {fileID: 2034778082}
-    - {fileID: 2034778081}
-    - {fileID: 2034778080}
-    - {fileID: 2034778079}
-    - {fileID: 2034778078}
-    - {fileID: 2034778077}
-    - {fileID: 2034778076}
-    - {fileID: 2034778075}
-    - {fileID: 2034778074}
-    - {fileID: 2034778073}
-    - {fileID: 2034778072}
-    - {fileID: 2034778071}
-    - {fileID: 2034778070}
-    - {fileID: 2034778069}
-    - {fileID: 2034778068}
-    - {fileID: 2034778067}
-    - {fileID: 2034778066}
-    - {fileID: 2034778065}
-  - slotName: Bottom
-    variations:
-    - {fileID: 1323878253}
-    - {fileID: 1323878252}
-    - {fileID: 1323878251}
-    - {fileID: 1323878250}
-    - {fileID: 2133872201}
-    - {fileID: 2133872200}
-    - {fileID: 2133872199}
-    - {fileID: 2133872198}
-    - {fileID: 2133872197}
-    - {fileID: 2133872196}
-    - {fileID: 2133872195}
-    - {fileID: 2133872194}
-    - {fileID: 2133872193}
-    - {fileID: 2133872192}
-    - {fileID: 2133872191}
-    - {fileID: 2133872190}
-    - {fileID: 2133872189}
-    - {fileID: 2133872188}
-    - {fileID: 2133872187}
-    - {fileID: 2133872186}
-    - {fileID: 2133872185}
-    - {fileID: 2133872184}
-    - {fileID: 2133872183}
-    - {fileID: 2133872182}
-    - {fileID: 2133872181}
-    - {fileID: 2133872180}
-    - {fileID: 2133872179}
-    - {fileID: 2133872178}
-    - {fileID: 2133872177}
-    - {fileID: 2133872176}
-    - {fileID: 2133872175}
-    - {fileID: 2133872174}
-    - {fileID: 2133872173}
-    - {fileID: 2133872172}
-    - {fileID: 2133872171}
-    - {fileID: 2133872170}
-    - {fileID: 2133872169}
-    - {fileID: 2133872168}
-    - {fileID: 2133872167}
-    - {fileID: 2133872166}
-  - slotName: Beard
-    variations:
-    - {fileID: 1323878249}
-    - {fileID: 1323878248}
-    - {fileID: 1323878247}
-    - {fileID: 1323878246}
-    - {fileID: 774856042}
-    - {fileID: 774856041}
-    - {fileID: 774856040}
-    - {fileID: 774856039}
-    - {fileID: 774856038}
-    - {fileID: 774856037}
-    - {fileID: 774856036}
-    - {fileID: 774856035}
-  - slotName: Glasses
-    variations:
-    - {fileID: 1323878245}
-    - {fileID: 1323878244}
-    - {fileID: 1323878243}
-    - {fileID: 1323878242}
 --- !u!1 &1603790953
 GameObject:
   m_ObjectHideFlags: 0
@@ -26737,7 +26737,7 @@ MonoBehaviour:
   nextLineButton: {fileID: 776322548}
   dialogText: {fileID: 1610182313}
   nameText: {fileID: 370243633}
-  playerOverride: {fileID: 1589585648}
+  playerOverride: {fileID: 0}
 --- !u!135 &1810632112
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31802,7 +31802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8621481b339cb43aebe46484eb3215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1589585648}
+  target: {fileID: 0}
   distance: 8
   height: 5
   positionSmoothTime: 0.12

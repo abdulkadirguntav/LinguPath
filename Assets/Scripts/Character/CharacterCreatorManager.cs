@@ -20,6 +20,7 @@ public class CharacterCreatorManager : MonoBehaviour
     [Header("Panel References")]
     public GameObject creatorPanel;
     public GameObject mainMenuPanel;
+    public GameObject slotSelectionPanel;
 
     void OnEnable()
     {
@@ -100,7 +101,8 @@ public class CharacterCreatorManager : MonoBehaviour
     public void BackToMenu()
     {
         if (creatorPanel != null) creatorPanel.SetActive(false);
-        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+        GameObject target = slotSelectionPanel != null ? slotSelectionPanel : mainMenuPanel;
+        if (target != null) target.SetActive(true);
     }
 
     private void ApplyAndUpdate(CharacterSlot slot)

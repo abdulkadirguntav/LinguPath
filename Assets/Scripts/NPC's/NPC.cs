@@ -50,6 +50,10 @@ public class NPC : MonoBehaviour
         playerTransform = playerOverride != null ? playerOverride : FindPlayer();
         if (playerTransform == null)
             Debug.LogWarning($"[NPC] '{gameObject.name}': Player bulunamadı! Inspector'dan 'Player Override' alanına player'ı sürükleyin.");
+
+        // Kayıtlı durumu yükle
+        if (SaveSlotManager.instance != null)
+            currentState = (NPCState)SaveSlotManager.instance.GetNpcState(gameObject.name);
     }
 
     private Transform FindPlayer()
@@ -181,6 +185,7 @@ public class NPC : MonoBehaviour
         if (isWin)
         {
             currentState = NPCState.MissionCompleted;
+            SaveSlotManager.instance?.SaveNpcState(gameObject.name, (int)currentState);
             StartDialogue(dialogueData.winDialogues);
 
             if (GameCompletionManager.instance != null)
@@ -189,6 +194,7 @@ public class NPC : MonoBehaviour
         else
         {
             currentState = NPCState.MissionFailed;
+            SaveSlotManager.instance?.SaveNpcState(gameObject.name, (int)currentState);
             StartDialogue(dialogueData.loseDialogues);
         }
     }

@@ -6,18 +6,12 @@ public class MainMenuManager : MonoBehaviour
     [Header("Paneller")]
     public GameObject mainMenuPanel;
     public GameObject characterCreatorPanel;
+    public GameObject slotSelectionPanel;
 
     public void PlayGame()
     {
-        // Kayıtlı karakter yoksa önce oluşturma ekranını aç
-        if (CharacterSaveManager.instance == null || !CharacterSaveManager.instance.HasSavedCharacter())
-        {
-            if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
-            if (characterCreatorPanel != null) characterCreatorPanel.SetActive(true);
-            return;
-        }
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (slotSelectionPanel != null) slotSelectionPanel.SetActive(true);
     }
 
     // SETTINGS butonu tetikleyecek

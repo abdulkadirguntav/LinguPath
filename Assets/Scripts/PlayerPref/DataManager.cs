@@ -40,13 +40,14 @@ public class DataManager : MonoBehaviour
 
     public void SaveData()
     {
-        ProgressWrapper wrapper = new ProgressWrapper { wrappedList = studentProgressList };
+        SaveSlotManager.instance?.SaveActiveSlot();
+        Debug.Log("Data saved to slot.");
+    }
 
-        string jsonText = JsonUtility.ToJson(wrapper,true);
-
-        File.WriteAllText(saveFilePath, jsonText);
-
-        Debug.Log(" Save Data " + saveFilePath);
+    // Slot yüklendiğinde SaveSlotManager tarafından çağrılır
+    public void LoadFromSlot(List<WordProgress> progress)
+    {
+        studentProgressList = progress ?? new List<WordProgress>();
     }
 
     public void LoadData()

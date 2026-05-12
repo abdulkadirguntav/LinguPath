@@ -46,7 +46,13 @@ public class CharacterSaveManager : MonoBehaviour
             beardIndex = beard,
             glassesIndex = glasses
         };
-        File.WriteAllText(savePath, JsonUtility.ToJson(data, true));
+        SaveSlotManager.instance?.SaveActiveSlot();
+    }
+
+    // Slot yüklendiğinde SaveSlotManager tarafından çağrılır
+    public void LoadFromSlot(CharacterSaveData slotData)
+    {
+        data = slotData ?? new CharacterSaveData();
     }
 
     public void DeleteSave()
