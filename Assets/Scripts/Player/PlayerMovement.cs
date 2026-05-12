@@ -5,7 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
-    public float rotationSmoothTime = 0.08f;
+    public float rotationSmoothTime = 0.15f;
+    public float speedSmoothTime = 0.12f;
     public float gravity = 20f;
 
     [Header("Controller")]
@@ -18,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private float verticalVelocity;
     private float rotationVelocity;
+    private float currentSpeed;
+    private float speedVelocity;
     private Camera mainCamera;
 
     void Start()
@@ -31,10 +34,11 @@ public class PlayerMovement : MonoBehaviour
         float horizontal = joystick.Horizontal;
         float vertical = joystick.Vertical;
 
-        Vector3 moveDir = Vector3.zero;
+        bool isMoving = new Vector2(horizontal, vertical).magnitude > 0.1f;
 
-        if (new Vector2(horizontal, vertical).magnitude > 0.1f)
+        if (isMoving)
         {
+            Vector3 moveDir;
             if (mainCamera != null)
             {
                 Vector3 camForward = mainCamera.transform.forward;
@@ -58,12 +62,16 @@ public class PlayerMovement : MonoBehaviour
         else
             verticalVelocity -= gravity * Time.deltaTime;
 
-        Vector3 motion = moveDir * moveSpeed;
+        // Hızı yumuşat — anında durma/başlama yok
+        float targetSpeed = isMoving ? moveSpeed : 0f;
+        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedVelocity, speedSmoothTime);
+
+        Vector3 motion = transform.forward * currentSpeed;
         motion.y = verticalVelocity;
 
         controller.Move(motion * Time.deltaTime);
 
         if (animator != null)
-            animator.SetFloat(SpeedHash, moveDir.magnitude);
+            animator.SetFloat(SpeedHash, currentSpeed / moveSpeed);
     }
 }

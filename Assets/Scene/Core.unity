@@ -9317,6 +9317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a43eb6c26dafb54583dba4ec523a658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  csvPath: 
+  statsJsonPath: 
 --- !u!4 &592257727
 Transform:
   m_ObjectHideFlags: 0
@@ -15127,7 +15129,6 @@ MonoBehaviour:
   chatText: {fileID: 155673236}
   chatInput: {fileID: 1453737661}
   thinkingIndicator: {fileID: 0}
-  statisticsManager: {fileID: 592257726}
   apiKey: AIzaSyB041H4Kc1JRGJHrk6FS5cxnuvwzssPNeg
   characters: []
   activeCharacterIndex: 0
@@ -23072,8 +23073,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0568aab0b39d4d7439747d240ee05efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  rotationSmoothTime: 0.08
+  moveSpeed: 7
+  rotationSmoothTime: 0.5
+  speedSmoothTime: 1
   gravity: 20
   joystick: {fileID: 746422320}
   animator: {fileID: 1323878240}

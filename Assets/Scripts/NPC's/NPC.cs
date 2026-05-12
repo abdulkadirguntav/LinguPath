@@ -176,6 +176,8 @@ public class NPC : MonoBehaviour
 
     public void FinishMission(bool isWin)
     {
+        if (dialogueData == null) return;
+
         if (isWin)
         {
             currentState = NPCState.MissionCompleted;

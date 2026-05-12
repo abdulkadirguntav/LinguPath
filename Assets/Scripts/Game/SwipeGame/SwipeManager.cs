@@ -129,12 +129,10 @@ public class SwipeManager : MonoBehaviour
         if (isSwipedRight == isCurrentSentenceTrue)
         {
             Debug.Log("Correct!");
-            GameEventSystem.LogAnswer("Vocabulary Matching", true);
         }
         else
         {
             Debug.Log("Wrong!");
-            GameEventSystem.LogAnswer("Vocabulary Matching", false, "Wrong card swipe");
             currentHealth--;
 
             if (currentHealth >= 0 && currentHealth < heartIcons.Count)
@@ -154,9 +152,6 @@ public class SwipeManager : MonoBehaviour
 
     private void EndGame(bool isWin)
     {
-        int finalScore = currentCardIndex * 10;
-        GameEventSystem.LogGameEnd("Swipe Cards", isWin, finalScore);
-
         if (!isWin)
         {
             currentCardIndex = 0;

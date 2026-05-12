@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class MarketManager : MonoBehaviour
 {
@@ -56,8 +55,6 @@ public class MarketManager : MonoBehaviour
         if (isCorrect)
         {
             Debug.Log("Mission Complete!");
-            GameEventSystem.LogAnswer("Market Shopping", true);
-            GameEventSystem.LogGameEnd("Market Game", true, npcList.Count * 25);
             currentItems.Clear();
             ExitMiniGame();
 
@@ -67,8 +64,6 @@ public class MarketManager : MonoBehaviour
         else
         {
             Debug.Log("Mission Failed!");
-            GameEventSystem.LogAnswer("Market Shopping", false, "Wrong item selected");
-            GameEventSystem.LogGameEnd("Market Game", false, 0);
             currentItems.Clear();
 
             if (NPC.ActiveNPC != null)

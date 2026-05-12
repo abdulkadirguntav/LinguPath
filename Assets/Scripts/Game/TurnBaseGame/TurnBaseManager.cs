@@ -138,7 +138,6 @@ public class TurnBaseManager : MonoBehaviour
             if (turnTimer <= 0)
             {
                 Debug.Log("Süre doldu! Şut kaçtı (OUT).");
-                GameEventSystem.LogAnswer("Battle - Sentence Building", false, "Time expired");
                 TransitionToEnemyTurn();
             }
         }
@@ -152,7 +151,6 @@ public class TurnBaseManager : MonoBehaviour
                 enemyGoals++;
                 UpdateGoalUI();
                 Debug.Log("Savunma süresi doldu! Gol yenildi.");
-                GameEventSystem.LogAnswer("Battle - Find Odd Word", false, "Time expired");
 
                 if (CheckWinLoseCondition()) return;
                 TransitionToPlayerTurn();
@@ -266,14 +264,12 @@ public class TurnBaseManager : MonoBehaviour
             playerGoals++;
             UpdateGoalUI();
             Debug.Log("GOL! Doğru cümle kuruldu.");
-            GameEventSystem.LogAnswer("Battle - Sentence Building", true);
 
             if (CheckWinLoseCondition()) return;
         }
         else
         {
             Debug.Log("OUT! Yanlış cümle, şut kaçtı.");
-            GameEventSystem.LogAnswer("Battle - Sentence Building", false, "Wrong word order");
         }
 
         TransitionToEnemyTurn();
@@ -287,14 +283,12 @@ public class TurnBaseManager : MonoBehaviour
         if (clickedWord == oddWord)
         {
             Debug.Log("KURTARMA! Doğru taş seçildi.");
-            GameEventSystem.LogAnswer("Battle - Find Odd Word", true);
         }
         else
         {
             enemyGoals++;
             UpdateGoalUI();
             Debug.Log("GOL YEDİN! Yanlış taş seçildi.");
-            GameEventSystem.LogAnswer("Battle - Find Odd Word", false, "Wrong word selected");
 
             if (CheckWinLoseCondition()) return;
         }
@@ -353,7 +347,7 @@ public class TurnBaseManager : MonoBehaviour
         Debug.Log(isWin ? "MAÇ KAZANILDI!" : "MAÇ KAYBEDİLDİ!");
 
         int finalScore = playerGoals * 20;
-        GameEventSystem.LogGameEnd("Battle", isWin, finalScore);
+        Debug.Log($"Maç bitti. Skor: {finalScore}");
 
         if (battlePanel != null) battlePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);

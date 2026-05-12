@@ -25,9 +25,6 @@ public class GeminiManager : MonoBehaviour
     public TMP_InputField chatInput;
     public GameObject thinkingIndicator;
 
-    [Header("Statistics")]
-    public StatisticsManager statisticsManager;
-
     [Header("API Settings")]
     public string apiKey = "";
 
@@ -199,20 +196,7 @@ public class GeminiManager : MonoBehaviour
 
         // Grammar feedback
         if (!string.IsNullOrEmpty(grammar) && !grammar.ToLower().StartsWith("perfect"))
-        {
             AppendToChat($"\n<color=#FFFF00><size=80%><i>Note: {grammar}</i></size></color>");
-
-            string topic = ExtractTopicFromError(grammar);
-            statisticsManager?.LogWrongAnswer(topic, grammar);
-            DataLogger.LogData("AI", "Grammar_Error", grammar);
-            GameEventSystem.LogAnswer("Speaking Fluency", false, grammar);
-        }
-        else
-        {
-            statisticsManager?.LogCorrectAnswer("Speaking Fluency");
-            DataLogger.LogData("AI", "Correct_Answer", "Grammar perfect");
-            GameEventSystem.LogAnswer("Speaking Fluency", true);
-        }
 
         emotionEngine?.SetEmotion(emotion);
         audioEngine?.SpeakFromAI(reply);
@@ -228,21 +212,5 @@ public class GeminiManager : MonoBehaviour
     {
         if (thinkingIndicator != null)
             thinkingIndicator.SetActive(thinking);
-    }
-
-    private string ExtractTopicFromError(string errorMessage)
-    {
-        string lower = errorMessage.ToLower();
-        if (lower.Contains("subject")) return "Subject Sentence";
-        if (lower.Contains("verb") || lower.Contains("tense")) return "Verb Tense";
-        if (lower.Contains("adjective")) return "Adjectives";
-        if (lower.Contains("noun")) return "Noun Sentences";
-        if (lower.Contains("pronoun")) return "Pronouns";
-        if (lower.Contains("comma") || lower.Contains("punctuation")) return "Punctuation";
-        if (lower.Contains("exclamation")) return "Exclamatory Sentences";
-        if (lower.Contains("question")) return "Question Structure";
-        if (lower.Contains("article") || lower.Contains(" a ") || lower.Contains(" an ")) return "Articles";
-        if (lower.Contains("preposition")) return "Prepositions";
-        return "General Grammar";
     }
 }
