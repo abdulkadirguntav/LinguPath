@@ -56,10 +56,19 @@ public class TurnBaseManager : MonoBehaviour
     [SerializeField] private float defenseMaxTime = 5f;
 
     [Header("UI References")]
-    public List<TMP_Text> sentencesSlots = new List<TMP_Text>();
+    public Transform answerContainer;
+    public GameObject answerWordPrefab;
     public List<Button> wordButtons = new List<Button>();
     public Slider timerSlider;
     public TMP_Text turkishHintText;
+
+    private struct AnswerChip
+    {
+        public GameObject chip;
+        public Button sourceBtn;
+        public string word;
+    }
+    private List<AnswerChip> answerChips = new List<AnswerChip>();
 
     [Header("Panel References")]
     public GameObject offensePanel;
@@ -164,6 +173,7 @@ public class TurnBaseManager : MonoBehaviour
         defensePanel.SetActive(false);
         turnTimer = maxTime;
         currentInput.Clear();
+        ClearAnswerChips();
 
         int randIndex = Random.Range(0, allSentences.Count);
         currentSentence = allSentences[randIndex];
@@ -172,13 +182,6 @@ public class TurnBaseManager : MonoBehaviour
         List<string> mixedWords = new List<string>(currentSentence.correctWords);
         mixedWords.AddRange(currentSentence.trapWords);
         Shuffle(mixedWords);
-
-        for (int i = 0; i < sentencesSlots.Count; i++)
-        {
-            bool active = i < currentSentence.correctWords.Count;
-            sentencesSlots[i].gameObject.SetActive(active);
-            if (active) sentencesSlots[i].text = "_";
-        }
 
         for (int i = 0; i < wordButtons.Count; i++)
         {
@@ -240,11 +243,38 @@ public class TurnBaseManager : MonoBehaviour
     public void OnWordButtonClicked(Button clickedBtn, string word)
     {
         currentInput.Add(word);
-        sentencesSlots[currentInput.Count - 1].text = word;
         clickedBtn.interactable = false;
+
+        GameObject chip = Instantiate(answerWordPrefab, answerContainer);
+        chip.GetComponentInChildren<TMP_Text>().text = word;
+
+        AnswerChip entry = new AnswerChip { chip = chip, sourceBtn = clickedBtn, word = word };
+        answerChips.Add(entry);
+
+        Button chipBtn = chip.GetComponent<Button>();
+        if (chipBtn != null)
+            chipBtn.onClick.AddListener(() => RemoveAnswerChip(entry));
 
         if (currentInput.Count == currentSentence.correctWords.Count)
             CheckSentences();
+    }
+
+    private void RemoveAnswerChip(AnswerChip entry)
+    {
+        int index = answerChips.IndexOf(entry);
+        if (index < 0) return;
+
+        answerChips.RemoveAt(index);
+        currentInput.RemoveAt(index);
+        entry.sourceBtn.interactable = true;
+        Destroy(entry.chip);
+    }
+
+    private void ClearAnswerChips()
+    {
+        foreach (AnswerChip entry in answerChips)
+            if (entry.chip != null) Destroy(entry.chip);
+        answerChips.Clear();
     }
 
     void CheckSentences()
@@ -299,9 +329,7 @@ public class TurnBaseManager : MonoBehaviour
     public void OnClearButtonClicked()
     {
         currentInput.Clear();
-
-        foreach (TMP_Text slot in sentencesSlots)
-            if (slot.gameObject.activeSelf) slot.text = "_";
+        ClearAnswerChips();
 
         foreach (Button btn in wordButtons)
             if (btn.gameObject.activeSelf) btn.interactable = true;
