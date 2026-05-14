@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_025
   englishWord: Reveal
-  turkishMeaning: "A\uFFFD\uFFFD\uFFFDa \uFFFD\uFFFDkarmak"
+  turkishMeaning: "A\xE7\u0131\u011Fa \xE7\u0131karmak"
   exampleSentences: The ancient scroll will reveal the hidden dungeon.

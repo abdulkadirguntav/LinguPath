@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_073
   englishWord: Enemy
-  turkishMeaning: "D\uFFFD\uFFFDman"
+  turkishMeaning: "D\xFC\u015Fman"
   exampleSentences: The enemy army is waiting on the other side of the bridge.

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_047
   englishWord: Valid
-  turkishMeaning: "Ge\uFFFDerli"
+  turkishMeaning: "Ge\xE7erli"
   exampleSentences: This old coin is no longer valid in the capital.

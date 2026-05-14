@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_030
   englishWord: Confess
-  turkishMeaning: "\uFFFDtiraf etmek"
+  turkishMeaning: "\u0130tiraf etmek"
   exampleSentences: The spy was forced to confess his secret mission.

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_063
   englishWord: Secret
-  turkishMeaning: "S\uFFFDr"
+  turkishMeaning: "S\u0131r"
   exampleSentences: The old map reveals a secret path to the mountains.

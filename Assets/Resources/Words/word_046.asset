@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_046
   englishWord: Unpredictable
-  turkishMeaning: "\uFFFDng\uFFFDr\uFFFDlemez"
+  turkishMeaning: "\xD6ng\xF6r\xFClemez"
   exampleSentences: The weather in these mountains is highly unpredictable.

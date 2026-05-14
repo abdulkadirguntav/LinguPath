@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_067
   englishWord: Quest
-  turkishMeaning: "G\uFFFDrev"
+  turkishMeaning: "G\xF6rev"
   exampleSentences: The king gave us a dangerous quest to find the lost ring.

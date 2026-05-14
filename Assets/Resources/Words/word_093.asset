@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_093
   englishWord: Pick
-  turkishMeaning: "Se\uFFFDmek"
+  turkishMeaning: "Se\xE7mek"
   exampleSentences: Pick a card from the magic table.

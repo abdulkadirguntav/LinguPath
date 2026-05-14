@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_009
   englishWord: Temporary
-  turkishMeaning: "Ge\uFFFDici"
+  turkishMeaning: "Ge\xE7ici"
   exampleSentences: This healing potion provides only temporary relief.

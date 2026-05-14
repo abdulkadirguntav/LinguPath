@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_002
   englishWord: Hesitate
-  turkishMeaning: "Teredd\uFFFDt etmek"
+  turkishMeaning: "Teredd\xFCt etmek"
   exampleSentences: Do not hesitate when you strike the enemy.

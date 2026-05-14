@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_059
   englishWord: Shadow
-  turkishMeaning: "G\uFFFDlge"
+  turkishMeaning: "G\xF6lge"
   exampleSentences: The master thief hid in the shadow of the wall.

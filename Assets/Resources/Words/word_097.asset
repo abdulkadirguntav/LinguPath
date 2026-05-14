@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_097
   englishWord: Promise
-  turkishMeaning: "S\uFFFDz vermek"
+  turkishMeaning: "S\xF6z vermek"
   exampleSentences: I promise to return before the sun goes down.

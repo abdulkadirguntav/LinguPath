@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_012
   englishWord: Significant
-  turkishMeaning: "\uFFFDnemli"
+  turkishMeaning: "\xD6nemli"
   exampleSentences: We found a significant amount of gold in the chest.

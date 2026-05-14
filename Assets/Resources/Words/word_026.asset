@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_026
   englishWord: Vulnerable
-  turkishMeaning: "Savunmas\uFFFDz"
+  turkishMeaning: "Savunmas\u0131z"
   exampleSentences: The creature is vulnerable to fire magic.

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_082
   englishWord: Lead
-  turkishMeaning: "Yol g\uFFFDstermek/Liderlik"
+  turkishMeaning: "Yol g\xF6stermek/Liderlik"
   exampleSentences: The experienced guide will lead us through the snow.

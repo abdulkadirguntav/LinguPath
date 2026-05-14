@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_029
   englishWord: Accuse
-  turkishMeaning: "Su\uFFFDlamak"
+  turkishMeaning: "Su\xE7lamak"
   exampleSentences: Do not accuse him without solid evidence.

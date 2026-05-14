@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_069
   englishWord: Merchant
-  turkishMeaning: "T\uFFFDccar"
+  turkishMeaning: "T\xFCccar"
   exampleSentences: The traveling merchant sells rare items from the east.

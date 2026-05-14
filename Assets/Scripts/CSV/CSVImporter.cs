@@ -25,8 +25,11 @@ public class CSVImporter : EditorWindow
         if (!AssetDatabase.IsValidFolder("Assets/Resources/Words"))
             AssetDatabase.CreateFolder("Assets/Resources", "Words");
 
-        // 3. Dosyanın içindeki tüm satırları bir diziye (array) al
-        string[] lines = File.ReadAllLines(path);
+        // 3. Encoding'i otomatik algıla (BOM varsa UTF-8, yoksa sistem default'u)
+        string allText;
+        using (var reader = new System.IO.StreamReader(path, System.Text.Encoding.Default, detectEncodingFromByteOrderMarks: true))
+            allText = reader.ReadToEnd();
+        string[] lines = allText.Split('\n');
         int sayac = 0;
 
         // 4. Her bir satırı dön

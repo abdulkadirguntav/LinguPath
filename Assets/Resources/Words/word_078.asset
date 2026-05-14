@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_078
   englishWord: Cave
-  turkishMeaning: "Ma\uFFFDara"
+  turkishMeaning: "Ma\u011Fara"
   exampleSentences: A sleeping troll lives in that cold, wet cave.

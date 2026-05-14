@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_083
   englishWord: Prepare
-  turkishMeaning: "Haz\uFFFDrlanmak"
+  turkishMeaning: "Haz\u0131rlanmak"
   exampleSentences: Prepare yourself for a hard fight in the arena.

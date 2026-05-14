@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            transform.SetParent(null); // root'a taşı, yoksa DontDestroyOnLoad çalışmaz
             DontDestroyOnLoad(gameObject);
         }
         else

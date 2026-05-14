@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_055
   englishWord: Escape
-  turkishMeaning: "Ka\uFFFDmak"
+  turkishMeaning: "Ka\xE7mak"
   exampleSentences: We have to escape from the dark prison before morning.

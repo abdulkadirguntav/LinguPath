@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_013
   englishWord: Resolve
-  turkishMeaning: "\uFFFD\uFFFDzmek"
+  turkishMeaning: "\xC7\xF6zmek"
   exampleSentences: Only the old wizard can resolve this dark curse.

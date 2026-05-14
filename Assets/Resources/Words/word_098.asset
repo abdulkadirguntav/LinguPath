@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_098
   englishWord: Remember
-  turkishMeaning: "Hat\uFFFDrlamak"
+  turkishMeaning: "Hat\u0131rlamak"
   exampleSentences: Do you remember the fire spell the wizard taught you?

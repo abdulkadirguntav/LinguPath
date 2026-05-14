@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_006
   englishWord: Investigate
-  turkishMeaning: "Ara\uFFFDt\uFFFDrmak"
+  turkishMeaning: "Ara\u015Ft\u0131rmak"
   exampleSentences: The guard went to investigate the strange noise.

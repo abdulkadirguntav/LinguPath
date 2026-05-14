@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_079
   englishWord: Bridge
-  turkishMeaning: "K\uFFFDpr\uFFFD"
+  turkishMeaning: "K\xF6pr\xFC"
   exampleSentences: We must cross the old wooden bridge carefully.

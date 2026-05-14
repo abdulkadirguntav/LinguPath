@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_033
   englishWord: Sustain
-  turkishMeaning: "S\uFFFDrd\uFFFDrmek"
+  turkishMeaning: "S\xFCrd\xFCrmek"
   exampleSentences: We do not have enough food to sustain the army.

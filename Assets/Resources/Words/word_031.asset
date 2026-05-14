@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_031
   englishWord: Negotiate
-  turkishMeaning: "M\uFFFDzakere etmek"
+  turkishMeaning: "M\xFCzakere etmek"
   exampleSentences: We must negotiate with the goblin leader for peace.

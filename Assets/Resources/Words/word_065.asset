@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_065
   englishWord: Armor
-  turkishMeaning: "Z\uFFFDrh"
+  turkishMeaning: "Z\u0131rh"
   exampleSentences: Heavy armor makes you move slower but keeps you safe.

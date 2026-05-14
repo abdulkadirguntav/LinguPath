@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_095
   englishWord: Unlock
-  turkishMeaning: "Kilidini a\uFFFDmak"
+  turkishMeaning: "Kilidini a\xE7mak"
   exampleSentences: You need a master key to unlock this iron door.

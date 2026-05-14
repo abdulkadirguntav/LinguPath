@@ -1,164 +1,152 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System.Collections;
 
 public class LibraryManager : MonoBehaviour
 {
     [Header("DataBase")]
     public List<WordDataSO> wordList = new List<WordDataSO>();
-    private WordDataSO word;
+    private WordDataSO currentWord;
 
     [Header("UI")]
     [SerializeField] private TMP_Text englishText;
     [SerializeField] private TMP_Text turkishText;
     [SerializeField] private TMP_Text exampleText;
-    [SerializeField] private GameObject Library;
+    [SerializeField] private TMP_Text progressText;
+    [SerializeField] public GameObject Library;
+    [SerializeField] private GameObject mainGameUI;
 
     [Header("Reveal Mechanics")]
     [SerializeField] private GameObject revealButtonObj;
 
-    private const int DailyWordLimit = 5;
-    private List<WordDataSO> activeSessionDeck = new List<WordDataSO>();
+    private const int SessionWordCount = 10;
+    private const string PageKey = "LibraryPageIndex";
+
+    private List<WordDataSO> sessionDeck = new List<WordDataSO>();
+    private int wordsCompletedThisSession = 0;
 
     void Start()
     {
-        StartSession(DailyWordLimit);
-    }
+        if (wordList.Count == 0)
+            wordList.AddRange(Resources.LoadAll<WordDataSO>("Words"));
 
-    private int GetWordsStudiedToday()
-    {
-        string today = DateTime.Now.ToString("yyyy-MM-dd");
-        if (PlayerPrefs.GetString("LibraryLastDate", "") != today)
+        if (wordList.Count == 0)
         {
-            PlayerPrefs.SetString("LibraryLastDate", today);
-            PlayerPrefs.SetInt("LibraryWordsToday", 0);
-            PlayerPrefs.Save();
-            return 0;
-        }
-        return PlayerPrefs.GetInt("LibraryWordsToday", 0);
-    }
-
-    private void IncrementWordsStudiedToday()
-    {
-        PlayerPrefs.SetInt("LibraryWordsToday", GetWordsStudiedToday() + 1);
-        PlayerPrefs.Save();
-    }
-
-    public void StartSession(int wordCount)
-    {
-        activeSessionDeck.Clear();
-
-        int wordsStudiedToday = GetWordsStudiedToday();
-        int remaining = Mathf.Max(0, wordCount - wordsStudiedToday);
-
-        if (remaining == 0)
-        {
-            englishText.text = "Bugünlük bu kadar!";
-            exampleText.text = "Harika! Bugün " + wordCount + " kelimeyi tamamladın. Yarın tekrar görüşürüz!";
+            englishText.text = "Kelime bulunamadı!";
+            exampleText.text = "Araçlarım → Kelimeleri Otomatik Üret çalıştır.";
             turkishText.text = "";
-            StartCoroutine(Wait());
             return;
         }
 
         if (DataManager.instance == null)
         {
-            Debug.LogError("DataManager.instance is null — LibraryManager cannot load words.");
+            Debug.LogError("DataManager yok!");
             return;
         }
 
-        List<WordDataSO> availableWords = new List<WordDataSO>();
-        foreach (WordDataSO w in wordList)
-        {
-            if (w == null) { Debug.LogWarning("wordList içinde null WordDataSO var, atlanıyor."); continue; }
-            if (DataManager.instance.GetWordProgress(w.wordID).masteryLevel < 3)
-                availableWords.Add(w);
-        }
-
-        for (int i = 0; i < availableWords.Count; i++)
-        {
-            WordDataSO temp = availableWords[i];
-            int randomIndex = UnityEngine.Random.Range(i, availableWords.Count);
-            availableWords[i] = availableWords[randomIndex];
-            availableWords[randomIndex] = temp;
-        }
-
-        int limit = Mathf.Min(remaining, availableWords.Count);
-        for (int i = 0; i < limit; i++)
-            activeSessionDeck.Add(availableWords[i]);
-
-        if (activeSessionDeck.Count == 0)
-        {
-            englishText.text = "TEBRIKLER!";
-            exampleText.text = "Kütüphanedeki tüm kelimeleri öğrendin!";
-            turkishText.text = "";
-            StartCoroutine(Wait());
-            return;
-        }
-
+        BuildDeck();
         LoadNextWord();
     }
 
-    void LoadNextWord()
+    private void BuildDeck()
     {
-        if (activeSessionDeck.Count == 0)
+        sessionDeck.Clear();
+        wordsCompletedThisSession = 0;
+
+        int pageIndex = PlayerPrefs.GetInt(PageKey, 0);
+
+        // wordList sınırını aşmışsa başa dön
+        if (pageIndex >= wordList.Count) pageIndex = 0;
+
+        int count = Mathf.Min(SessionWordCount, wordList.Count);
+        for (int i = 0; i < count; i++)
         {
-            englishText.text = "Günlük hedef tamamlandı!";
-            exampleText.text = "Bugün " + DailyWordLimit + " kelimeyi bitirdin. Biraz mola ver, yarın devam ederiz!";
-            turkishText.text = "";
-            StartCoroutine(Wait());
+            int idx = (pageIndex + i) % wordList.Count;
+            if (wordList[idx] != null)
+                sessionDeck.Add(wordList[idx]);
+        }
+
+        // Bir sonraki ziyaret için sayfayı ilerlet
+        int nextPage = (pageIndex + count) % wordList.Count;
+        PlayerPrefs.SetInt(PageKey, nextPage);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadNextWord()
+    {
+        if (sessionDeck.Count == 0)
+        {
+            CompleteSession();
             return;
         }
 
-        word = activeSessionDeck[0];
-        englishText.text = word.englishWord;
-        exampleText.text = word.exampleSentences;
-        turkishText.text = word.turkishMeaning;
+        currentWord = sessionDeck[0];
+        englishText.text = currentWord.englishWord;
+        exampleText.text = currentWord.exampleSentences;
+        turkishText.text = currentWord.turkishMeaning;
 
         turkishText.gameObject.SetActive(false);
         if (revealButtonObj != null) revealButtonObj.SetActive(true);
+
+        UpdateProgressText();
     }
 
-    IEnumerator Wait()
+    private void UpdateProgressText()
     {
-        yield return new WaitForSeconds(5f);
-        Library.SetActive(false);
+        if (progressText != null)
+            progressText.text = $"{wordsCompletedThisSession + 1} / {SessionWordCount}";
     }
 
-    public void KnownButton()
+    private void CompleteSession()
     {
-        if (activeSessionDeck.Count == 0) return;
+        englishText.text = "Harika!";
+        exampleText.text = "Bu turda " + SessionWordCount + " kelimeyi tamamladın!";
+        turkishText.text = "";
+        if (progressText != null) progressText.text = SessionWordCount + " / " + SessionWordCount;
+        if (revealButtonObj != null) revealButtonObj.SetActive(false);
 
-        WordProgress currentProgress = DataManager.instance.GetWordProgress(word.wordID);
-        if (currentProgress.masteryLevel < 3)
-            currentProgress.masteryLevel++;
-        DataManager.instance.SaveData();
-
-        IncrementWordsStudiedToday();
-
-        activeSessionDeck.RemoveAt(0);
-        LoadNextWord();
-    }
-
-    public void StudyButton()
-    {
-        if (activeSessionDeck.Count == 0) return;
-
-        WordProgress currentProgress = DataManager.instance.GetWordProgress(word.wordID);
-        currentProgress.masteryLevel = 0;
-        DataManager.instance.SaveData();
-
-        WordDataSO currentWord = activeSessionDeck[0];
-        activeSessionDeck.RemoveAt(0);
-        activeSessionDeck.Add(currentWord);
-
-        LoadNextWord();
+        if (NPC.ActiveNPC != null)
+            NPC.ActiveNPC.FinishMission(true);
     }
 
     public void RevealTranslation()
     {
         turkishText.gameObject.SetActive(true);
         if (revealButtonObj != null) revealButtonObj.SetActive(false);
+    }
+
+    public void KnownButton()
+    {
+        if (currentWord == null) return;
+
+        WordProgress progress = DataManager.instance.GetWordProgress(currentWord.wordID);
+        if (progress.masteryLevel < 3) progress.masteryLevel++;
+        DataManager.instance.SaveData();
+
+        sessionDeck.RemoveAt(0);
+        wordsCompletedThisSession++;
+        LoadNextWord();
+    }
+
+    public void StudyButton()
+    {
+        if (currentWord == null) return;
+
+        WordProgress progress = DataManager.instance.GetWordProgress(currentWord.wordID);
+        progress.masteryLevel = 0;
+        DataManager.instance.SaveData();
+
+        // Kelimeyi desteye geri at
+        WordDataSO word = sessionDeck[0];
+        sessionDeck.RemoveAt(0);
+        sessionDeck.Add(word);
+
+        LoadNextWord();
+    }
+
+    public void ExitLibrary()
+    {
+        if (Library    != null) Library.SetActive(false);
+        if (mainGameUI != null) mainGameUI.SetActive(true);
     }
 }

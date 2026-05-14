@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_075
   englishWord: Reward
-  turkishMeaning: "\uFFFDd\uFFFDl"
+  turkishMeaning: "\xD6d\xFCl"
   exampleSentences: You will get a big reward of gold for capturing the bandit.

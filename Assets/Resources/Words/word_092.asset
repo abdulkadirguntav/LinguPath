@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_092
   englishWord: Drop
-  turkishMeaning: "D\uFFFD\uFFFD\uFFFDrmek/B\uFFFDrakmak"
+  turkishMeaning: "D\xFC\u015F\xFCrmek/B\u0131rakmak"
   exampleSentences: The defeated monster will drop useful items.

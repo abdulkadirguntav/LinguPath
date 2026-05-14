@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_010
   englishWord: Fluent
-  turkishMeaning: "Ak\uFFFDc\uFFFD"
+  turkishMeaning: "Ak\u0131c\u0131"
   exampleSentences: The merchant was fluent in three different languages.

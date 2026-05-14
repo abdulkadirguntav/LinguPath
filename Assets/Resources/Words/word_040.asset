@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_040
   englishWord: Observe
-  turkishMeaning: "G\uFFFDzlemlemek"
+  turkishMeaning: "G\xF6zlemlemek"
   exampleSentences: We must observe the enemy camp from a safe distance.

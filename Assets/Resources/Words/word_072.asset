@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_072
   englishWord: Safe
-  turkishMeaning: "G\uFFFDvenli"
+  turkishMeaning: "G\xFCvenli"
   exampleSentences: Stay close to the fire, it is safe here from the wolves.

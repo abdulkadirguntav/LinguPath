@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_039
   englishWord: Hostile
-  turkishMeaning: "D\uFFFD\uFFFDmanca"
+  turkishMeaning: "D\xFC\u015Fmanca"
   exampleSentences: Be careful, the tribes in this area are hostile.

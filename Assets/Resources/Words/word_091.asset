@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_091
   englishWord: Combine
-  turkishMeaning: "Birle\uFFFDtirmek"
+  turkishMeaning: "Birle\u015Ftirmek"
   exampleSentences: Combine these two herbs to make a sleeping medicine.

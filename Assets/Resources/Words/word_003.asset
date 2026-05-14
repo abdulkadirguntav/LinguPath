@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_003
   englishWord: Crucial
-  turkishMeaning: "\uFFFDok \uFFFDnemli"
+  turkishMeaning: "\xC7ok \xF6nemli"
   exampleSentences: Finding the map is crucial for our survival.

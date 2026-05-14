@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_038
   englishWord: Fascinate
-  turkishMeaning: "B\uFFFDy\uFFFDlemek"
+  turkishMeaning: "B\xFCy\xFClemek"
   exampleSentences: The glowing crystals will fascinate any traveler.

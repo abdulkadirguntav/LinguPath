@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_043
   englishWord: Reluctant
-  turkishMeaning: "G\uFFFDn\uFFFDls\uFFFDz"
+  turkishMeaning: "G\xF6n\xFCls\xFCz"
   exampleSentences: He was reluctant to enter the cursed cave.

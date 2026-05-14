@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_100
   englishWord: Shelter
-  turkishMeaning: "Bar\uFFFDnak"
+  turkishMeaning: "Bar\u0131nak"
   exampleSentences: We found a small cave to use as a shelter from the wind.

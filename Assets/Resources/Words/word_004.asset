@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_004
   englishWord: Persuade
-  turkishMeaning: "\uFFFDkna etmek"
+  turkishMeaning: "\u0130kna etmek"
   exampleSentences: You must persuade the king to send his army.

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_068
   englishWord: Guard
-  turkishMeaning: "Muhaf\uFFFDz"
+  turkishMeaning: "Muhaf\u0131z"
   exampleSentences: The angry guard will not let you pass the city gate.

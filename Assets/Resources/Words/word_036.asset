@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_036
   englishWord: Intimidate
-  turkishMeaning: "G\uFFFDzda\uFFFD\uFFFD vermek"
+  turkishMeaning: "G\xF6zda\u011F\u0131 vermek"
   exampleSentences: The giant roared to intimidate the young warriors.

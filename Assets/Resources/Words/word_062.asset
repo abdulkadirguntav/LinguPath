@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_062
   englishWord: Village
-  turkishMeaning: "K\uFFFDy"
+  turkishMeaning: "K\xF6y"
   exampleSentences: We rested at a quiet village near the river.

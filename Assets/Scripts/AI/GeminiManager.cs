@@ -27,6 +27,10 @@ public class GeminiManager : MonoBehaviour
     public GameObject thinkingIndicator;
     public ScrollRect chatScrollRect;
 
+    [Header("Panel Bağlantıları")]
+    public GameObject chatPanel;
+    public GameObject mainGameUI;
+
     [Header("API Settings")]
     public string apiKey = "";
 
@@ -218,6 +222,12 @@ public class GeminiManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)chatScrollRect.content);
         chatScrollRect.verticalNormalizedPosition = 0f;
+    }
+
+    public void ExitChat()
+    {
+        if (chatPanel != null)   chatPanel.SetActive(false);
+        if (mainGameUI != null)  mainGameUI.SetActive(true);
     }
 
     private void SetThinking(bool thinking)

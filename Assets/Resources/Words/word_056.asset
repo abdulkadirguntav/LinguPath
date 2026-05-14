@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_056
   englishWord: Explore
-  turkishMeaning: "Ke\uFFFDfetmek"
+  turkishMeaning: "Ke\u015Ffetmek"
   exampleSentences: Let's explore the hidden rooms of this dungeon.

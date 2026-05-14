@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_060
   englishWord: Heal
-  turkishMeaning: "\uFFFDyile\uFFFDtirmek"
+  turkishMeaning: "\u0130yile\u015Ftirmek"
   exampleSentences: This magic potion will heal your battle wounds.

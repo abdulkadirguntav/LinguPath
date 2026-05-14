@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_080
   englishWord: Trust
-  turkishMeaning: "G\uFFFDvenmek"
+  turkishMeaning: "G\xFCvenmek"
   exampleSentences: Never trust a pirate with your gold coins.

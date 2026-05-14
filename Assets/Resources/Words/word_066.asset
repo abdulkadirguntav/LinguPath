@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_066
   englishWord: Potion
-  turkishMeaning: "\uFFFDksir"
+  turkishMeaning: "\u0130ksir"
   exampleSentences: Drink this red potion to restore your health.

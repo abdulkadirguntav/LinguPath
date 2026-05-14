@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_008
   englishWord: Betray
-  turkishMeaning: "\uFFFDhanet etmek"
+  turkishMeaning: "\u0130hanet etmek"
   exampleSentences: A true knight would never betray his realm.

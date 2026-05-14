@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_017
   englishWord: Deceive
-  turkishMeaning: "Kand\uFFFDrmak"
+  turkishMeaning: "Kand\u0131rmak"
   exampleSentences: The witch tried to deceive us with an illusion.

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_007
   englishWord: Wander
-  turkishMeaning: "Dola\uFFFDmak"
+  turkishMeaning: "Dola\u015Fmak"
   exampleSentences: Monsters wander through these dark woods at night.

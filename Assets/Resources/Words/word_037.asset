@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_037
   englishWord: Examine
-  turkishMeaning: "\uFFFDncelemek"
+  turkishMeaning: "\u0130ncelemek"
   exampleSentences: The alchemist needs to examine this unknown herb.

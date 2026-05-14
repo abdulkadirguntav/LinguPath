@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_001
   englishWord: Unemployed
-  turkishMeaning: "\uFFFD\uFFFDsiz"
+  turkishMeaning: "\u0130\u015Fsiz"
   exampleSentences: The blacksmith has been unemployed since the war ended.

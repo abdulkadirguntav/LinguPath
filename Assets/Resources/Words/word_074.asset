@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_074
   englishWord: Attack
-  turkishMeaning: "Sald\uFFFDrmak"
+  turkishMeaning: "Sald\u0131rmak"
   exampleSentences: The wild bears usually attack when they are hungry.

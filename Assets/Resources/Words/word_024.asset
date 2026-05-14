@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_024
   englishWord: Vanish
-  turkishMeaning: "G\uFFFDzden kaybolmak"
+  turkishMeaning: "G\xF6zden kaybolmak"
   exampleSentences: The ghost seemed to vanish into the thin air.

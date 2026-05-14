@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_021
   englishWord: Banish
-  turkishMeaning: "S\uFFFDrg\uFFFDn etmek"
+  turkishMeaning: "S\xFCrg\xFCn etmek"
   exampleSentences: The traitor was banished from the city forever.

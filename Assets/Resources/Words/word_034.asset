@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_034
   englishWord: Inevitable
-  turkishMeaning: "Ka\uFFFD\uFFFDn\uFFFDlmaz"
+  turkishMeaning: "Ka\xE7\u0131n\u0131lmaz"
   exampleSentences: Clashing with the enemy forces is now inevitable.

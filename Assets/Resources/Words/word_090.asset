@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wordID: word_090
   englishWord: Build
-  turkishMeaning: "\uFFFDn\uFFFDa etmek"
+  turkishMeaning: "\u0130n\u015Fa etmek"
   exampleSentences: We need to build a shelter before the heavy rain begins.
