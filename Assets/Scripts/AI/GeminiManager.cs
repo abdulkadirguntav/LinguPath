@@ -18,8 +18,7 @@ public class FoxCharacter
 public class GeminiManager : MonoBehaviour
 {
     [Header("References")]
-    public FoxEmotionController emotionEngine;
-    public FoxVoiceEngine audioEngine;
+    public RunJets sesMotoru;
 
     [Header("UI")]
     public TextMeshProUGUI chatText;
@@ -108,8 +107,7 @@ public class GeminiManager : MonoBehaviour
             "The player is learning English. Speak naturally in English, stay in character. " +
             "Return ONLY this JSON format with no markdown or extra text: " +
             "{\"reply\": \"your in-character English reply (1-3 sentences)\", " +
-            "\"grammar_feedback\": \"describe the grammar mistake if any, otherwise write exactly: Perfect!\", " +
-            "\"emotion\": \"happy, sad, or neutral\"}";
+            "\"grammar_feedback\": \"describe the grammar mistake if any, otherwise write exactly: Perfect!\"}";
 
         // Build contents array from conversation history + new message
         JArray contents = new JArray();
@@ -163,7 +161,6 @@ public class GeminiManager : MonoBehaviour
     {
         string reply = "";
         string grammar = "";
-        string emotion = "neutral";
 
         try
         {
@@ -173,7 +170,6 @@ public class GeminiManager : MonoBehaviour
 
             reply = parsed["reply"]?.ToString() ?? "I didn't understand that.";
             grammar = parsed["grammar_feedback"]?.ToString() ?? "";
-            emotion = parsed["emotion"]?.ToString() ?? "neutral";
         }
         catch (System.Exception e)
         {
@@ -204,8 +200,7 @@ public class GeminiManager : MonoBehaviour
         if (!string.IsNullOrEmpty(grammar) && !grammar.ToLower().StartsWith("perfect"))
             AppendToChat($"\n<color=#FFFF00><size=80%><i>Note: {grammar}</i></size></color>");
 
-        emotionEngine?.SetEmotion(emotion);
-        audioEngine?.SpeakFromAI(reply);
+        sesMotoru?.SpeakFromAI(reply);
     }
 
     private void AppendToChat(string text)

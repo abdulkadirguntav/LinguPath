@@ -36,12 +36,20 @@ public class MicrophoneInputManager : MonoBehaviour
     void Start()
     {
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        dictation = new DictationRecognizer();
-        dictation.DictationResult += OnResult;
-        dictation.DictationError += OnError;
-        dictation.DictationComplete += OnComplete;
+        try
+        {
+            dictation = new DictationRecognizer();
+            dictation.DictationResult += OnResult;
+            dictation.DictationError += OnError;
+            dictation.DictationComplete += OnComplete;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[Mic] Konuşma tanıma başlatılamadı: {e.Message}\nWindows Ayarları > Gizlilik > Konuşma bölümünü kontrol et.");
+            if (micButton != null) micButton.gameObject.SetActive(false);
+            return;
+        }
 #else
-        // Hide the mic button on unsupported platforms
         if (micButton != null) micButton.gameObject.SetActive(false);
         return;
 #endif
