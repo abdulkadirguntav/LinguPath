@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8210314cf9cc5c7429bff0e3fe9c8dd9, type: 3}
   m_Name: Aunt
   m_EditorClassIdentifier: 
-  npcName: ashley
+  npcName: Ashley
   preGameDialogues:
-  - "evlad\u0131m bi e\u015Fyalar\u0131m\u0131 al\u0131ver sana zahmet"
+  - Oh, you're just in time! I have a shopping list, and my eyes aren't what they
+    used to be; could you find these for me?
   winDialogues:
-  - "sen ya aslans\u0131n ko\xE7um ya\t"
+  - Thank You So Much
   loseDialogues:
-  - "gen\xE7lik bitmi\u015F anas\u0131n\u0131 sat\u0131y\u0131m. Siktir git."
+  - Should we try again? Everyone makes mistakes.

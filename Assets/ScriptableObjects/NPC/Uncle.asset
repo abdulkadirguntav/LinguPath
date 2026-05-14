@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8210314cf9cc5c7429bff0e3fe9c8dd9, type: 3}
-  m_Name: Aunt 1
+  m_Name: Uncle
   m_EditorClassIdentifier: 
-  npcName: asdasd
+  npcName: Bob
   preGameDialogues:
-  - "day\u0131 oyun"
+  - Welcome, my child. Thousands of years of knowledge are hidden on these shelves.
+    Shall we expand our vocabulary together today ?
   winDialogues:
-  - asdfasdfasdfasdgaerhyeyherywetywety
+  - "You're doing great\u2014come back later"
   loseDialogues:
-  - hay beceriksiz
+  - Should we try again? Everyone makes mistakes.

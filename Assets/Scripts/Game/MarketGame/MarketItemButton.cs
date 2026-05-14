@@ -29,7 +29,6 @@ public class MarketItemButton : MonoBehaviour
 
     private void OnClickItem()
     {
-        // Kendi içindeki ismi, senin Sepet (Cart) yöneticine gönderir
-        myManager.AddItemToCart(myItemName);
+        myManager.AddItemToCart(myItemName, itemImage != null ? itemImage.sprite : null);
     }
 }

@@ -23,6 +23,9 @@ public class SwipeManager : MonoBehaviour
     public Image activeCardImage;
     public List<GameObject> heartIcons = new List<GameObject>();
 
+    [Header("Card Sprites (CSV sırasıyla)")]
+    public List<Sprite> cardSprites = new List<Sprite>();
+
     [Header("Core Loop Connections")]
     public GameObject swipePanel;
     public GameObject mainGameUI;
@@ -32,6 +35,7 @@ public class SwipeManager : MonoBehaviour
     Quaternion initialRotation;
 
     [Header("Check & Player Data")]
+    public int maxCards = 7;
     bool isCurrentSentenceTrue;
     int currentHealth = 3;
     int currentCardIndex = 0;
@@ -74,10 +78,15 @@ public class SwipeManager : MonoBehaviour
                 newCard.imageName = columns[1].Trim();
                 newCard.correctSentence = columns[2].Trim();
                 newCard.wrongSentence = columns[3].Trim();
-                newCard.cardSprite = Resources.Load<Sprite>("Icons/" + newCard.imageName);
                 allCards.Add(newCard);
             }
         }
+        for (int i = 0; i < allCards.Count; i++)
+        {
+            if (i < cardSprites.Count)
+                allCards[i].cardSprite = cardSprites[i];
+        }
+
         Debug.Log("Swipe database loaded! Total cards: " + allCards.Count);
     }
 
@@ -94,7 +103,7 @@ public class SwipeManager : MonoBehaviour
 
     void LoadNextCard()
     {
-        if (currentCardIndex >= allCards.Count)
+        if (currentCardIndex >= maxCards || currentCardIndex >= allCards.Count)
         {
             Debug.Log("All cards done, you win!");
             EndGame(true);
@@ -152,21 +161,17 @@ public class SwipeManager : MonoBehaviour
 
     private void EndGame(bool isWin)
     {
-        if (!isWin)
-        {
-            currentCardIndex = 0;
-            currentHealth = heartIcons.Count;
-            foreach (GameObject heart in heartIcons)
-                if (heart != null) heart.SetActive(true);
-            ShuffleCards();
-            LoadNextCard();
-        }
-
         if (swipePanel != null) swipePanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(true);
 
         if (NPC.ActiveNPC != null)
             NPC.ActiveNPC.FinishMission(isWin);
+
+        currentCardIndex = 0;
+        currentHealth = heartIcons.Count;
+        foreach (GameObject heart in heartIcons)
+            if (heart != null) heart.SetActive(true);
+        ShuffleCards();
     }
 
     public void ExitSwipeGame()

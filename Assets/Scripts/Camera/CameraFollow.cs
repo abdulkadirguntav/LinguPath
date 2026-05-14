@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     public float distance = 5f;
     public float height = 8f;
     public float positionSmoothTime = 0.12f;
+    public float verticalSmoothTime = 0.35f;
 
     [Header("Rotasyon Gecikmesi")]
     public float rotationSmoothTime = 0.2f;
@@ -37,6 +38,7 @@ public class CameraFollow : MonoBehaviour
     private float currentTilt;
     private float tiltVelocity;
 
+    private float yVelocity;
     private Vector3 prevTargetPos;
 
     private void Start()
@@ -78,7 +80,12 @@ public class CameraFollow : MonoBehaviour
         }
 
         Vector3 targetPos = pivotPoint + dirToCamera.normalized * actualDist;
-        Vector3 basePos = Vector3.SmoothDamp(transform.position, targetPos, ref posVelocity, positionSmoothTime);
+
+        // XZ hızlı takip, Y yavaş takip — animasyon sallantısını önler
+        Vector3 targetPosXZ = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+        Vector3 basePos = Vector3.SmoothDamp(transform.position, targetPosXZ, ref posVelocity, positionSmoothTime);
+        float smoothY = Mathf.SmoothDamp(transform.position.y, targetPos.y, ref yVelocity, verticalSmoothTime);
+        basePos.y = smoothY;
 
         // 4. Bob efekti
         if (moving)

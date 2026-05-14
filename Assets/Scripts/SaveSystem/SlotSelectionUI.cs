@@ -10,6 +10,7 @@ public class SlotSelectionUI : MonoBehaviour
     public TMP_Text[] slotNameTexts = new TMP_Text[3];
     public TMP_Text[] slotInfoTexts = new TMP_Text[3];
     public Button[] deleteButtons = new Button[3];
+    public UnityEngine.UI.RawImage[] slotAvatarImages = new UnityEngine.UI.RawImage[3];
 
     [Header("Panel Referansları")]
     public GameObject slotSelectionPanel;
@@ -20,6 +21,7 @@ public class SlotSelectionUI : MonoBehaviour
     [Header("Silme Onayı")]
     public TMP_Text deleteConfirmText;
     public Button confirmDeleteButton;
+    public Button cancelDeleteButton;
 
     private int pendingDeleteIndex = -1;
 
@@ -44,6 +46,7 @@ public class SlotSelectionUI : MonoBehaviour
                 if (slotNameTexts[i] != null) slotNameTexts[i].text = "Boş Slot";
                 if (slotInfoTexts[i] != null) slotInfoTexts[i].text = "Yeni Oyun Başlat";
                 slotButtons[i].onClick.AddListener(() => OnEmptySlotClicked(captured));
+                SetupPortrait(i, null);
 
                 if (deleteButtons[i] != null) deleteButtons[i].gameObject.SetActive(false);
             }
@@ -53,6 +56,7 @@ public class SlotSelectionUI : MonoBehaviour
                 if (slotNameTexts[i] != null) slotNameTexts[i].text = slot.playerName;
                 if (slotInfoTexts[i] != null) slotInfoTexts[i].text = $"{done} görev tamamlandı";
                 slotButtons[i].onClick.AddListener(() => OnFilledSlotClicked(captured));
+                SetupPortrait(i, slot.characterData);
 
                 if (deleteButtons[i] != null)
                 {
@@ -62,6 +66,15 @@ public class SlotSelectionUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SetupPortrait(int index, CharacterSaveData data)
+    {
+        if (CharacterPortraitRenderer.instance == null) return;
+        CharacterPortraitRenderer.instance.SetupPortrait(index, data);
+
+        if (slotAvatarImages[index] != null)
+            slotAvatarImages[index].texture = CharacterPortraitRenderer.instance.GetTexture(index);
     }
 
     private void OnFilledSlotClicked(int index)
@@ -95,6 +108,12 @@ public class SlotSelectionUI : MonoBehaviour
         {
             confirmDeleteButton.onClick.RemoveAllListeners();
             confirmDeleteButton.onClick.AddListener(ConfirmDelete);
+        }
+
+        if (cancelDeleteButton != null)
+        {
+            cancelDeleteButton.onClick.RemoveAllListeners();
+            cancelDeleteButton.onClick.AddListener(CancelDelete);
         }
     }
 

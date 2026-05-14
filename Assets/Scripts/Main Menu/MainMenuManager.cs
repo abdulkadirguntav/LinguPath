@@ -14,17 +14,25 @@ public class MainMenuManager : MonoBehaviour
         if (slotSelectionPanel != null) slotSelectionPanel.SetActive(true);
     }
 
-    // SETTINGS butonu tetikleyecek
+    [Header("Settings")]
+    public SettingsManager settingsManager;
+
     public void OpenSettings()
     {
-        // İleride buraya ayarlar panelini (GameObject) aktif etme kodu gelecek
-        Debug.Log("Ayarlar menüsü açıldı!");
+        if (settingsManager != null) settingsManager.OpenSettings();
     }
 
-    // QUIT butonu tetikleyecek
+    public void CloseSettings()
+    {
+        if (settingsManager != null) settingsManager.CloseSettings();
+    }
+
     public void QuitGame()
     {
-        Debug.Log("Oyundan çıkılıyor..."); 
-        Application.Quit(); // Not: Bu kod Unity Editor'de çalışmaz, oyunu build aldığında çalışır.
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

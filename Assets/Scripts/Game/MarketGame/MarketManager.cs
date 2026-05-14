@@ -6,8 +6,15 @@ public class MarketManager : MonoBehaviour
     [Header("Item's the NPC wants")]
     public List<string> npcList = new List<string>();
 
+    [System.Serializable]
+    public struct CartEntry
+    {
+        public string itemName;
+        public Sprite itemIcon;
+    }
+
     [Header("Player's Items")]
-    public List<string> currentItems = new List<string>();
+    public List<CartEntry> currentItems = new List<CartEntry>();
 
     [Header("UI Connections")]
     public GameObject marketPanel;
@@ -23,9 +30,9 @@ public class MarketManager : MonoBehaviour
         currentItems.Clear();
     }
 
-    public void AddItemToCart(string itemName)
+    public void AddItemToCart(string itemName, Sprite icon = null)
     {
-        currentItems.Add(itemName);
+        currentItems.Add(new CartEntry { itemName = itemName, itemIcon = icon });
         Debug.Log(itemName + " added to cart. Count: " + currentItems.Count);
     }
 
@@ -41,8 +48,9 @@ public class MarketManager : MonoBehaviour
         List<string> tempCart = new List<string>(npcList);
         bool isCorrect = true;
 
-        foreach (string item in currentItems)
+        foreach (CartEntry entry in currentItems)
         {
+            string item = entry.itemName;
             if (tempCart.Contains(item))
                 tempCart.Remove(item);
             else
@@ -93,18 +101,18 @@ public class MarketManager : MonoBehaviour
         foreach (Transform child in cartContentParent)
             Destroy(child.gameObject);
 
-        foreach (string item in currentItems)
+        foreach (CartEntry entry in currentItems)
         {
             GameObject newCartObj = Instantiate(cartItemPrefab, cartContentParent);
             CartItemUI cartUI = newCartObj.GetComponent<CartItemUI>();
             if (cartUI != null)
-                cartUI.SetupCartItem(item, this);
+                cartUI.SetupCartItem(entry.itemName, entry.itemIcon, this);
         }
     }
 
     public void RemoveItemFromCart(string itemName)
     {
-        currentItems.Remove(itemName);
+        currentItems.RemoveAll(e => e.itemName == itemName);
         Debug.Log(itemName + " removed from cart. Remaining: " + currentItems.Count);
         RefreshCartUI();
     }

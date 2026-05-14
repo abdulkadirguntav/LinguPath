@@ -16,6 +16,9 @@ public class CSV_Market : MonoBehaviour
     [Header("Veritabanı (Otomatik Dolacak)")]
     public List<MarketItem> allMarketItems = new List<MarketItem>();
 
+    [Header("Ürün Resimleri (CSV sırasıyla Inspector'dan ata)")]
+    public List<Sprite> itemSprites = new List<Sprite>();
+
     [Header("Bağlantılar (Inspector'dan Sürükle)")]
     public MarketManager cartManager;     // Senin yazdığın sepet kodunun olduğu obje
     public GameObject itemPrefab;         // Prefabs klasörüne attığımız kalıp buton
@@ -47,10 +50,14 @@ public class CSV_Market : MonoBehaviour
                 newItem.id = int.Parse(columns[0]);
                 newItem.englishWord = columns[1].Trim();
                 newItem.category = columns[2].Trim();
-                newItem.itemIcon = Resources.Load<Sprite>("Icons/" + newItem.englishWord);
-                
                 allMarketItems.Add(newItem);
             }
+        }
+
+        for (int i = 0; i < allMarketItems.Count; i++)
+        {
+            if (i < itemSprites.Count)
+                allMarketItems[i].itemIcon = itemSprites[i];
         }
     }
 

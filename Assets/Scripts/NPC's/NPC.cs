@@ -14,10 +14,8 @@ public class NPC : MonoBehaviour
     public GameObject mainGameUI;
     public bool isAIGame = false;
 
-    [Header("Mission Confirmation PopUp")]
-    public GameObject missionPopupPanel;
-    public Button acceptMissionButton;
-    public Button declineMissionButton;
+    [Header("NPC Portrait")]
+    public Sprite portrait;
 
     [Header("Data Connection")]
     public NPCDialogueSO dialogueData;
@@ -32,6 +30,7 @@ public class NPC : MonoBehaviour
     [SerializeField] private Button nextLineButton;
     [SerializeField] private TextMeshProUGUI dialogText;
     [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private Image portraitImage;
 
     [Header("Player Reference (opsiyonel — boş bırakılırsa otomatik bulunur)")]
     [SerializeField] private Transform playerOverride;
@@ -116,6 +115,7 @@ public class NPC : MonoBehaviour
 
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
         if (nameText != null) nameText.text = dialogueData.npcName;
+        if (portraitImage != null) portraitImage.sprite = portrait;
 
         if (nextLineButton != null)
         {
@@ -134,7 +134,7 @@ public class NPC : MonoBehaviour
         {
             EndDialogue();
             if (currentState == NPCState.BeforeMission || currentState == NPCState.MissionFailed)
-                TriggerMiniGame();
+                StartMission();
             return;
         }
 
@@ -148,34 +148,10 @@ public class NPC : MonoBehaviour
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
-    private void TriggerMiniGame()
+    private void StartMission()
     {
-        if (missionPopupPanel != null && acceptMissionButton != null && declineMissionButton != null)
-        {
-            missionPopupPanel.SetActive(true);
-
-            acceptMissionButton.onClick.RemoveAllListeners();
-            acceptMissionButton.onClick.AddListener(AcceptMission);
-
-            declineMissionButton.onClick.RemoveAllListeners();
-            declineMissionButton.onClick.AddListener(DeclineMission);
-        }
-        else
-        {
-            AcceptMission();
-        }
-    }
-
-    private void AcceptMission()
-    {
-        if (missionPopupPanel != null) missionPopupPanel.SetActive(false);
         if (mainGameUI != null) mainGameUI.SetActive(false);
         if (missionPanelToOpen != null) missionPanelToOpen.SetActive(true);
-    }
-
-    private void DeclineMission()
-    {
-        if (missionPopupPanel != null) missionPopupPanel.SetActive(false);
     }
 
     public void FinishMission(bool isWin)

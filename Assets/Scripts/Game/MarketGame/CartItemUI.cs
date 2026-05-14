@@ -13,19 +13,13 @@ public class CartItemUI : MonoBehaviour
     private MarketManager myManager;
 
     // MarketManager bu objeyi oluşturduğunda içini dolduracak
-    public void SetupCartItem(string itemName, MarketManager manager)
+    public void SetupCartItem(string itemName, Sprite icon, MarketManager manager)
     {
         myItemName = itemName;
         myManager = manager;
-        
+
         if (itemNameText != null) itemNameText.text = myItemName;
-        
-        // Resources klasöründen resmi anlık olarak çekip gösteriyoruz
-        Sprite loadedIcon = Resources.Load<Sprite>("Icons/" + myItemName);
-        if(loadedIcon != null && itemIcon != null) 
-        {
-            itemIcon.sprite = loadedIcon;
-        }
+        if (icon != null && itemIcon != null) itemIcon.sprite = icon;
 
         // Sil butonuna basıldığında MarketManager'a haber ver
         if (removeButton != null)

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json.Linq;
 using TMPro;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class FoxCharacter
@@ -24,6 +25,7 @@ public class GeminiManager : MonoBehaviour
     public TextMeshProUGUI chatText;
     public TMP_InputField chatInput;
     public GameObject thinkingIndicator;
+    public ScrollRect chatScrollRect;
 
     [Header("API Settings")]
     public string apiKey = "";
@@ -206,6 +208,16 @@ public class GeminiManager : MonoBehaviour
     {
         if (chatText == null) return;
         chatText.text += text;
+
+        if (chatScrollRect != null)
+            StartCoroutine(ScrollToBottom());
+    }
+
+    private IEnumerator ScrollToBottom()
+    {
+        yield return new WaitForEndOfFrame();
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)chatScrollRect.content);
+        chatScrollRect.verticalNormalizedPosition = 0f;
     }
 
     private void SetThinking(bool thinking)
