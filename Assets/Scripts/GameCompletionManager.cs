@@ -13,7 +13,7 @@ public class GameCompletionManager : MonoBehaviour
 
     public void CheckCompletion()
     {
-        NPC[] allNPCs = FindObjectsOfType<NPC>();
+        NPC[] allNPCs = FindObjectsByType<NPC>(FindObjectsSortMode.None);
 
         foreach (NPC npc in allNPCs)
         {

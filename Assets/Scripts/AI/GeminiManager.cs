@@ -71,17 +71,17 @@ public class GeminiManager : MonoBehaviour
         if (chatInput == null || string.IsNullOrWhiteSpace(chatInput.text)) return;
         string msg = chatInput.text.Trim();
         chatInput.text = "";
-        SendMessage(msg);
+        ProcessPlayerMessage(msg);
     }
 
     // Called from MicrophoneInputManager after speech-to-text
     public void SendVoiceMessage(string transcribedText)
     {
         if (string.IsNullOrWhiteSpace(transcribedText)) return;
-        SendMessage(transcribedText);
+        ProcessPlayerMessage(transcribedText);
     }
 
-    private void SendMessage(string playerMessage)
+    private void ProcessPlayerMessage(string playerMessage)
     {
         if (isProcessing) return;
 
