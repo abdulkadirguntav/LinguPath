@@ -4,9 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class CoreSettingsManager : MonoBehaviour
 {
-    [Header("Paneller")]
+    [Header("Panel")]
     public GameObject settingsPanel;
-    public GameObject settingsButton;
 
     [Header("Müzik & SFX Butonları")]
     public Button musicButton;
@@ -38,15 +37,13 @@ public class CoreSettingsManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        if (settingsPanel  != null) settingsPanel.SetActive(true);
-        if (settingsButton != null) settingsButton.SetActive(false);
+        if (settingsPanel != null) settingsPanel.SetActive(true);
     }
 
     public void CloseSettings()
     {
         PlayerPrefs.Save();
-        if (settingsPanel  != null) settingsPanel.SetActive(false);
-        if (settingsButton != null) settingsButton.SetActive(true);
+        if (settingsPanel != null) settingsPanel.SetActive(false);
     }
 
     public void ReturnToMainMenu()

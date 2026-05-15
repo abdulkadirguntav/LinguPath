@@ -3788,10 +3788,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settingsPanel: {fileID: 2080521630}
-  settingsButton: {fileID: 1273650332}
   musicButton: {fileID: 1956208574}
   sfxButton: {fileID: 1476101868}
-  colorOn: {r: 0.4, g: 0.85, b: 0.4, a: 1}
+  colorOn: {r: 1, g: 0.08363296, b: 0, a: 1}
   colorOff: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!4 &267564800
 Transform:
@@ -9316,6 +9315,8 @@ MonoBehaviour:
   geminiManager: {fileID: 1026190817}
   micButton: {fileID: 0}
   statusText: {fileID: 0}
+  maxRecordSeconds: 10
+  sampleRate: 16000
   micActiveColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   micIdleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &621630306
@@ -10965,7 +10966,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.7094116, y: 1.7542114}
+  m_AnchoredPosition: {x: 0.7093506, y: 1.7542114}
   m_SizeDelta: {x: -48.0066, y: -80.1062}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &698868893
@@ -12992,6 +12993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitButtonObj: {fileID: 651577939}
+  settingsButtonObj: {fileID: 1273650332}
   turnBaseManager: {fileID: 2081580746}
   swipeManager: {fileID: 702959178}
   marketManager: {fileID: 2043131669}
@@ -14483,7 +14485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.2}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &946154677
@@ -15315,7 +15317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.15, y: 0.35}
   m_AnchorMax: {x: 0.85, y: 0.9}
-  m_AnchoredPosition: {x: 0.00036621094, y: -13.227394}
+  m_AnchoredPosition: {x: 0.00036621094, y: -13.227417}
   m_SizeDelta: {x: 199.99925, y: 173.54521}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1050145248
@@ -24896,7 +24898,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.034694448, y: 0.124000005}
   m_AnchorMax: {x: 0.96400005, y: 0.4206762}
-  m_AnchoredPosition: {x: 0, y: -0.4498291}
+  m_AnchoredPosition: {x: 0, y: -0.44970703}
   m_SizeDelta: {x: -1.4000244, y: -0.9500122}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790943220
@@ -26979,7 +26981,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.35}
-  m_AnchoredPosition: {x: 0, y: 0.00024414062}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: -0.00036621}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957261950

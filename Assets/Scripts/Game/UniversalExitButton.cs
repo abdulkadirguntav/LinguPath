@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class UniversalExitButton : MonoBehaviour
 {
-    [Header("Buton Objesi")]
+    [Header("Buton Objeleri")]
     public GameObject exitButtonObj;
+    public GameObject settingsButtonObj;
 
     [Header("Oyun Yöneticileri")]
     public TurnBaseManager turnBaseManager;
@@ -14,8 +15,13 @@ public class UniversalExitButton : MonoBehaviour
 
     void Update()
     {
+        bool gameActive = IsAnyGameActive();
+
         if (exitButtonObj != null)
-            exitButtonObj.SetActive(IsAnyGameActive());
+            exitButtonObj.SetActive(gameActive);
+
+        if (settingsButtonObj != null)
+            settingsButtonObj.SetActive(!gameActive && !NPC.IsAnyDialogueActive);
     }
 
     private bool IsAnyGameActive()

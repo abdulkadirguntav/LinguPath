@@ -45,7 +45,20 @@ public class AudioManager : MonoBehaviour
     public void SetMusicOn(bool isOn)
     {
         PlayerPrefs.SetInt("MusicOn", isOn ? 1 : 0);
+        float vol = isOn ? 1f : 0f;
+
         if (SceneMusicController.instance != null)
-            SceneMusicController.instance.SetVolume(isOn ? 1f : 0f);
+        {
+            SceneMusicController.instance.SetVolume(vol);
+            return;
+        }
+
+        // Fallback: sahnedeki loop yapan tüm AudioSource'ları bul (bunlar müzik)
+        AudioSource[] all = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource src in all)
+        {
+            if (src != sfxSource && src.loop)
+                src.volume = vol;
+        }
     }
 }

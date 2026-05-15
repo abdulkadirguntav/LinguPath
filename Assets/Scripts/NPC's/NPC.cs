@@ -8,6 +8,7 @@ public class NPC : MonoBehaviour
     public NPCState currentState = NPCState.BeforeMission;
 
     public static NPC ActiveNPC;
+    public static bool IsAnyDialogueActive { get; private set; }
 
     [Header("Mission Setup")]
     public GameObject missionPanelToOpen;
@@ -110,6 +111,7 @@ public class NPC : MonoBehaviour
         if (linesToPlay == null || linesToPlay.Length == 0) return;
 
         isDialogActive = true;
+        IsAnyDialogueActive = true;
         currentDialogueLines = linesToPlay;
         currentLineIndex = 0;
 
@@ -145,6 +147,7 @@ public class NPC : MonoBehaviour
     private void EndDialogue()
     {
         isDialogActive = false;
+        IsAnyDialogueActive = false;
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
 
