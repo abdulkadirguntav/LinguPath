@@ -1,18 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class SettingsManager : MonoBehaviour
+public class CoreSettingsManager : MonoBehaviour
 {
-    public static SettingsManager instance;
-
     [Header("Paneller")]
     public GameObject settingsPanel;
     public GameObject settingsButton;
 
-    [Header("Müzik")]
+    [Header("Müzik & SFX Butonları")]
     public Button musicButton;
-
-    [Header("Ses Efektleri")]
     public Button sfxButton;
 
     [Header("Renkler")]
@@ -25,14 +22,11 @@ public class SettingsManager : MonoBehaviour
     private bool musicOn;
     private bool sfxOn;
 
-    void Awake()
-    {
-        if (instance == null) instance = this;
-        else { Destroy(gameObject); return; }
-    }
-
     void Start()
     {
+        if (settingsPanel != null)
+            settingsPanel.SetActive(false);
+
         musicOn = PlayerPrefs.GetInt(KEY_MUSIC_ON, 1) == 1;
         sfxOn   = PlayerPrefs.GetInt(KEY_SFX_ON,   1) == 1;
 
@@ -53,6 +47,21 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.Save();
         if (settingsPanel  != null) settingsPanel.SetActive(false);
         if (settingsButton != null) settingsButton.SetActive(true);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void ToggleMusic()

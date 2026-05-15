@@ -38,6 +38,14 @@ public class AudioManager : MonoBehaviour
 
     public void SetSFXOn(bool isOn)
     {
+        PlayerPrefs.SetInt("SFXOn", isOn ? 1 : 0);
         if (sfxSource != null) sfxSource.volume = isOn ? 1f : 0f;
+    }
+
+    public void SetMusicOn(bool isOn)
+    {
+        PlayerPrefs.SetInt("MusicOn", isOn ? 1 : 0);
+        if (SceneMusicController.instance != null)
+            SceneMusicController.instance.SetVolume(isOn ? 1f : 0f);
     }
 }

@@ -1,13 +1,26 @@
 using UnityEngine;
 
-// Her sahnedeki müzik objesine bu scripti ekle.
-// Oyuncu müziği kapattıysa bu sahne başladığında da kapalı gelir.
 [RequireComponent(typeof(AudioSource))]
 public class SceneMusicController : MonoBehaviour
 {
+    public static SceneMusicController instance;
+
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        instance = this;
+        audioSource = GetComponent<AudioSource>();
+    }
+
     void Start()
     {
         bool musicOn = PlayerPrefs.GetInt("MusicOn", 1) == 1;
-        GetComponent<AudioSource>().volume = musicOn ? 1f : 0f;
+        audioSource.volume = musicOn ? 1f : 0f;
+    }
+
+    public void SetVolume(float volume)
+    {
+        if (audioSource != null) audioSource.volume = volume;
     }
 }

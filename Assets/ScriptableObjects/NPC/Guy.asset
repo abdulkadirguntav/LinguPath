@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Toby
   preGameDialogues:
-  - Hey ! I've never lost a match. Think you can beat me? Translate Turkish words
-    to score goals, and when it's my turn, spot the odd word out to save yourself.
-    First to 5 wins. You in ?
+  - "\"Hey! I've never lost a match. Think you can beat me? Translate Turkish words
+    to score goals \u2014 first to 5 wins. You in?\""
   winDialogues:
   - "I can't believe you beat me\u2014congratulations, you're really good"
   loseDialogues:
