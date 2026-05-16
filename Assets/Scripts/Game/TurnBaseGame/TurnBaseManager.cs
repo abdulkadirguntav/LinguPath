@@ -77,10 +77,15 @@ public class TurnBaseManager : MonoBehaviour
     [Header("Defence References")]
     public List<Button> stoneButtons = new List<Button>();
 
-    void Start()
+    void Awake()
     {
         LoadSentencesData();
         LoadDefenseData();
+    }
+
+    void OnEnable()
+    {
+        if (allSentences.Count == 0 || allDefenses.Count == 0) return;
         playerGoals = 0;
         enemyGoals = 0;
         UpdateGoalUI();

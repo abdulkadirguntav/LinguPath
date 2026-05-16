@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Anthony
   preGameDialogues:
-  - "Hello! The flashcards in my bag have gotten mixed up. Can you help me by sliding
-    the ones that match the sentences to the right and the ones that don\u2019t to
-    the left?"
+  - Hello, I'm a bit confused. Could you help me match the pictures with the sentences?
   winDialogues:
   - Thank you so much.
   loseDialogues:

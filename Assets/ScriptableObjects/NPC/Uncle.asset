@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Bob
   preGameDialogues:
-  - Welcome, my child. Thousands of years of knowledge are hidden on these shelves.
-    Shall we expand our vocabulary together today ?
+  - Welcome. These shelves hold thousands of years of knowledge. Shall we learn some
+    new words together today?
   winDialogues:
   - "You're doing great\u2014come back later"
   loseDialogues:
