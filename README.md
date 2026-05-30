@@ -1,102 +1,156 @@
-# 🏰 Project: LINGUPATH
+# LinguPath
 
-![Unity](https://img.shields.io/badge/Unity-6-black?style=for-the-badge&logo=unity)
-![C#](https://img.shields.io/badge/C%23-Programming-blue?style=for-the-badge&logo=c-sharp)
-![Platform](https://img.shields.io/badge/Platform-PC%20%7C%20Mobile-green?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-In_Development-orange?style=for-the-badge)
+**Yapay Zeka Destekli Mobil İngilizce Öğrenme Oyunu**
 
-> *"Stop memorizing words. Start living the language."*
+LinguPath, oyunlaştırma (gamification) ve büyük dil modeli (LLM) teknolojilerini bir araya getiren bir Ciddi Oyun (Serious Game) projesidir. Oyuncular, low-poly bir kasaba ortamında NPC karakterleriyle etkileşime girerek farklı mini oyunlar aracılığıyla İngilizce öğrenir.
 
-**LINGUPATH** is a story-driven RPG where players learn English naturally through gameplay. Instead of repetitive exercises, the game immerses players in a living world where progress depends entirely on understanding the language.
-
+> Nevşehir Hacı Bektaş Veli Üniversitesi — Bilgisayar Mühendisliği Lisans Bitirme Projesi (2026)
+> **Geliştirici:** Abdülkadir Güntav
 
 ---
 
-## 🎮 Gameplay Features
+## Oyun Mekanikleri
 
-LinguPath blends RPG mechanics with real language learning systems:
+Her NPC bir mini oyunu tetikler. Oyunu kazanırsan NPC'nin durumu "tamamlandı" olarak kalıcı kaydedilir.
 
-- **Living Town Exploration:** Interact with NPCs, accept quests, and uncover stories through dialogue-based progression.
-- **Skill-Based Learning:** Every mechanic is tied to real English skills — no artificial quizzes.
-- **Multiple Game Modes:** Each system targets a different aspect of language learning.
-- **Player Progression:** Advancement depends on comprehension, not grinding.
+### Swipe Game
+Ekranda bir görsel ve cümle çifti belirir. Cümle görselle doğru eşleşiyorsa sağa, yanlışsa sola swipe et. Her turda 7 kart gösterilir, 3 hakkın var.  
+Veri kaynağı: `Resources/SwipeCards.csv`
 
----
+### Word Learning — Kütüphane
+Her seansta 10 kelime gösterilir. Önce İngilizcesi ve örnek cümle görünür; "Göster" butonuyla Türkçe çevirisi açılır. `KNOW` ile masteriyi artır (0–3), `STUDY` ile kelimeyi desteye geri at. Her ziyarette 10'ar kelimelik sayfalar sırayla ilerler.  
+Veri kaynağı: `Resources/Words/` (ScriptableObject)
 
-## 🧠 Learning Systems
+### Market Game — Süpermarket
+NPC sana İngilizce bir alışveriş listesi verir. Sahnedeki ürünlere tıklayarak sepete ekle, ardından "Checkout" ile kontrol et. Liste sıra bağımsız karşılaştırılır.
 
-Each gameplay module is designed to improve a specific language skill:
+### Football Duel — Sıra Tabanlı Kelime Oyunu
+Sıra tabanlı iki fazdan oluşur:
+- **Hücum (15 sn):** Türkçe ipucuyla verilen cümleyi, karışık kelimelerden doğru sırada kurarak gol at.
+- **Savunma (5 sn):** 4 Kelime arasından diğerlerinden farklı olan kelimeyi seç; yanlış seçersen gol yersin.
 
-### 🏙️ Town Exploration & Quests
-*Interact with NPCs and navigate a dynamic hub world.*
+5 gol atan oyunu kazanır.  
+Veri kaynağı: `Resources/Sentences.csv`, `Resources/Defense.csv`
 
-- **Focus:** Context-based dialogue understanding  
-- **Skill:** Reading comprehension & interpretation  
-
----
-
-### 🛒 Market System (Shopping Module)
-*Build your shopping cart by understanding item lists.*
-
-- **Focus:** Word-object matching  
-- **Skill:** Vocabulary & visual association  
+### AI Fox Chat — Gemini Sohbet
+Tilki maskotu Foxy ile serbest İngilizce konuşma pratiği yap. Her yanıtta gramer geri bildirimi verilir. Hem yazılı hem sesli (mikrofon) girişi desteklenir; ses kaydı WAV formatında Gemini'ye gönderilip metne dönüştürülür. Oculus LipSync SDK ile dudak senkronizasyonu sağlanır.  
+Model: `gemini-2.5-flash` — API anahtarı `StreamingAssets/api_config.json` dosyasından okunur.
 
 ---
 
-### ⚔️ Turn-Based Combat (JRPG Module)
-*Fight enemies using your language skills.*
+## Teknik Mimari
 
-- **Attack:** Unscramble words into correct sentences  
-- **Defense:** Identify incorrect or unrelated words  
+```
+Assets/
+├── Scripts/
+│   ├── AI/                  # GeminiManager, MicrophoneInputManager
+│   ├── Camera/              # CameraFollow
+│   ├── Character/           # Karakter oluşturucu ve kayıt sistemi
+│   ├── Core/                # CoreSettingsManager
+│   ├── CSV/                 # CSV okuma (market, swipe)
+│   ├── FOX/                 # FoxBlink animasyonu
+│   ├── Game/
+│   │   ├── SwipeGame/       # SwipeManager, SwipeCard
+│   │   ├── MarketGame/      # MarketManager, CartItemUI, MarketItemButton
+│   │   └── TurnBaseGame/    # TurnBaseManager
+│   ├── Library/             # LibraryManager (kelime öğrenme)
+│   ├── Main Menu/           # MainMenuManager, AudioManager, SettingsManager
+│   ├── NPC's/               # NPC diyalog ve görev sistemi
+│   ├── Player/              # PlayerMovement (joystick destekli)
+│   ├── PlayerPref/          # DataManager, WordProgress
+│   ├── SaveSystem/          # 3 slotlu JSON kayıt sistemi
+│   └── Scriptable Object/   # CardDataSO, NPCDialogueSO, WordDataSO
+├── Scene/
+│   ├── MainMenu.unity
+│   └── Core.unity           # Kasaba haritası + tüm mini oyunlar
+└── Resources/
+    ├── SwipeCards.csv
+    ├── Sentences.csv
+    ├── Defense.csv
+    ├── Icons/               # Market ürün görselleri
+    ├── SwipeImage/          # Swipe kartı görselleri
+    └── Words/               # WordDataSO varlıkları
+```
 
-- **Skill:** Grammar, sentence structure & categorization  
+### Kayıt Sistemi
+3 bağımsız oyun slotu `Application.persistentDataPath/slot_N.json` dosyasına JSON olarak yazılır. Her slotta karakter verisi, kelime ilerleme seviyeleri (0–3) ve NPC görev durumları saklanır.
 
----
-
-### 👉 Swipe Cards (Flashcard Module)
-*Make quick decisions based on meaning and logic.*
-
-- Swipe ➡️ if correct  
-- Swipe ⬅️ if incorrect  
-
-- **Skill:** Fast comprehension & error detection  
-
----
-
-## 🛠️ Under the Hood
-
-Built with scalability and performance in mind:
-
-- **Data-Driven Architecture:**  
-  All content is managed via `.csv` files — no code changes needed to add new levels.
-
-- **Modular System Design:**  
-  Independent managers for each system:
-  - `TurnBaseManager`  
-  - `MarketManager`  
-  - `SwipeManager`  
-
-- **Dynamic UI System:**  
-  Responsive layouts that adapt to different text sizes and prevent overflow.
-
-- **Clean & Scalable Codebase:**  
-  Designed for easy expansion and long-term maintainability.
-
----
-
-## 🎨 Art & Design
-
-LinguPath features a stylized, colorful world designed to feel alive and engaging rather than educational and rigid.
-
-- Low-pressure learning environment  
-- Immersive RPG atmosphere  
-- Player-driven discovery  
+### NPC Sistemi
+Her NPC üç durumdan birinde bulunur: `BeforeMission` / `MissionFailed` / `MissionCompleted`. Oyuncu yaklaştığında `NPCDialogueSO` üzerinden diyalog başlar, diyalog bitince mini oyun açılır. Görev sonucu anında diske yazılır.
 
 ---
 
-## 🚀 Installation
+## Kullanılan Teknolojiler
 
-To run the project locally:
+| Teknoloji | Kullanım |
+|---|---|
+| Unity 6000.0.67f1 LTS | Oyun motoru |
+| C# | Oyun mantığı, UI, NPC sistemi |
+| Google Gemini 2.5 Flash API | AI sohbet + ses transkripsiyon |
+| Oculus LipSync SDK | Foxy dudak senkronizasyonu |
+| Newtonsoft.Json | API yanıt ayrıştırma |
+| TextMeshPro | UI metinleri |
+| SimplePoly City | Kasaba low-poly varlıkları |
+| Joystick Pack | Mobil hareket kontrolü |
 
-```bash
-git clone https://github.com/yourusername/LinguPath.git
+---
+
+## Kurulum
+
+### Gereksinimler
+- Unity 6000.0.67f1 LTS + Android Build Support modülü
+- Google Gemini API anahtarı (`gemini-2.5-flash` erişimi)
+
+### Adımlar
+
+1. Repoyu klonla ve Unity Hub'dan projeyi aç.
+
+2. `Assets/StreamingAssets/` klasöründe `api_config.json` oluştur:
+   ```json
+   {
+     "geminiApiKey": "BURAYA_API_ANAHTARINI_YAZ"
+   }
+   ```
+
+3. `File > Build Settings` → Android → `Build`.
+
+4. APK'yı Android 5.1+ (API 22+) cihaza yükle.
+
+> Mikrofon özelliği için cihazda mikrofon izni gerekir; uygulama ilk kullanımda otomatik olarak ister.
+
+---
+
+## Veri Formatları
+
+| Dosya | Format |
+|---|---|
+| `SwipeCards.csv` | `id;imageName;correctSentence;wrongSentence` |
+| `Sentences.csv` | `id;word1 word2 word3;trap1,trap2;Türkçe İpucu` |
+| `Defense.csv` | `id;oddWord;normal1,normal2,normal3` |
+| `WordDataSO` | ScriptableObject: `wordID`, `englishWord`, `turkishMeaning`, `exampleSentences` |
+
+---
+
+## Gelecek Planlar
+
+- [ ] Kelime kalıcılığı ölçümü ve istatistik ekranı
+- [ ] Çoklu dil desteği (Almanca, Fransızca)
+- [ ] Çevrimiçi çok oyunculu Football Duel modu
+- [ ] iOS desteği
+
+---
+
+## Kaynaklar
+
+- Prensky, M. (2001). *Digital Game-Based Learning*. McGraw-Hill.
+- Deterding, S. et al. (2011). From game design elements to gamefulness: Defining gamification. *ACM MindTrek Conference*.
+- [Unity Documentation](https://docs.unity3d.com)
+- [Google Gemini API Docs](https://ai.google.dev/docs)
+- [Oculus LipSync SDK](https://developer.oculus.com/documentation/unity/audio-ovrlipsync-unity)
+
+---
+
+## Lisans
+
+Bu proje lisans bitirme ödevi kapsamında geliştirilmiştir.  
+© 2026 Abdülkadir Güntav
