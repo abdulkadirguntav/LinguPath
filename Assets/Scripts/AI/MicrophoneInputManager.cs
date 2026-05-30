@@ -101,7 +101,7 @@ public class MicrophoneInputManager : MonoBehaviour
 
     IEnumerator Transcribe(byte[] wav)
     {
-        string apiKey = geminiManager != null ? geminiManager.apiKey : "";
+        string apiKey = geminiManager != null ? geminiManager.ApiKey : "";
         if (string.IsNullOrEmpty(apiKey))
         {
             SetStatus("API key missing.");

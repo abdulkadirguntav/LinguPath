@@ -1,3 +1,7 @@
+# API config — never commit real keys
+Assets/StreamingAssets/api_config.json
+Assets/StreamingAssets/api_config.json.meta
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore

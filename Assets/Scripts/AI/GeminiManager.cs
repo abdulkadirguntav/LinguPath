@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -30,8 +31,8 @@ public class GeminiManager : MonoBehaviour
     public GameObject chatPanel;
     public GameObject mainGameUI;
 
-    [Header("API Settings")]
-    public string apiKey = "";
+    private string apiKey = "";
+    public string ApiKey => apiKey;
 
     [Header("Fox Characters")]
     public List<FoxCharacter> characters = new();
@@ -48,10 +49,31 @@ public class GeminiManager : MonoBehaviour
 
     private void Start()
     {
+        LoadApiKey();
+
         if (characters.Count > 0)
             SelectCharacter(activeCharacterIndex);
 
         SetThinking(false);
+    }
+
+    private void LoadApiKey()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "api_config.json");
+        if (!File.Exists(path))
+        {
+            Debug.LogError($"api_config.json not found at: {path}\nCopy api_config.json.example, rename it to api_config.json, and add your key.");
+            return;
+        }
+        try
+        {
+            JObject cfg = JObject.Parse(File.ReadAllText(path));
+            apiKey = cfg["geminiApiKey"]?.ToString() ?? "";
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Failed to load api_config.json: {e.Message}");
+        }
     }
 
     public void SelectCharacter(int index)
