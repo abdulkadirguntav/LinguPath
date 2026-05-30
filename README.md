@@ -1,146 +1,146 @@
 # LinguPath
 
-**Yapay Zeka Destekli Mobil İngilizce Öğrenme Oyunu**
+**AI-Powered Mobile English Learning Game**
 
-LinguPath, oyunlaştırma (gamification) ve büyük dil modeli (LLM) teknolojilerini bir araya getiren bir Ciddi Oyun (Serious Game) projesidir. Oyuncular, low-poly bir kasaba ortamında NPC karakterleriyle etkileşime girerek farklı mini oyunlar aracılığıyla İngilizce öğrenir.
+LinguPath is a Serious Game project that combines gamification and large language model (LLM) technology. Players explore a low-poly town environment, interact with NPC characters, and learn English through a variety of mini-games.
 
-> Nevşehir Hacı Bektaş Veli Üniversitesi — Bilgisayar Mühendisliği Lisans Bitirme Projesi (2026)
-> **Geliştirici:** Abdülkadir Güntav
+> Nevşehir Hacı Bektaş Veli University — Computer Engineering Undergraduate Capstone Project (2026)  
+> **Developer:** Abdülkadir Güntav
 
 ---
 
-## Oyun Mekanikleri
+## Game Mechanics
 
-Her NPC bir mini oyunu tetikler. Oyunu kazanırsan NPC'nin durumu "tamamlandı" olarak kalıcı kaydedilir.
+Each NPC triggers a mini-game. Completing a game marks that NPC as permanently finished.
 
 ### Swipe Game
-Ekranda bir görsel ve cümle çifti belirir. Cümle görselle doğru eşleşiyorsa sağa, yanlışsa sola swipe et. Her turda 7 kart gösterilir, 3 hakkın var.  
-Veri kaynağı: `Resources/SwipeCards.csv`
+A visual and sentence pair appears on screen. Swipe right if the sentence matches the visual, left if it doesn't. Each round shows 7 cards; you have 3 lives.  
+Data source: `Resources/SwipeCards.csv`
 
-### Word Learning — Kütüphane
-Her seansta 10 kelime gösterilir. Önce İngilizcesi ve örnek cümle görünür; "Göster" butonuyla Türkçe çevirisi açılır. `KNOW` ile masteriyi artır (0–3), `STUDY` ile kelimeyi desteye geri at. Her ziyarette 10'ar kelimelik sayfalar sırayla ilerler.  
-Veri kaynağı: `Resources/Words/` (ScriptableObject)
+### Word Learning — Library
+10 words are shown per session. The English word and an example sentence appear first; tap "Show" to reveal the Turkish translation. `KNOW` increases mastery (0–3), `STUDY` sends the word back to the deck. Each visit advances through pages of 10 words in order.  
+Data source: `Resources/Words/` (ScriptableObject)
 
-### Market Game — Süpermarket
-NPC sana İngilizce bir alışveriş listesi verir. Sahnedeki ürünlere tıklayarak sepete ekle, ardından "Checkout" ile kontrol et. Liste sıra bağımsız karşılaştırılır.
+### Market Game — Supermarket
+The NPC gives you an English shopping list. Tap items in the scene to add them to your cart, then hit "Checkout" to verify. The list is compared regardless of selection order.
 
-### Football Duel — Sıra Tabanlı Kelime Oyunu
-Sıra tabanlı iki fazdan oluşur:
-- **Hücum (15 sn):** Türkçe ipucuyla verilen cümleyi, karışık kelimelerden doğru sırada kurarak gol at.
-- **Savunma (5 sn):** 4 Kelime arasından diğerlerinden farklı olan kelimeyi seç; yanlış seçersen gol yersin.
+### Football Duel — Turn-Based Word Game
+A turn-based game with two phases:
+- **Attack (15s):** Arrange shuffled words in the correct order to form the sentence from the Turkish clue — score a goal.
+- **Defense (5s):** Pick the odd word out from 4 options; wrong answer = concede a goal.
 
-5 gol atan oyunu kazanır.  
-Veri kaynağı: `Resources/Sentences.csv`, `Resources/Defense.csv`
+First to 5 goals wins.  
+Data sources: `Resources/Sentences.csv`, `Resources/Defense.csv`
 
-### AI Fox Chat — Gemini Sohbet
-Tilki maskotu Foxy ile serbest İngilizce konuşma pratiği yap. Her yanıtta gramer geri bildirimi verilir. Hem yazılı hem sesli (mikrofon) girişi desteklenir; ses kaydı WAV formatında Gemini'ye gönderilip metne dönüştürülür. Oculus LipSync SDK ile dudak senkronizasyonu sağlanır.  
-Model: `gemini-2.5-flash` — API anahtarı `StreamingAssets/api_config.json` dosyasından okunur.
+### AI Fox Chat — Gemini Chat
+Practice free English conversation with the fox mascot Foxy. Each response includes grammar feedback. Both text and voice (microphone) input are supported; audio is recorded as WAV and sent to Gemini for transcription. Oculus LipSync SDK handles lip synchronization.  
+Model: `gemini-2.5-flash` — API key is read from `StreamingAssets/api_config.json`.
 
 ---
 
-## Teknik Mimari
+## Technical Architecture
 
 ```
 Assets/
 ├── Scripts/
 │   ├── AI/                  # GeminiManager, MicrophoneInputManager
 │   ├── Camera/              # CameraFollow
-│   ├── Character/           # Karakter oluşturucu ve kayıt sistemi
+│   ├── Character/           # Character creator and save system
 │   ├── Core/                # CoreSettingsManager
-│   ├── CSV/                 # CSV okuma (market, swipe)
-│   ├── FOX/                 # FoxBlink animasyonu
+│   ├── CSV/                 # CSV reader (market, swipe)
+│   ├── FOX/                 # FoxBlink animation
 │   ├── Game/
 │   │   ├── SwipeGame/       # SwipeManager, SwipeCard
 │   │   ├── MarketGame/      # MarketManager, CartItemUI, MarketItemButton
 │   │   └── TurnBaseGame/    # TurnBaseManager
-│   ├── Library/             # LibraryManager (kelime öğrenme)
+│   ├── Library/             # LibraryManager (word learning)
 │   ├── Main Menu/           # MainMenuManager, AudioManager, SettingsManager
-│   ├── NPC's/               # NPC diyalog ve görev sistemi
-│   ├── Player/              # PlayerMovement (joystick destekli)
+│   ├── NPC's/               # NPC dialogue and quest system
+│   ├── Player/              # PlayerMovement (joystick support)
 │   ├── PlayerPref/          # DataManager, WordProgress
-│   ├── SaveSystem/          # 3 slotlu JSON kayıt sistemi
+│   ├── SaveSystem/          # 3-slot JSON save system
 │   └── Scriptable Object/   # CardDataSO, NPCDialogueSO, WordDataSO
 ├── Scene/
 │   ├── MainMenu.unity
-│   └── Core.unity           # Kasaba haritası + tüm mini oyunlar
+│   └── Core.unity           # Town map + all mini-games
 └── Resources/
     ├── SwipeCards.csv
     ├── Sentences.csv
     ├── Defense.csv
-    ├── Icons/               # Market ürün görselleri
-    ├── SwipeImage/          # Swipe kartı görselleri
-    └── Words/               # WordDataSO varlıkları
+    ├── Icons/               # Market product visuals
+    ├── SwipeImage/          # Swipe card visuals
+    └── Words/               # WordDataSO assets
 ```
 
-### Kayıt Sistemi
-3 bağımsız oyun slotu `Application.persistentDataPath/slot_N.json` dosyasına JSON olarak yazılır. Her slotta karakter verisi, kelime ilerleme seviyeleri (0–3) ve NPC görev durumları saklanır.
+### Save System
+3 independent game slots are written as JSON to `Application.persistentDataPath/slot_N.json`. Each slot stores character data, word mastery levels (0–3), and NPC quest states.
 
-### NPC Sistemi
-Her NPC üç durumdan birinde bulunur: `BeforeMission` / `MissionFailed` / `MissionCompleted`. Oyuncu yaklaştığında `NPCDialogueSO` üzerinden diyalog başlar, diyalog bitince mini oyun açılır. Görev sonucu anında diske yazılır.
+### NPC System
+Each NPC exists in one of three states: `BeforeMission` / `MissionFailed` / `MissionCompleted`. When the player approaches, dialogue begins via `NPCDialogueSO`; once dialogue ends, the mini-game launches. Mission results are written to disk immediately.
 
 ---
 
-## Kullanılan Teknolojiler
+## Technologies Used
 
-| Teknoloji | Kullanım |
+| Technology | Purpose |
 |---|---|
-| Unity 6000.0.67f1 LTS | Oyun motoru |
-| C# | Oyun mantığı, UI, NPC sistemi |
-| Google Gemini 2.5 Flash API | AI sohbet + ses transkripsiyon |
-| Oculus LipSync SDK | Foxy dudak senkronizasyonu |
-| Newtonsoft.Json | API yanıt ayrıştırma |
-| TextMeshPro | UI metinleri |
-| SimplePoly City | Kasaba low-poly varlıkları |
-| Joystick Pack | Mobil hareket kontrolü |
+| Unity 6000.0.67f1 LTS | Game engine |
+| C# | Game logic, UI, NPC system |
+| Google Gemini 2.5 Flash API | AI chat + speech transcription |
+| Oculus LipSync SDK | Foxy lip synchronization |
+| Newtonsoft.Json | API response parsing |
+| TextMeshPro | UI text rendering |
+| SimplePoly City | Low-poly town assets |
+| Joystick Pack | Mobile movement controls |
 
 ---
 
-## Kurulum
+## Setup
 
-### Gereksinimler
-- Unity 6000.0.67f1 LTS + Android Build Support modülü
-- Google Gemini API anahtarı (`gemini-2.5-flash` erişimi)
+### Requirements
+- Unity 6000.0.67f1 LTS + Android Build Support module
+- Google Gemini API key (with `gemini-2.5-flash` access)
 
-### Adımlar
+### Steps
 
-1. Repoyu klonla ve Unity Hub'dan projeyi aç.
+1. Clone the repo and open the project in Unity Hub.
 
-2. `Assets/StreamingAssets/` klasöründe `api_config.json` oluştur:
+2. Create `api_config.json` inside `Assets/StreamingAssets/`:
    ```json
    {
-     "geminiApiKey": "BURAYA_API_ANAHTARINI_YAZ"
+     "geminiApiKey": "YOUR_API_KEY_HERE"
    }
    ```
 
 3. `File > Build Settings` → Android → `Build`.
 
-4. APK'yı Android 5.1+ (API 22+) cihaza yükle.
+4. Install the APK on an Android 5.1+ (API 22+) device.
 
-> Mikrofon özelliği için cihazda mikrofon izni gerekir; uygulama ilk kullanımda otomatik olarak ister.
+> Microphone permission is required for voice input; the app will request it automatically on first use.
 
 ---
 
-## Veri Formatları
+## Data Formats
 
-| Dosya | Format |
+| File | Format |
 |---|---|
 | `SwipeCards.csv` | `id;imageName;correctSentence;wrongSentence` |
-| `Sentences.csv` | `id;word1 word2 word3;trap1,trap2;Türkçe İpucu` |
+| `Sentences.csv` | `id;word1 word2 word3;trap1,trap2;Turkish Clue` |
 | `Defense.csv` | `id;oddWord;normal1,normal2,normal3` |
 | `WordDataSO` | ScriptableObject: `wordID`, `englishWord`, `turkishMeaning`, `exampleSentences` |
 
 ---
 
-## Gelecek Planlar
+## Roadmap
 
-- [ ] Kelime kalıcılığı ölçümü ve istatistik ekranı
-- [ ] Çoklu dil desteği (Almanca, Fransızca)
-- [ ] Çevrimiçi çok oyunculu Football Duel modu
-- [ ] iOS desteği
+- [ ] Word retention analytics and statistics screen
+- [ ] Multi-language support (German, French)
+- [ ] Online multiplayer Football Duel mode
+- [ ] iOS support
 
 ---
 
-## Kaynaklar
+## References
 
 - Prensky, M. (2001). *Digital Game-Based Learning*. McGraw-Hill.
 - Deterding, S. et al. (2011). From game design elements to gamefulness: Defining gamification. *ACM MindTrek Conference*.
@@ -150,7 +150,7 @@ Her NPC üç durumdan birinde bulunur: `BeforeMission` / `MissionFailed` / `Miss
 
 ---
 
-## Lisans
+## License
 
-Bu proje lisans bitirme ödevi kapsamında geliştirilmiştir.  
+This project was developed as an undergraduate capstone project.  
 © 2026 Abdülkadir Güntav
