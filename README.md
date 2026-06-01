@@ -1,46 +1,56 @@
-# LinguPath
+# 🦊 LinguPath
 
 **AI-Powered Mobile English Learning Game**
 
 LinguPath is a Serious Game project that combines gamification and large language model (LLM) technology. Players explore a low-poly town environment, interact with NPC characters, and learn English through a variety of mini-games.
 
-> Nevşehir Hacı Bektaş Veli University — Computer Engineering Undergraduate Capstone Project (2026)  
+> **Nevşehir Hacı Bektaş Veli University** — Computer Engineering Undergraduate Capstone Project (2026)  
 > **Developer:** Abdülkadir Güntav
 
 ---
 
-## Game Mechanics
+## 🎥 Gameplay Showcase
+
+
+
+https://github.com/user-attachments/assets/bafaf2b6-1268-4d0a-afad-743101671720
+
+
+
+---
+
+## 🕹️ Game Mechanics
 
 Each NPC triggers a mini-game. Completing a game marks that NPC as permanently finished.
 
-### Swipe Game
+### 🃏 Swipe Game (School)
 A visual and sentence pair appears on screen. Swipe right if the sentence matches the visual, left if it doesn't. Each round shows 7 cards; you have 3 lives.  
-Data source: `Resources/SwipeCards.csv`
+*Data source:* `Resources/SwipeCards.csv`
 
-### Word Learning — Library
+### 📚 Word Learning (Library)
 10 words are shown per session. The English word and an example sentence appear first; tap "Show" to reveal the Turkish translation. `KNOW` increases mastery (0–3), `STUDY` sends the word back to the deck. Each visit advances through pages of 10 words in order.  
-Data source: `Resources/Words/` (ScriptableObject)
+*Data source:* `Resources/Words/` (ScriptableObject)
 
-### Market Game — Supermarket
+### 🛒 Market Game (Supermarket)
 The NPC gives you an English shopping list. Tap items in the scene to add them to your cart, then hit "Checkout" to verify. The list is compared regardless of selection order.
 
-### Football Duel — Turn-Based Word Game
+### ⚽ Football Duel (Turn-Based Word Game)
 A turn-based game with two phases:
 - **Attack (15s):** Arrange shuffled words in the correct order to form the sentence from the Turkish clue — score a goal.
 - **Defense (5s):** Pick the odd word out from 4 options; wrong answer = concede a goal.
 
 First to 5 goals wins.  
-Data sources: `Resources/Sentences.csv`, `Resources/Defense.csv`
+*Data sources:* `Resources/Sentences.csv`, `Resources/Defense.csv`
 
-### AI Fox Chat — Gemini Chat
+### 🤖 AI Fox Chat (Town Square)
 Practice free English conversation with the fox mascot Foxy. Each response includes grammar feedback. Both text and voice (microphone) input are supported; audio is recorded as WAV and sent to Gemini for transcription. Oculus LipSync SDK handles lip synchronization.  
-Model: `gemini-2.5-flash` — API key is read from `StreamingAssets/api_config.json`.
+*Model:* `gemini-2.5-flash` — API key is read from `StreamingAssets/api_config.json`.
 
 ---
 
-## Technical Architecture
+## 🏗️ Technical Architecture
 
-```
+```text
 Assets/
 ├── Scripts/
 │   ├── AI/                  # GeminiManager, MicrophoneInputManager
@@ -106,11 +116,11 @@ Each NPC exists in one of three states: `BeforeMission` / `MissionFailed` / `Mis
 1. Clone the repo and open the project in Unity Hub.
 
 2. Create `api_config.json` inside `Assets/StreamingAssets/`:
-   ```json
-   {
-     "geminiApiKey": "YOUR_API_KEY_HERE"
-   }
-   ```
+   ```json
+   {
+     "geminiApiKey": "YOUR_API_KEY_HERE"
+   }
+   ```
 
 3. `File > Build Settings` → Android → `Build`.
 
@@ -152,5 +162,7 @@ Each NPC exists in one of three states: `BeforeMission` / `MissionFailed` / `Mis
 
 ## License
 
-This project was developed as an undergraduate capstone project.  
+This project was developed as an undergraduate capstone project.  
 © 2026 Abdülkadir Güntav
+
+al düzenle video'yu nereye atacam
